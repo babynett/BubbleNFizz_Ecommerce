@@ -27,22 +27,107 @@
 <body>
     <div id="app">
         <!-- component -->
-        <div class="flex min-h-screen flex-row bg-gray-100 text-gray-800">
+        <div class="flex min-h-screen flex-row bg-gray-100 text-white">
             <aside
-                class="sidebar w-48 -translate-x-full transform bg-white p-4 transition-transform duration-150 ease-in md:translate-x-0 md:shadow-md">
-                <div class="my-4 w-full border-b-4 border-indigo-100 text-center">
-                    <span class="font-mono text-xl font-bold tracking-widest"> <span
-                            class="text-indigo-600">HELLO</span> DEV </span>
+                id="sidebar"
+                class="sidebar w-60 -translate-x-full transform bg-black py-4 transition-transform duration-150 ease-in md:translate-x-0 md:shadow-md">
+                <div class="my-4 w-full border-b-2 border-indigo-100 text-center pb-5">
+                    <span class="font-bold text-xl">BUBBLE N FIZZ</span>
                 </div>
-                <div class="my-4"></div>
+                <div class="m-4 border-b-2">
+                    <div class="text-sm font-bold">ORDER MANAGEMENT</div>
+                    <ul class="ml-4 translate-y-0">
+                        <li class="my-2">
+                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Refunds</a>
+                        </li>
+                        <li class="my-2">
+                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Orders</a>
+                        </li>
+                        <li class="my-2">
+                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Delivery/Shipping</a>
+                        </li>
+                        <li class="my-2">
+                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Payments</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="m-4 border-b-2">
+                    <div class="text-sm font-bold">STOCKS</div>
+                    <ul class="ml-4">
+                        <li class="my-2">
+                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Stocks Management</a>
+                        </li>
+                        <li class="my-2">
+                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Products</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="m-4 border-b-2">
+                    <div class="text-sm font-bold">SALES MANAGEMENT</div>
+                    <ul class="ml-4">
+                        <li class="my-2">
+                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Sales</a>
+                        </li>
+                        <li class="my-2">
+                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Rating and Reviews</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="m-4 border-b-2">
+                    <div class="text-sm font-bold">CASH DRAWER</div>
+                    <ul class="ml-4">
+                        <li class="my-2">
+                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Deposit/Withdrawals</a>
+                        </li>
+                        <li class="my-2">
+                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Balance</a>
+                        </li>
+                        <li class="my-2">
+                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Order Payments</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="m-4 border-b-2">
+                    <div class="text-sm font-bold">SETTINGS</div>
+                    <ul class="ml-4">
+                        <li class="my-2">
+                            <a href="#" class="text-xs no-underline hover:text-amber-500">> News Feed</a>
+                        </li>
+                        <li class="my-2">
+                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Store Page</a>
+                        </li>
+                        <li class="my-2">
+                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Main Settings</a>
+                        </li>
+                    </ul>
+                </div>
             </aside>
-            <main class="main -ml-48 flex flex-grow flex-col p-4 transition-all duration-150 ease-in md:ml-0">
-                <div class="flex h-full items-center justify-center bg-white text-center text-5xl font-bold shadow-md">
+            <main id="mainContent" class="main -ml-60 flex flex-grow flex-col transition-all duration-150 ease-in md:ml-0">
+                <div class="flex h-full bg-white text-center text-5xl flex-col font-bold shadow-md">
                     @yield('content')
                 </div>
             </main>
         </div>
     </div>
+    <script type="text/javascript">
+        const show = document.getElementById('arrowRight')
+        const hide = document.getElementById('arrowLeft')
+        const mainContent = document.getElementById('mainContent')
+        const sidebar = document.getElementById('sidebar')
+        
+        show.addEventListener('click', () => {
+            sidebar.classList.remove('-translate-x-full')
+            mainContent.classList.remove('-ml-60')
+            show.classList.add('hidden')
+            hide.classList.remove('hidden')
+        })
+        hide.addEventListener('click', () => {
+            sidebar.classList.add('-translate-x-full')
+            mainContent.classList.add('-ml-60')
+            show.classList.remove('hidden')
+            hide.classList.add('hidden')
+        })
+    </script>
 </body>
 
 </html>
