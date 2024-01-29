@@ -190,7 +190,7 @@
 <body class="antialiased">
     <div class="container" id="main">
         <div class="sign-up">
-            <form action="{{ route('register') }}" method="POST">
+            <form action="{{ route('register') }}" method="POST" autocomplete="off">
                 @csrf
                 <h1>Create Account</h1>
                 <div class="social-container">
@@ -200,7 +200,7 @@
                 </div>
                 <p>Use your email for registration</p>
                 <input type="text" name="name" placeholder="Name" required>
-                <input type="email" name="email" placeholder="Email" required>
+                <input type="email" name="email" placeholder="Email" required autocomplete="off">
                 <input type="password" name="password" placeholder="Password" required>
                 <input type="password" name="password_confirmation" placeholder="Confirm Password" required>
                 <a href="#">Forgot your password?</a>
@@ -208,7 +208,7 @@
             </form>
         </div>
         <div class="sign-in">
-            <form action="/login" method="POST">
+            <form action="/login" method="POST" autocomplete="off">
                 @csrf
                 <h1>Sign In</h1>
                 <div class="social-container">
