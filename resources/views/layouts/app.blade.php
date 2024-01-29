@@ -35,6 +35,14 @@
                     <span class="font-bold text-xl">BUBBLE N FIZZ</span>
                 </div>
                 <div class="m-4 border-b-2">
+                    <div class="my-4">
+                        <a href="/home" class="text-sm font-bold cursor-pointer hover:text-amber-500">> DASHBOARD</a>
+                    </div>
+                    <div class="my-4">
+                        <a href="/home" class="text-sm font-bold cursor-pointer hover:text-amber-500">> SETTINGS</a>
+                    </div>
+                </div>
+                <div class="m-4 border-b-2">
                     <div class="text-sm font-bold">ORDER MANAGEMENT</div>
                     <ul class="ml-4 translate-y-0">
                         <li class="my-2">
@@ -87,7 +95,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="m-4 border-b-2">
+                {{-- <div class="m-4 border-b-2">
                     <div class="text-sm font-bold">SETTINGS</div>
                     <ul class="ml-4">
                         <li class="my-2">
@@ -100,7 +108,7 @@
                             <a href="#" class="text-xs no-underline hover:text-amber-500">> Main Settings</a>
                         </li>
                     </ul>
-                </div>
+                </div> --}}
             </aside>
             <main id="mainContent" class="main -ml-60 flex flex-grow flex-col transition-all duration-150 ease-in md:ml-0">
                 <div class="flex h-full bg-white text-center text-5xl flex-col font-bold shadow-md">
