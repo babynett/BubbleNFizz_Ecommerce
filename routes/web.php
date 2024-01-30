@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Features\UserManagement;
+use App\Http\Controllers\Features\UserManagementController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +22,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/customersaccounts', [UserManagementController::class, 'customers']);
+Route::get('/employeesaccounts', [UserManagementController::class, 'index']);
+Route::get('/addemployee', [UserManagementController::class, 'addEmployee']);

@@ -28,8 +28,7 @@
     <div id="app">
         <!-- component -->
         <div class="flex min-h-screen flex-row bg-gray-100 text-white">
-            <aside
-                id="sidebar"
+            <aside id="sidebar"
                 class="sidebar w-60 -translate-x-full transform bg-black py-4 transition-transform duration-150 ease-in md:translate-x-0 md:shadow-md">
                 <div class="my-4 w-full border-b-2 border-indigo-100 text-center pb-5">
                     <span class="font-bold text-xl">BUBBLE N FIZZ</span>
@@ -82,10 +81,24 @@
                     </ul>
                 </div>
                 <div class="m-4 border-b-2">
+                    <div class="text-sm font-bold">ACCOUNT MANAGEMENT</div>
+                    <ul class="ml-4">
+                        <li class="my-2">
+                            <a href="/customersaccounts" class="text-xs no-underline hover:text-amber-500">> Customers
+                                Accounts</a>
+                        </li>
+                        <li class="my-2">
+                            <a href="/employeesaccounts" class="text-xs no-underline hover:text-amber-500">> Employees
+                                Accounts</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="m-4 border-b-2">
                     <div class="text-sm font-bold">CASH DRAWER</div>
                     <ul class="ml-4">
                         <li class="my-2">
-                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Deposit/Withdrawals</a>
+                            <a href="#" class="text-xs no-underline hover:text-amber-500">>
+                                Deposit/Withdrawals</a>
                         </li>
                         <li class="my-2">
                             <a href="#" class="text-xs no-underline hover:text-amber-500">> Balance</a>
@@ -110,8 +123,9 @@
                     </ul>
                 </div> --}}
             </aside>
-            <main id="mainContent" class="main -ml-60 flex flex-grow flex-col transition-all duration-150 ease-in md:ml-0">
-                <div class="flex h-full bg-white text-center text-5xl flex-col font-bold shadow-md">
+            <main id="mainContent"
+                class="main -ml-60 flex flex-grow flex-col transition-all duration-150 ease-in md:ml-0">
+                <div class="flex h-full bg-white flex-col shadow-md">
                     @yield('content')
                 </div>
             </main>
@@ -122,7 +136,7 @@
         const hide = document.getElementById('arrowLeft')
         const mainContent = document.getElementById('mainContent')
         const sidebar = document.getElementById('sidebar')
-        
+
         show.addEventListener('click', () => {
             sidebar.classList.remove('-translate-x-full')
             mainContent.classList.remove('-ml-60')
