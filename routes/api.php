@@ -19,6 +19,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('employeesaccounts')->group(function () {
+Route::prefix('usermanagement')->group(function () {
+    Route::get("/getallcustomers", [UserManagementController::class, 'getAllCustomers']);
     Route::get("/getallemployees", [UserManagementController::class, 'getAllEmployees']);
+    Route::post("/addemployee", [UserManagementController::class, 'addEmployee']);
+    Route::post("/addcustomer", [UserManagementController::class, 'addCustomer']);
+    Route::post("/adduserpoll", [UserManagementController::class, 'addUserPoll']);
+    Route::post("/adduserprofile", [UserManagementController::class, 'addUserProfile']);
 });

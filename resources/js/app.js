@@ -19,3 +19,6 @@ require("./page/Dashboard");
 require("./page/UserManagement/Employees/EmployeesAccounts");
 require("./page/UserManagement/Employees/AddEmployee");
 require("./page/UserManagement/Customers/CustomerAccounts");
+require("./page/UserManagement/Customers/AddCustomer");
+
+require("./page/Customer/CustomerPoll")

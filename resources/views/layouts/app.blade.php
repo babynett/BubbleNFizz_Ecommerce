@@ -28,6 +28,8 @@
     <div id="app">
         <!-- component -->
         <div class="flex min-h-screen flex-row bg-gray-100 text-white">
+            @if (Auth::user()->user_role != 3)
+                
             <aside id="sidebar"
                 class="sidebar w-60 -translate-x-full transform bg-black py-4 transition-transform duration-150 ease-in md:translate-x-0 md:shadow-md">
                 <div class="my-4 w-full border-b-2 border-indigo-100 text-center pb-5">
@@ -123,6 +125,7 @@
                     </ul>
                 </div> --}}
             </aside>
+            @endif
             <main id="mainContent"
                 class="main -ml-60 flex flex-grow flex-col transition-all duration-150 ease-in md:ml-0">
                 <div class="flex h-full bg-white flex-col shadow-md">

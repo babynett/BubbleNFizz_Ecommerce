@@ -1,5 +1,5 @@
 @extends('layouts.navbar')
 
 @section('main-content')
-    <div id="Dashboard"></div>
+    <div id="Dashboard" data-user="{{ $user }}"></div>
 @endsection
