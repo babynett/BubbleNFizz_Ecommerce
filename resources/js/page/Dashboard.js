@@ -38,6 +38,14 @@ const Dashboard = (props) => {
             }).then((response) => {
                 location.replace("/customerpoll");
             });
+        } else if (userObject.user_role == 3) {
+            swal({
+                icon: "warning",
+                title: "Redirecting...",
+                text: "You will be redirected for shopping!",
+            }).then((response) => {
+                location.replace("/shopping");
+            });
         } else {
             console.log("not customer :D");
             console.log(userObject.profile == null);

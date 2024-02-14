@@ -29,8 +29,15 @@
                     </svg>
                 </button>
             </div>
+            <div class="flex justify-center items-center space-x-8">
+                <a class="relative text-black font-semibold hover:text-amber-500" href="#">All products</a>
+                <a class="relative text-black font-semibold hover:text-amber-500" href="#">Bubble Bath</a>
+                <a class="relative text-black font-semibold hover:text-amber-500" href="#">Artisan Facial N Body</a>
+                <a class="relative text-black font-semibold hover:text-amber-500" href="#">Bath Salt</a>
+                <a class="relative text-black font-semibold hover:text-amber-500" href="#">Bath Bomb Sets</a>
+            </div>
             <nav :class="{ 'flex': open, 'hidden': !open }"
-                class="flex-col flex-grow pb-4 md:pb-0 hidden md:flex md:justify-end md:flex-row">
+                class="flex-col flex-grow pb-4 md:pb-0 hidden md:flex md:justify-end md:items-center md:flex-row">
                 <div @click.away="open = false" class="relative" x-data="{ open: false }">
                     <button @click="open = !open"
                         class="flex flex-row items-center w-full px-4 py-5 mt-2 text-sm font-semibold text-left bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:focus:bg-gray-600 dark-mode:hover:bg-gray-600 md:w-auto md:inline md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
@@ -51,7 +58,7 @@
                         class="absolute right-0 w-full mt-2 origin-top-right rounded-md shadow-lg md:w-48">
                         <div class="px-2 py-2 bg-white rounded-md shadow dark-mode:bg-gray-800">
                             <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                                href="#">Profile</a>
+                                href="/editprofile">Profile</a>
                             <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
                                 href="#">Notifications</a>
                             <form action="/logout" class="w-full flex justify-center" method="POST">
@@ -62,6 +69,16 @@
                             </form>
                         </div>
                     </div>
+                </div>
+                <div class="relative">
+                    <a
+                        class="flex flex-row items-center w-full px-4 py-5 mt-2 text-sm font-semibold text-left bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:focus:text-white dark-mode:focus:bg-gray-600  md:w-auto md:inline md:mt-0 md:ml-4  focus:text-gray-900  focus:bg-gray-200 focus:outline-none focus:shadow-outline">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#B75800"
+                            class="bi bi-cart" viewBox="0 0 16 16">
+                            <path
+                                d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                        </svg>
+                    </a>
                 </div>
             </nav>
         </div>

@@ -16,6 +16,9 @@ require("./bootstrap");
 require("./components/Example");
 
 require("./page/Dashboard");
+
+require('./auth/EditProfile');
+
 require("./page/UserManagement/Employees/EmployeesAccounts");
 require("./page/UserManagement/Employees/AddEmployee");
 require("./page/UserManagement/Customers/CustomerAccounts");
