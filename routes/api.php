@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Crud\AccountController;
 use App\Http\Controllers\Crud\CartController;
 use App\Http\Controllers\Crud\ProductsController;
 use App\Http\Controllers\Crud\ReviewController;
@@ -21,6 +22,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Auth::routes();
+
+Route::post("/mobilelogin", [AccountController::class, 'mobileLogin']);
 
 Route::prefix('usermanagement')->group(function () {
     Route::get("/getallcustomers", [UserManagementController::class, 'getAllCustomers']);
