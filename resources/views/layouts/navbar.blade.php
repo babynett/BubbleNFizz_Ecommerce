@@ -83,7 +83,7 @@
             </nav>
         </div>
     </div>
-    <div class="pt-5 text-black px-6">
+    <div class="text-black {{ Auth::user()->user_role != 3 ? "px-6 pt-5" : "" }}">
         @yield('main-content')
     </div>
 @endsection

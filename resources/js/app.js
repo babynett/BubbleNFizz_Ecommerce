@@ -25,3 +25,5 @@ require("./page/UserManagement/Customers/CustomerAccounts");
 require("./page/UserManagement/Customers/AddCustomer");
 
 require("./page/Customer/CustomerPoll")
+
+require('./page/Shopping/ShoppingPage')

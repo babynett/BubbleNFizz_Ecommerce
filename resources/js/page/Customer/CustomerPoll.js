@@ -902,7 +902,7 @@ const CustomerPoll = (props) => {
                             <div className="px-10 py-12">
                                 <Button
                                     className="hover:scale-110 duration-100"
-                                    onClick={() => console.log("test")}
+                                    onClick={() => location.replace('/home')}
                                     sx={{
                                         backgroundColor: "#B75800",
                                         borderColor: "#B75800",
