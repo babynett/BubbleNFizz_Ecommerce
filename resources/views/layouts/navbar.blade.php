@@ -30,7 +30,7 @@
                 </button>
             </div>
             <div class="flex justify-center items-center space-x-8">
-                <a class="relative text-black font-semibold hover:text-amber-500" href="#">All products</a>
+                <a class="relative text-black font-semibold hover:text-amber-500" href="/shopping">All products</a>
                 <a class="relative text-black font-semibold hover:text-amber-500" href="#">Bubble Bath</a>
                 <a class="relative text-black font-semibold hover:text-amber-500" href="#">Artisan Facial N Body</a>
                 <a class="relative text-black font-semibold hover:text-amber-500" href="#">Bath Salt</a>
@@ -72,6 +72,7 @@
                 </div>
                 <div class="relative">
                     <a
+                        href="/cart"
                         class="flex flex-row items-center w-full px-4 py-5 mt-2 text-sm font-semibold text-left bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:focus:text-white dark-mode:focus:bg-gray-600  md:w-auto md:inline md:mt-0 md:ml-4  focus:text-gray-900  focus:bg-gray-200 focus:outline-none focus:shadow-outline">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#B75800"
                             class="bi bi-cart" viewBox="0 0 16 16">

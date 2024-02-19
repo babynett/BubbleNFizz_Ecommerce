@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Crud\CartController;
 use App\Http\Controllers\Crud\ProductsController;
+use App\Http\Controllers\Crud\ReviewController;
 use App\Http\Controllers\Crud\UserManagementController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -31,4 +33,9 @@ Route::prefix('usermanagement')->group(function () {
 
 Route::prefix('shopping')->group(function () {
     Route::get('/getthreeproducts', [ProductsController::class, 'getThreeProducts']);
+    Route::get('/getproduct', [ProductsController::class, 'getProduct']);
+    Route::get('/getproductreviews', [ReviewController::class, 'getProductReviews']);
+    Route::post('/addreview', [ReviewController::class, 'addReview']);
+    Route::post('/addtocart', [CartController::class, 'addToCart']);
+    Route::get('/getusercart', [CartController::class, 'getUserCart']);
 });

@@ -58,7 +58,7 @@ const ShoppingPage = (props) => {
                     {products.map((item, index) => {
                         return (
                             <div className="col-span-1">
-                                <CustomShoppingCard title={item.product_name} price={item.product_price} rating={item.product_rating} scentName={item.product_scent_name} onClick={() => location.replace(`/shopping/${item.id}`)} />
+                                <CustomShoppingCard title={item.product_name} price={item.product_price} rating={item.product_rating} scentName={item.product_scent_name} onClick={() => window.location.replace(`/shopping/${item.id}`)} />
                             </div>
                         );
                     })}

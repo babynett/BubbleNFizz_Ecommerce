@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Features\AccountController;
+use App\Http\Controllers\Features\CartController;
 use App\Http\Controllers\Features\CustomerShopping;
 use App\Http\Controllers\Features\UserManagement;
 use App\Http\Controllers\Features\UserManagementController;
@@ -35,3 +36,4 @@ Route::get('/addcustomer', [UserManagementController::class, 'addCustomer']);
 
 Route::get('/shopping', [CustomerShopping::class, 'index']);
 Route::get('/shopping/{id}', [CustomerShopping::class, 'getProduct']);
+Route::get('/cart', [CartController::class, 'index']);

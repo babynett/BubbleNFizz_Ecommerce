@@ -29,15 +29,15 @@ class DatabaseSeeder extends Seeder
 
         Products::create([
             'product_name' => 'Bubble N Fizz Bath Bomb 200G Fizzing',
-            'product_description' => "Bath bombs do not create or form bubbles\n
-            For a bubble bath experience, we have our Bubble bath liquids.\n
-            We have already reformulated our bath bomb mixture and upgraded it to make sure our bombs won't be damaged during shipping.\n
-            Best Advise use warm or hot water for the best fizzing result!!\n
-            General Note:\n            
-            - One large bath bomb is good enough to provide a relaxing and fizzing experience for an average bathtub.\n
-            - Bath bombs do not produce bubbles when mixed with water; instead, they fizz.\n
-            - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub.\n
-            - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation.\n",
+            'product_description' => "Bath bombs do not create or form bubbles ~
+            For a bubble bath experience, we have our Bubble bath liquids. ~
+            We have already reformulated our bath bomb mixture and upgraded it to make sure our bombs won't be damaged during shipping. ~
+            Best Advise use warm or hot water for the best fizzing result!! ~
+            General Note: ~            
+            - One large bath bomb is good enough to provide a relaxing and fizzing experience for an average bathtub. ~
+            - Bath bombs do not produce bubbles when mixed with water; instead, they fizz. ~
+            - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub. ~
+            - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation. ~",
             'product_images' => '',
             'product_price' => '149',
             'product_stock' => '100',
@@ -46,15 +46,15 @@ class DatabaseSeeder extends Seeder
         ]);
         Products::create([
             'product_name' => 'Bubble N Fizz Bath Bomb 200G Fizzing',
-            'product_description' => "Bath bombs do not create or form bubbles\n
-            For a bubble bath experience, we have our Bubble bath liquids.\n
-            We have already reformulated our bath bomb mixture and upgraded it to make sure our bombs won't be damaged during shipping.\n
-            Best Advise use warm or hot water for the best fizzing result!!\n
-            General Note:\n            
-            - One large bath bomb is good enough to provide a relaxing and fizzing experience for an average bathtub.\n
-            - Bath bombs do not produce bubbles when mixed with water; instead, they fizz.\n
-            - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub.\n
-            - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation.\n",
+            'product_description' => "Bath bombs do not create or form bubbles ~
+            For a bubble bath experience, we have our Bubble bath liquids. ~
+            We have already reformulated our bath bomb mixture and upgraded it to make sure our bombs won't be damaged during shipping. ~
+            Best Advise use warm or hot water for the best fizzing result!! ~
+            General Note: ~            
+            - One large bath bomb is good enough to provide a relaxing and fizzing experience for an average bathtub. ~
+            - Bath bombs do not produce bubbles when mixed with water; instead, they fizz. ~
+            - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub. ~
+            - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation. ~",
             'product_images' => '',
             'product_price' => '149',
             'product_stock' => '100',

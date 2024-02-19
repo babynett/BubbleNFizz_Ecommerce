@@ -14,6 +14,8 @@ class CustomerShopping extends Controller
 
     public function getProduct($id)
     {
-        return view('customer.products.ProductsPage');
+        return view('customer.products.ProductsPage', [
+            'id' => $id
+        ]);
     }
 }

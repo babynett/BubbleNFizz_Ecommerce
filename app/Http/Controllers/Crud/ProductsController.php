@@ -12,4 +12,9 @@ class ProductsController extends Controller
     {
         return Products::limit(3)->get();
     }
+
+    public function getProduct(Request $request)
+    {
+        return Products::find($request->id)->first();
+    }
 }
