@@ -1,9 +1,9 @@
 import { Rating, Typography } from "@mui/material";
 import React from "react";
 
-const CustomShoppingCard = () => {
+const CustomShoppingCard = ({ title, scentName, rating, price, onClick }) => {
     return (
-        <div className="border-2 flex justify-center items-center flex-col">
+        <div className="border-2 flex justify-center items-center flex-col hover:border-amber-500" onClick={onClick}>
             <img
                 src={`https://picsum.photos/500/300`}
                 height={300}
@@ -11,12 +11,12 @@ const CustomShoppingCard = () => {
             />
             <div className="my-8 w-1/2 text-center">
                 <Typography variant="body1" fontWeight={700}>
-                    BNF Handcrafted Toasted Marshmallow Body Bar 120g
+                    {title}
                 </Typography>
             </div>
-            <Typography>Nourishing oils and butters</Typography>
-            <Rating name="read-only" value={2.4} precision={0.1} readOnly />
-            <div className="my-8 w-1/2 text-center underline">P100</div>
+            <Typography>{scentName}</Typography>
+            <Rating name="read-only" value={Number(rating)} precision={0.1} readOnly />
+            <div className="my-8 w-1/2 text-center underline">₱{price}</div>
         </div>
     );
 };

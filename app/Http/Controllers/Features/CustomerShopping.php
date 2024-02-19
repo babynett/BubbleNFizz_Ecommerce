@@ -11,4 +11,9 @@ class CustomerShopping extends Controller
     {
         return view('customer.CustomerIndex');
     }
+
+    public function getProduct($id)
+    {
+        return view('customer.products.ProductsPage');
+    }
 }

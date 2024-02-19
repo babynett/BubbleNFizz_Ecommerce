@@ -34,3 +34,4 @@ Route::get('/addemployee', [UserManagementController::class, 'addEmployee']);
 Route::get('/addcustomer', [UserManagementController::class, 'addCustomer']);
 
 Route::get('/shopping', [CustomerShopping::class, 'index']);
+Route::get('/shopping/{id}', [CustomerShopping::class, 'getProduct']);

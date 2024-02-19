@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Crud\ProductsController;
 use App\Http\Controllers\Crud\UserManagementController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,4 +27,8 @@ Route::prefix('usermanagement')->group(function () {
     Route::post("/addcustomer", [UserManagementController::class, 'addCustomer']);
     Route::post("/adduserpoll", [UserManagementController::class, 'addUserPoll']);
     Route::post("/adduserprofile", [UserManagementController::class, 'addUserProfile']);
+});
+
+Route::prefix('shopping')->group(function () {
+    Route::get('/getthreeproducts', [ProductsController::class, 'getThreeProducts']);
 });
