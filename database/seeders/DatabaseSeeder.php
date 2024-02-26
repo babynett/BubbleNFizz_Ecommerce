@@ -44,6 +44,19 @@ class DatabaseSeeder extends Seeder
             'product_rating' => '0',
             'product_scent_name' => 'Lavander',
         ]);
+        
+        ProductCategory::create([
+            'product_id' => 1,
+            'product_category' => "Bath Bomb"
+        ]);
+
+        ProductScent::create([
+            'product_id' => 1,
+            'product_scent' => 'Lavander',
+        ]);
+
+
+
         Products::create([
             'product_name' => 'Bubble N Fizz Bath Bomb 200G Fizzing',
             'product_description' => "Bath bombs do not create or form bubbles ~
@@ -61,17 +74,6 @@ class DatabaseSeeder extends Seeder
             'product_rating' => '0',
             'product_scent_name' => 'Eucalyptus',
         ]);
-        
-
-        ProductCategory::create([
-            'product_id' => 1,
-            'product_category' => "Bath Bomb"
-        ]);
-
-        ProductScent::create([
-            'product_id' => 1,
-            'product_scent' => 'Lavander',
-        ]);
 
         ProductCategory::create([
             'product_id' => 2,
@@ -82,5 +84,7 @@ class DatabaseSeeder extends Seeder
             'product_id' => 2,
             'product_scent' => 'Eucalyptus',
         ]);
+
+        
     }
 }
