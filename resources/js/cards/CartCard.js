@@ -2,14 +2,17 @@ import React, { useEffect, useState } from "react";
 import swal from "sweetalert";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { api } from "../config/api";
 
-const CartCard = ({ cart }) => {
+const CartCard = ({
+    cart,
+    setSubTotal,
+    setTotalQuantity,
+    subTotal,
+    totalQuantity,
+}) => {
     const [quantity, setQuantity] = useState(cart.cart_quantity);
     const [totalPrice, setTotalPrice] = useState(cart.cart_price);
-
-    useEffect(() => {
-        console.log(cart)
-    }, [])
 
     const subQuantity = () => {
         if (Number(quantity) == 1) {
@@ -19,18 +22,46 @@ const CartCard = ({ cart }) => {
                 text: "Quantity should not be lower than 1",
             });
         } else {
-            setQuantity(Number(quantity) - 1);
-            setTotalPrice(Number(totalPrice) - Number(cart.product.product_price));
+            api.post('shopping/subquantity', {
+                id: cart.id,
+                cart_quantity: Number(quantity) - 1,
+                cart_price: Number(totalPrice) - Number(cart.product.product_price),
+            }).then(() => {
+                setQuantity(Number(quantity) - 1);
+                setTotalQuantity(Number(totalQuantity) - 1);
+                setTotalPrice(
+                    Number(totalPrice) - Number(cart.product.product_price)
+                );
+                setSubTotal(Number(subTotal) - Number(cart.product.product_price));
+            }).catch(err => {
+                console.log(err.response)
+            })
         }
     };
 
     const addQuantity = () => {
-        setQuantity(Number(quantity) + 1);
-        setTotalPrice(Number(totalPrice) + Number(cart.product.product_price));
+        api.post("shopping/addquantity", {
+            id: cart.id,
+            cart_quantity: Number(quantity) + 1,
+            cart_price: Number(totalPrice) + Number(cart.product.product_price),
+        })
+            .then((response) => {
+                setQuantity(Number(quantity) + 1);
+                setTotalQuantity(Number(totalQuantity) + 1);
+                setTotalPrice(
+                    Number(totalPrice) + Number(cart.product.product_price)
+                );
+                setSubTotal(
+                    Number(subTotal) + Number(cart.product.product_price)
+                );
+            })
+            .catch((err) => {
+                console.log(err.response);
+            });
     };
 
     return (
-        <div className="bg-slate-200 grid grid-cols-12 gap-6">
+        <div className="bg-slate-200 grid grid-cols-12 gap-6 p-4 my-3">
             <div className="col-span-2">
                 <div className="flex justify-center items-center h-full">
                     <img
@@ -40,11 +71,11 @@ const CartCard = ({ cart }) => {
                     />
                 </div>
             </div>
-            <div className="col-span-6">
-                <div className="text-lg">
-                    {cart.product.product_name}
+            <div className="col-span-6 h-full flex flex-col justify-between">
+                <div className="text-lg">{cart.product.product_name}</div>
+                <div className="text-lg font-bold">
+                    ₱{cart.product.product_price}
                 </div>
-                <div className="text-lg font-bold">P{cart.product.product_price}</div>
             </div>
             <div className="col-span-2">
                 <div className="flex justify-center items-center h-full">
@@ -53,8 +84,8 @@ const CartCard = ({ cart }) => {
                             sx={{ color: "#B75800" }}
                             className="cursor-pointer"
                         />
-                    </button>{" "}
-                    {quantity}{" "}
+                    </button>
+                    <div className="text-lg mx-4"> {quantity} </div>
                     <button onClick={addQuantity}>
                         <AddCircleIcon
                             sx={{ color: "#B75800" }}
@@ -64,8 +95,8 @@ const CartCard = ({ cart }) => {
                 </div>
             </div>
             <div className="col-span-2">
-                <div className="flex justify-center items-center h-full">
-                    P{totalPrice}
+                <div className="flex justify-center items-center h-full font-bold">
+                    ₱{totalPrice}
                 </div>
             </div>
         </div>

@@ -18,4 +18,19 @@ class Products extends Model
         'product_rating',
         'product_scent_name',
     ];
+
+    public function scent()
+    {
+        return $this->hasOne(ProductScent::class, 'product_id', 'id');
+    }
+
+    public function category()
+    {
+        return $this->hasOne(ProductCategory::class, 'product_id', 'id');
+    }
+
+    public function review()
+    {
+        return $this->hasMany(ProductReview::class, 'product_id', 'id');
+    }
 }

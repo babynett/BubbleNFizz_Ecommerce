@@ -11,4 +11,9 @@ class CartController extends Controller
     {
         return view('customer.cart.Cart');
     }
+
+    public function checkOutPage()
+    {
+        return view('customer.cart.Checkout');
+    }
 }

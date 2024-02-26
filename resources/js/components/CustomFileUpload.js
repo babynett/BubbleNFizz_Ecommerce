@@ -1,8 +1,6 @@
 import { Button } from "@mui/material";
 import React, { useRef } from "react";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import CustomToast from "./CustomToast";
-import { toast } from "react-toastify";
 
 const CustomFileUpload = ({ handleFile, my }) => {
     const hiddenFileInput = useRef(null);
@@ -20,7 +18,7 @@ const CustomFileUpload = ({ handleFile, my }) => {
         <Button
             startIcon={<CloudUploadIcon />}
             variant="contained"
-            color="success"
+            sx={{ backgroundColor: "#B75800", "&:hover": {backgroundColor: "#B75800"} }}
             onClick={handleClick}
             fullWidth
             style={{
@@ -28,7 +26,6 @@ const CustomFileUpload = ({ handleFile, my }) => {
                 marginBottom: my,
             }}
         >
-            <CustomToast />
             UPLOAD FILE
             <input
                 type="file"

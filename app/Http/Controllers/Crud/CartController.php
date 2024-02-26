@@ -22,4 +22,20 @@ class CartController extends Controller
     {
         return Cart::where('user_id', $request->user_id)->with('product')->get();
     }
+
+    public function addQuantity(Request $request)
+    {
+        Cart::where('id', $request->id)->update([
+            'cart_quantity' => $request->cart_quantity,
+            'cart_price' => $request->cart_price
+        ]);
+    }
+    
+    public function subQuantity(Request $request)
+    {
+        Cart::where("id", $request->id)->update([
+            'cart_quantity' => $request->cart_quantity,
+            'cart_price' => $request->cart_price
+        ]);
+    }
 }

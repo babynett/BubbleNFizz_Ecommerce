@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Crud;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -14,7 +15,6 @@ class AccountController extends Controller
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
-            'device_name' => 'required'
         ]);
 
         $user = User::where('email', $request->email)->first();
@@ -23,5 +23,10 @@ class AccountController extends Controller
         } else {
             return response(['user' => $user]);
         }
+    }
+
+    public function getProfile($id)
+    {
+        return UserProfile::where('user_id', $id)->first();
     }
 }

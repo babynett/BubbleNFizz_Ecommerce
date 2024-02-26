@@ -34,6 +34,7 @@ Route::prefix('usermanagement')->group(function () {
     Route::post("/addcustomer", [UserManagementController::class, 'addCustomer']);
     Route::post("/adduserpoll", [UserManagementController::class, 'addUserPoll']);
     Route::post("/adduserprofile", [UserManagementController::class, 'addUserProfile']);
+    Route::get('/getprofile/{id}', [AccountController::class, 'getProfile']); 
 });
 
 Route::prefix('shopping')->group(function () {
@@ -42,5 +43,7 @@ Route::prefix('shopping')->group(function () {
     Route::get('/getproductreviews', [ReviewController::class, 'getProductReviews']);
     Route::post('/addreview', [ReviewController::class, 'addReview']);
     Route::post('/addtocart', [CartController::class, 'addToCart']);
+    Route::post('/addquantity', [CartController::class, 'addQuantity']);
+    Route::post('/subquantity', [CartController::class, 'subQuantity']);
     Route::get('/getusercart', [CartController::class, 'getUserCart']);
 });
