@@ -7,6 +7,7 @@ import CustomFileUpload from "../../../components/CustomFileUpload";
 import { Button } from "@mui/material";
 import { api } from "../../../config/api";
 import CheckoutCard from "../../../cards/CheckoutCard";
+import swal from "sweetalert";
 
 const Checkout = ({ user }) => {
     const userObject = JSON.parse(user);
@@ -15,9 +16,18 @@ const Checkout = ({ user }) => {
     const [quantity, setQuantity] = useState(0);
     const [subTotalPrice, setSubTotalPrice] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
-    const [delivery, setDelivery] = useState("");
+    
+    // ADDRESS
+    const [address, setAddress] = useState("")
+    const [apartment, setApartment] = useState("")
+    const [phoneNumber, setPhoneNumber] = useState(userObject.profile.contact_no)
+    
+    // SHIPPING METHOD
+    const [delivery, setDelivery] = useState("PickUp");
+    
+    // PAYMENT
     const [mop, setMop] = useState("GCash");
-    const [gcashFile, setGcashFile] = useState({});
+    const [gcashFile, setGcashFile] = useState({}); // IF GCASH
 
     useEffect(() => {
         api.get(`shopping/getusercart?user_id=${userObject.id}`)
@@ -44,7 +54,7 @@ const Checkout = ({ user }) => {
             .catch((err) => {
                 console.log(err.response);
             });
-        // console.log(userObject);
+        console.log(userObject);
     }, []);
 
     useEffect(() => {
@@ -56,6 +66,37 @@ const Checkout = ({ user }) => {
             setTotalPrice(subTotalPrice + 150)
         }
     }, [subTotalPrice, delivery])
+
+    const onSubmitOrder = () => {
+        const formdata = new FormData()
+        formdata.append('user_id', userObject.id)
+        formdata.append('order_address', address)
+        formdata.append('order_apartment', apartment)
+        formdata.append('order_phone_number', phoneNumber)
+        formdata.append('order_shipping', delivery)
+        formdata.append('payment', mop)
+        if (mop == "GCash") {
+            formdata.append('payment_image', gcashFile)
+        } else {
+            formdata.append("payment_image", "")
+        }
+        formdata.append("total_quantity", quantity)
+        formdata.append("total_price", totalPrice)
+        formdata.append("carts", JSON.stringify(carts))
+        api.post('shopping/submitorder', formdata)
+            .then((response) => {
+                swal({
+                    icon: "success",
+                    title: "Order Submitted!",
+                    text: "Your order has been submitted!"
+                }).then(() => {
+                    location.href = 'shopping'
+                })
+            })
+            .catch(err => {
+                console.log(err.response)
+            })
+    }
 
     return (
         <div className="w-full border-t-2 border-black">
@@ -76,13 +117,13 @@ const Checkout = ({ user }) => {
                             />
                         </div>
                         <div className="col-span-1">
-                            <CustomTextInput label={`Address`} />
+                            <CustomTextInput label={`Address`} value={address} onChangeValue={(e) => setAddress(e.target.value)} />
                         </div>
                         <div className="col-span-1">
-                            <CustomTextInput label={`Apartment, Suite, etc.`} />
+                            <CustomTextInput label={`Apartment, Suite, etc.`} value={apartment} onChangeValue={(e) => setApartment(e.target.value)} />
                         </div>
                         <div className="col-span-1">
-                            <CustomTextInput label={`Phone Number`} />
+                            <CustomTextInput label={`Phone Number`} value={phoneNumber} onChangeValue={(e) => setPhoneNumber(e.target.value)} />
                         </div>
                     </div>
                     <div className="text-2xl font-bold mb-6">
@@ -231,6 +272,7 @@ const Checkout = ({ user }) => {
                             },
                         }}
                         fullWidth
+                        onClick={onSubmitOrder}
                     >
                         PAY NOW
                     </Button>

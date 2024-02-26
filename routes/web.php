@@ -3,6 +3,7 @@
 use App\Http\Controllers\Features\AccountController;
 use App\Http\Controllers\Features\CartController;
 use App\Http\Controllers\Features\CustomerShopping;
+use App\Http\Controllers\Features\OrdersController;
 use App\Http\Controllers\Features\UserManagement;
 use App\Http\Controllers\Features\UserManagementController;
 use App\Http\Controllers\HomeController;
@@ -33,6 +34,7 @@ Route::get('/customersaccounts', [UserManagementController::class, 'customers'])
 Route::get('/employeesaccounts', [UserManagementController::class, 'index']);
 Route::get('/addemployee', [UserManagementController::class, 'addEmployee']);
 Route::get('/addcustomer', [UserManagementController::class, 'addCustomer']);
+Route::get('/orders', [OrdersController::class, 'index']);
 
 Route::get('/shopping', [CustomerShopping::class, 'index']);
 Route::get('/shopping/{id}', [CustomerShopping::class, 'getProduct']);

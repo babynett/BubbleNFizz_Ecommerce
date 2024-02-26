@@ -15,8 +15,10 @@ class Orders extends Model
         'order_apartment',
         'order_phone_number',
         'order_shipping',
+        'order_status',
         'payment',
         'payment_image',
+        'payment_status',
         'total_quantity',
         'total_price',
     ];

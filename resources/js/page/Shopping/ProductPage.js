@@ -22,6 +22,7 @@ const ProductPage = ({ id, user }) => {
         api.get(`shopping/getproduct?id=${id}`)
             .then((response) => {
                 setProduct(response.data);
+                console.log(response.data)
                 setTotalPrice(response.data.product_price);
             })
             .catch((err) => {

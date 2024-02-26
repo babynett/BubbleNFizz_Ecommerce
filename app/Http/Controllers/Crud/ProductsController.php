@@ -15,6 +15,6 @@ class ProductsController extends Controller
 
     public function getProduct(Request $request)
     {
-        return Products::find($request->id)->first();
+        return Products::where('id',$request->id)->first();
     }
 }

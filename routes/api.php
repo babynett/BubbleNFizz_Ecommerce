@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Crud\AccountController;
 use App\Http\Controllers\Crud\CartController;
+use App\Http\Controllers\Crud\OrdersController;
 use App\Http\Controllers\Crud\ProductsController;
 use App\Http\Controllers\Crud\ReviewController;
 use App\Http\Controllers\Crud\UserManagementController;
@@ -37,6 +38,10 @@ Route::prefix('usermanagement')->group(function () {
     Route::get('/getprofile/{id}', [AccountController::class, 'getProfile']); 
 });
 
+Route::prefix('ordersmanagement')->group(function () {
+    Route::get('/getallorders', [OrdersController::class, 'getAllOrders']);
+});
+
 Route::prefix('shopping')->group(function () {
     Route::get('/getthreeproducts', [ProductsController::class, 'getThreeProducts']);
     Route::get('/getproduct', [ProductsController::class, 'getProduct']);
@@ -46,4 +51,5 @@ Route::prefix('shopping')->group(function () {
     Route::post('/addquantity', [CartController::class, 'addQuantity']);
     Route::post('/subquantity', [CartController::class, 'subQuantity']);
     Route::get('/getusercart', [CartController::class, 'getUserCart']);
+    Route::post('/submitorder', [CartController::class, 'submitOrder']);
 });

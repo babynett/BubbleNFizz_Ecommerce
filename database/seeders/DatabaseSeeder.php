@@ -20,12 +20,12 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        // User::create([
-        //     'name' => 'Admin',
-        //     'email' => "admin@bubblenfizz.com",
-        //     'password' => Hash::make("admin"),
-        //     'user_role' => 1
-        // ]);
+        User::create([
+            'name' => 'Admin',
+            'email' => "admin@bubblenfizz.com",
+            'password' => Hash::make("admin"),
+            'user_role' => 1
+        ]);
 
         Products::create([
             'product_name' => 'Bubble N Fizz Bath Bomb 200G Fizzing',
