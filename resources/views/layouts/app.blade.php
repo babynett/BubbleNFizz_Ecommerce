@@ -50,7 +50,7 @@
                             <a href="#" class="text-xs no-underline hover:text-amber-500">> Refunds</a>
                         </li>
                         <li class="my-2">
-                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Orders</a>
+                            <a href="/orders" class="text-xs no-underline hover:text-amber-500">> Orders</a>
                         </li>
                         <li class="my-2">
                             <a href="#" class="text-xs no-underline hover:text-amber-500">> Delivery/Shipping</a>

@@ -30,11 +30,13 @@
                 </button>
             </div>
             <div class="flex justify-center items-center space-x-8">
-                <a class="relative text-black font-semibold hover:text-amber-500" href="/shopping">All products</a>
-                <a class="relative text-black font-semibold hover:text-amber-500" href="#">Bubble Bath</a>
-                <a class="relative text-black font-semibold hover:text-amber-500" href="#">Artisan Facial N Body</a>
-                <a class="relative text-black font-semibold hover:text-amber-500" href="#">Bath Salt</a>
-                <a class="relative text-black font-semibold hover:text-amber-500" href="#">Bath Bomb Sets</a>
+                @if(Auth::user()->user_role == 3)
+                    <a class="relative text-black font-semibold hover:text-amber-500" href="/shopping">All products</a>
+                    <a class="relative text-black font-semibold hover:text-amber-500" href="#">Bubble Bath</a>
+                    <a class="relative text-black font-semibold hover:text-amber-500" href="#">Artisan Facial N Body</a>
+                    <a class="relative text-black font-semibold hover:text-amber-500" href="#">Bath Salt</a>
+                    <a class="relative text-black font-semibold hover:text-amber-500" href="#">Bath Bomb Sets</a>
+                @endif
             </div>
             <nav :class="{ 'flex': open, 'hidden': !open }"
                 class="flex-col flex-grow pb-4 md:pb-0 hidden md:flex md:justify-end md:items-center md:flex-row">
