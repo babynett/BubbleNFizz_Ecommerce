@@ -37,6 +37,8 @@ Route::get('/addcustomer', [UserManagementController::class, 'addCustomer']);
 Route::get('/orders', [OrdersController::class, 'index']);
 
 Route::get('/shopping', [CustomerShopping::class, 'index']);
+Route::get('/allproducts', [CustomerShopping::class, 'allProducts']);
+Route::get('/bubblebath', [CustomerShopping::class, 'bubbleBath']);
 Route::get('/shopping/{id}', [CustomerShopping::class, 'getProduct']);
 Route::get('/cart', [CartController::class, 'index']);
 Route::get('/checkout', [CartController::class, 'checkOutPage']);

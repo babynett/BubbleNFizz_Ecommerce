@@ -18,4 +18,14 @@ class CustomerShopping extends Controller
             'id' => $id
         ]);
     }
+
+    public function allProducts()
+    {
+        return view('customer.products.AllProductsPage');
+    }
+
+    public function bubbleBath()
+    {
+        return view('customer.products.BubbleBathPage');
+    }
 }

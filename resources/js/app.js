@@ -27,6 +27,8 @@ require("./page/UserManagement/Customers/AddCustomer");
 require("./page/Customer/CustomerPoll")
 
 require('./page/Shopping/ShoppingPage')
+require('./page/Shopping/AllProductsPage')
+require('./page/Shopping/BubbleBathPage')
 require('./page/Shopping/ProductPage')
 require('./page/Shopping/Cart/Cart')
 require('./page/Shopping/Cart/Checkout')

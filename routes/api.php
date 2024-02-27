@@ -44,7 +44,9 @@ Route::prefix('ordersmanagement')->group(function () {
 
 Route::prefix('shopping')->group(function () {
     Route::get('/getthreeproducts', [ProductsController::class, 'getThreeProducts']);
+    Route::get('/getallproducts', [ProductsController::class, 'getAllProducts']);
     Route::get('/getproduct', [ProductsController::class, 'getProduct']);
+    Route::get('/getbathproducts', [ProductsController::class, 'getBathProducts']);
     Route::get('/getproductreviews', [ReviewController::class, 'getProductReviews']);
     Route::post('/addreview', [ReviewController::class, 'addReview']);
     Route::post('/addtocart', [CartController::class, 'addToCart']);

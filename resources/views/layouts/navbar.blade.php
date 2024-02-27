@@ -31,8 +31,9 @@
             </div>
             <div class="flex justify-center items-center space-x-8">
                 @if(Auth::user()->user_role == 3)
-                    <a class="relative text-black font-semibold hover:text-amber-500" href="/shopping">All products</a>
-                    <a class="relative text-black font-semibold hover:text-amber-500" href="#">Bubble Bath</a>
+                    <a class="relative text-black font-semibold hover:text-amber-500" href="/shopping">Home</a>
+                    <a class="relative text-black font-semibold hover:text-amber-500" href="/allproducts">All Products</a>
+                    <a class="relative text-black font-semibold hover:text-amber-500" href="/bubblebath">Bubble Bath</a>
                     <a class="relative text-black font-semibold hover:text-amber-500" href="#">Artisan Facial N Body</a>
                     <a class="relative text-black font-semibold hover:text-amber-500" href="#">Bath Salt</a>
                     <a class="relative text-black font-semibold hover:text-amber-500" href="#">Bath Bomb Sets</a>

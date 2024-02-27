@@ -17,7 +17,7 @@ class AccountController extends Controller
             'password' => ['required'],
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->with('profile')->first();
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response(['error' => "Credentials does not exist!"]);
         } else {
