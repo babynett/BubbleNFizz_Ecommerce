@@ -12,10 +12,12 @@ class ProductCategory extends Model
     protected $fillable = [
         'product_id',
         'product_category',
+        'product_sales',
     ];
 
     public function product_details()
     {
         return $this->hasOne(Products::class, 'id', 'product_id');
     }
+
 }

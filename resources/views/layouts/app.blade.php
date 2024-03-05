@@ -16,9 +16,11 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js" integrity="sha512-u9akINsQsAkG9xjc1cnGF4zw5TFDwkxuc9vUp5dltDWYCSmyd0meygbvgXrlc/z7/o4a19Fb5V0OUE58J7dcyw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -50,35 +52,35 @@
                             <a href="#" class="text-xs no-underline hover:text-amber-500">> Refunds</a>
                         </li>
                         <li class="my-2">
-                            <a href="/orders" class="text-xs no-underline hover:text-amber-500">> Orders</a>
+                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Canceled Orders</a>
                         </li>
                         <li class="my-2">
-                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Delivery/Shipping</a>
+                            <a href="/orders" class="text-xs no-underline hover:text-amber-500">> Pending Delivery/Shipping</a>
                         </li>
                         <li class="my-2">
-                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Payments</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="m-4 border-b-2">
-                    <div class="text-sm font-bold">STOCKS</div>
-                    <ul class="ml-4">
-                        <li class="my-2">
-                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Stocks Management</a>
-                        </li>
-                        <li class="my-2">
-                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Products</a>
+                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Pending Payments</a>
                         </li>
                     </ul>
                 </div>
                 <div class="m-4 border-b-2">
-                    <div class="text-sm font-bold">SALES MANAGEMENT</div>
+                    <div class="text-sm font-bold">PRODUCT INVENTORY</div>
                     <ul class="ml-4">
                         <li class="my-2">
-                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Sales</a>
+                            <a href="/productsmanagement" class="text-xs no-underline hover:text-amber-500">> Product Management</a>
                         </li>
                         <li class="my-2">
-                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Rating and Reviews</a>
+                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Deleted Products</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="m-4 border-b-2">
+                    <div class="text-sm font-bold">SALES REPORT AND PRODUCT RATINGS</div>
+                    <ul class="ml-4">
+                        <li class="my-2">
+                            <a href="/analyticsboard" class="text-xs no-underline hover:text-amber-500">> Analytics Board</a>
+                        </li>
+                        <li class="my-2">
+                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Ratings and Reviews</a>
                         </li>
                     </ul>
                 </div>
@@ -106,7 +108,7 @@
                             <a href="#" class="text-xs no-underline hover:text-amber-500">> Balance</a>
                         </li>
                         <li class="my-2">
-                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Order Payments</a>
+                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Payment Register</a>
                         </li>
                     </ul>
                 </div>
@@ -152,6 +154,18 @@
             show.classList.remove('hidden')
             hide.classList.add('hidden')
         })
+        @if (Auth::user()->user_role == 3)
+            $(document).ready(() => {
+                const userId = "{{ Auth::user()->id }}"
+                axios.get(`api/shopping/getusercartcount?user_id=${userId}`)
+                    .then(response => {
+                        $('#cartItems').html(`${response.data}`)
+                    })
+                    .catch(err => {
+                        console.log(err.response)
+                    })
+            })
+        @endif
     </script>
 </body>
 

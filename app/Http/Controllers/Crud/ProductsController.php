@@ -21,7 +21,7 @@ class ProductsController extends Controller
 
     public function getAllProducts()
     {
-        return Products::all();
+        return Products::with('category')->get();
     }
 
 

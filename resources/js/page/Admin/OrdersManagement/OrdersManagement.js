@@ -111,7 +111,7 @@ const OrdersManagement = () => {
 
     return (
         <div className="w-full">
-            <CustomTitle text={"Orders"} />
+            <CustomTitle text={"Pending Delivery/Shipping"} />
             <div className="flex w-full justify-end items-center">
                 <Button 
                     variant="contained"

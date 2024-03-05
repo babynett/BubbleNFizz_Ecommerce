@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\OrderItems;
 use App\Models\Orders;
+use App\Models\ProductCategory;
 use App\Models\Products;
 use Illuminate\Http\Request;
 
@@ -19,6 +20,13 @@ class CartController extends Controller
             'cart_quantity' => $request->cart_quantity,
             'cart_price' => $request->cart_price
         ]);
+    }
+
+    public function getUserCartCount(Request $request)
+    {
+        $cart = Cart::where('user_id', $request->user_id)->count();
+
+        return $cart;
     }
 
     public function getUserCart(Request $request)
@@ -67,6 +75,11 @@ class CartController extends Controller
                 'product_id' => $items->product_id,
                 'order_quantity' => $items->cart_quantity,
                 'order_price' => $items->cart_price,
+            ]);
+
+            $salesCount = ProductCategory::where('product_id', $items->product_id)->first();
+            ProductCategory::where('product_id', $items->product_id)->update([
+                'product_sales' => (int)$salesCount->product_sales + (int)$items->cart_quantity
             ]);
 
             $productStock = Products::where('id', $items->product_id)->first();

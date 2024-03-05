@@ -17,6 +17,7 @@ class CreateProductCategoriesTable extends Migration
             $table->id();
             $table->string('product_id');
             $table->string('product_category');
+            $table->integer('product_sales')->default(0);
             $table->timestamps();
         });
     }

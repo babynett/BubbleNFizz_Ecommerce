@@ -30,11 +30,12 @@
                 </button>
             </div>
             <div class="flex justify-center items-center space-x-8">
-                @if(Auth::user()->user_role == 3)
+                @if (Auth::user()->user_role == 3)
                     <a class="relative text-black font-semibold hover:text-amber-500" href="/shopping">Home</a>
                     <a class="relative text-black font-semibold hover:text-amber-500" href="/allproducts">All Products</a>
                     <a class="relative text-black font-semibold hover:text-amber-500" href="/bubblebath">Bubble Bath</a>
-                    <a class="relative text-black font-semibold hover:text-amber-500" href="#">Artisan Facial N Body</a>
+                    <a class="relative text-black font-semibold hover:text-amber-500" href="#">Artisan Facial N
+                        Body</a>
                     <a class="relative text-black font-semibold hover:text-amber-500" href="#">Bath Salt</a>
                     <a class="relative text-black font-semibold hover:text-amber-500" href="#">Bath Bomb Sets</a>
                 @endif
@@ -74,8 +75,10 @@
                     </div>
                 </div>
                 <div class="relative">
-                    <a
-                        href="/cart"
+                    <div class="absolute bg-amber-500 rounded-full top-3 right-1 w-4 flex justify-center items-center" style="font-size: 11px" id="cartItems">
+                        0
+                    </div>
+                    <a href="/cart"
                         class="flex flex-row items-center w-full px-4 py-5 mt-2 text-sm font-semibold text-left bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:focus:text-white dark-mode:focus:bg-gray-600  md:w-auto md:inline md:mt-0 md:ml-4  focus:text-gray-900  focus:bg-gray-200 focus:outline-none focus:shadow-outline">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#B75800"
                             class="bi bi-cart" viewBox="0 0 16 16">
@@ -87,7 +90,7 @@
             </nav>
         </div>
     </div>
-    <div class="text-black {{ Auth::user()->user_role != 3 ? "px-6 pt-5" : "" }}">
+    <div class="text-black {{ Auth::user()->user_role != 3 ? 'px-6 pt-5' : '' }}">
         @yield('main-content')
     </div>
 @endsection

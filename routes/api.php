@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Crud\AccountController;
 use App\Http\Controllers\Crud\CartController;
+use App\Http\Controllers\Crud\DashboardController;
 use App\Http\Controllers\Crud\OrdersController;
 use App\Http\Controllers\Crud\ProductsController;
+use App\Http\Controllers\Crud\ReportsManagement;
 use App\Http\Controllers\Crud\ReviewController;
 use App\Http\Controllers\Crud\UserManagementController;
 use Illuminate\Http\Request;
@@ -42,6 +44,13 @@ Route::prefix('ordersmanagement')->group(function () {
     Route::get('/getallorders', [OrdersController::class, 'getAllOrders']);
 });
 
+Route::get('/dashboard', [DashboardController::class, 'dashboardData']);
+
+Route::prefix('reportsmanagement')->group(function () {
+    Route::get('/getsales', [ReportsManagement::class, 'getSales']);
+    Route::get('getsalesreports', [ReportsManagement::class, 'getSalesReports']);
+});
+
 Route::prefix('shopping')->group(function () {
     Route::get('/getthreeproducts', [ProductsController::class, 'getThreeProducts']);
     Route::get('/getallproducts', [ProductsController::class, 'getAllProducts']);
@@ -49,6 +58,7 @@ Route::prefix('shopping')->group(function () {
     Route::get('/getbathproducts', [ProductsController::class, 'getBathProducts']);
     Route::get('/getproductreviews', [ReviewController::class, 'getProductReviews']);
     Route::post('/addreview', [ReviewController::class, 'addReview']);
+    Route::get('/getusercartcount', [CartController::class, 'getUserCartCount']);
     Route::post('/addtocart', [CartController::class, 'addToCart']);
     Route::post('/addquantity', [CartController::class, 'addQuantity']);
     Route::post('/subquantity', [CartController::class, 'subQuantity']);

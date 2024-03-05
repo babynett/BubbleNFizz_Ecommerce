@@ -12,5 +12,6 @@ class ProductScent extends Model
     protected $fillable = [
         'product_id',
         'product_scent',
+        'product_selected',
     ];
 }

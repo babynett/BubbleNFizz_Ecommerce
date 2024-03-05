@@ -17,6 +17,7 @@ class CreateProductScentsTable extends Migration
             $table->id();
             $table->string('product_id');
             $table->string('product_scent');
+            $table->integer('product_selected')->default(0);
             $table->timestamps();
         });
     }

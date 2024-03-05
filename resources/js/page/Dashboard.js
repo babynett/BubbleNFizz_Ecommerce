@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import DashboardCards from "../cards/DashboardCards";
 import { Chart, LinearScale } from "chart.js";
@@ -16,6 +16,7 @@ import {
 import { Line } from "react-chartjs-2";
 import swal from "sweetalert";
 import { Typography } from "@mui/material";
+import { api } from "../config/api";
 
 ChartJS.register(
     CategoryScale,
@@ -29,6 +30,7 @@ ChartJS.register(
 
 const Dashboard = (props) => {
     const userObject = JSON.parse(props.user);
+    const [dashboardData, setDashboardData] = useState([])
     useEffect(() => {
         if (userObject.user_role == 3 && userObject.profile == null) {
             swal({
@@ -51,6 +53,17 @@ const Dashboard = (props) => {
             console.log(userObject.profile == null);
         }
     }, []);
+
+    useEffect(() => {
+        api.get('/dashboard')
+            .then((response) => {
+                console.log(response.data)
+                setDashboardData(response.data)
+            })
+            .catch(err => {
+                console.log(err.response)
+            })
+    }, [])
 
     const data = {
         labels: [
@@ -98,15 +111,15 @@ const Dashboard = (props) => {
                                     title={"Total Products"}
                                     bgColor={"bg-yellow-400"}
                                     textColor={"text-white"}
-                                    count={`20`}
-                                />
+                                    count={dashboardData.product_counts}
+                                    />
                             </div>
                             <div className="col-span-1">
                                 <DashboardCards
                                     title={"Total Revenue"}
                                     bgColor={"bg-lime-700"}
                                     textColor={"text-white"}
-                                    count={`P 50,000`}
+                                    count={`P ${dashboardData.total_revenue}`}
                                 />
                             </div>
                             <div className="col-span-1">
@@ -114,7 +127,7 @@ const Dashboard = (props) => {
                                     title={"Total Customer"}
                                     bgColor={"bg-red-600"}
                                     textColor={"text-white"}
-                                    count={`64`}
+                                    count={dashboardData.total_customer}
                                 />
                             </div>
                             <div className="col-span-1">
@@ -122,7 +135,7 @@ const Dashboard = (props) => {
                                     title={"Total Orders"}
                                     bgColor={"bg-blue-700"}
                                     textColor={"text-white"}
-                                    count={`120`}
+                                    count={dashboardData.total_orders}
                                 />
                             </div>
                         </div>
