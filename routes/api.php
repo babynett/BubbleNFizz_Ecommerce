@@ -53,6 +53,7 @@ Route::prefix('reportsmanagement')->group(function () {
 
 Route::prefix('shopping')->group(function () {
     Route::get('/getthreeproducts', [ProductsController::class, 'getThreeProducts']);
+    Route::get('/getbestsellers', [ProductsController::class, 'getBestSellers']);
     Route::get('/getallproducts', [ProductsController::class, 'getAllProducts']);
     Route::get('/getproduct', [ProductsController::class, 'getProduct']);
     Route::get('/getbathproducts', [ProductsController::class, 'getBathProducts']);

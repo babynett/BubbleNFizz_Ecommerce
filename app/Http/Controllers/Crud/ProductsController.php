@@ -14,6 +14,11 @@ class ProductsController extends Controller
         return Products::limit(3)->get();
     }
 
+    public function getBestSellers()
+    {
+        return ProductCategory::with('product_details')->orderBy('product_sales', 'desc')->limit(3)->get();
+    }
+
     public function getProduct(Request $request)
     {
         return Products::where('id',$request->id)->first();

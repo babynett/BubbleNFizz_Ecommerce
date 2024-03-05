@@ -6,12 +6,22 @@ import { api } from "../../config/api";
 
 const ShoppingPage = (props) => {
     const [products, setProducts] = useState([]);
+    const [bestProducts, setBestProducts] = useState([]);
 
     useEffect(() => {
         console.log(JSON.parse(props.image));
         api.get("shopping/getthreeproducts")
             .then((response) => {
                 setProducts(response.data);
+            })
+            .catch((err) => {
+                console.log(err.response);
+            });
+
+        api.get("shopping/getbestsellers")
+            .then((response) => {
+                setBestProducts(response.data);
+                console.log(response.data);
             })
             .catch((err) => {
                 console.log(err.response);
@@ -58,7 +68,17 @@ const ShoppingPage = (props) => {
                     {products.map((item, index) => {
                         return (
                             <div className="col-span-1">
-                                <CustomShoppingCard title={item.product_name} price={item.product_price} rating={item.product_rating} scentName={item.product_scent_name} onClick={() => window.location.replace(`/shopping/${item.id}`)} />
+                                <CustomShoppingCard
+                                    title={item.product_name}
+                                    price={item.product_price}
+                                    rating={item.product_rating}
+                                    scentName={item.product_scent_name}
+                                    onClick={() =>
+                                        window.location.href = 
+                                            `/shopping/${item.id}`
+                                        
+                                    }
+                                />
                             </div>
                         );
                     })}
@@ -129,10 +149,20 @@ const ShoppingPage = (props) => {
 
             <div className="mx-10">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-                {products.map((item, index) => {
+                    {bestProducts.map((item, index) => {
                         return (
                             <div className="col-span-1">
-                                <CustomShoppingCard title={item.product_name} price={item.product_price} rating={item.product_rating} scentName={item.product_scent_name} />
+                                <CustomShoppingCard
+                                    title={item.product_details.product_name}
+                                    price={item.product_details.product_price}
+                                    rating={item.product_details.product_rating}
+                                    scentName={
+                                        item.product_details.product_scent_name
+                                    }
+                                    onClick={() =>
+                                        (window.location.href = `/shopping/${item.id}`)
+                                    }
+                                />
                             </div>
                         );
                     })}
