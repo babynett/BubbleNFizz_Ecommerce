@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->string('product_stock')->nullable();
             $table->string('product_rating')->nullable();
             $table->string('product_scent_name')->nullable();
+            $table->boolean('is_deleted')->default(false);
             $table->timestamps();
         });
     }

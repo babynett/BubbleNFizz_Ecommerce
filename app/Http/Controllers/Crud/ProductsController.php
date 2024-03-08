@@ -26,12 +26,30 @@ class ProductsController extends Controller
 
     public function getAllProducts()
     {
-        return Products::with('category')->get();
+        return Products::with('category')->where('is_deleted', 0)->get();
     }
 
+    public function getDeletedProducts()
+    {
+        return Products::with('category')->where('is_deleted', 1)->get();
+    }
 
     public function getBathProducts()
     {
         return ProductCategory::where('product_category', 'Bubble Bath')->with('product_details')->get();
+    }
+
+    public function deleteProduct(Request $request)
+    {
+        return Products::where('id', $request->id)->update([
+            'is_deleted' => true
+        ]);
+    }
+
+    public function recoverProduct(Request $request)
+    {
+        return Products::where('id', $request->id)->update([
+            'is_deleted' => false
+        ]);
     }
 }

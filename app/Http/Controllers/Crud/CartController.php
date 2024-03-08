@@ -50,6 +50,11 @@ class CartController extends Controller
         ]);
     }
 
+    public function deleteCartItem(Request $request)
+    {
+        Cart::where('id', $request->id)->delete();
+    }
+
     public function submitOrder(Request $request)
     {
         // return json_encode(json_decode($request->carts));

@@ -4,12 +4,16 @@ import CustomTitle from "../../../texts/CustomTitle";
 import { Button, Typography } from "@mui/material";
 import { api } from "../../../config/api";
 import { DataGrid } from "@mui/x-data-grid";
+import swal from "sweetalert";
 
-const ProductsManagement = () => {
+const ProductsManagement = (props) => {
     const [data, setData] = useState([]);
 
+    
     useEffect(() => {
-        api.get("shopping/getallproducts")
+        console.log(props.deleted)
+        if (props.deleted == 'true') {
+            api.get("products/getdeletedproducts")
             .then((response) => {
                 setData(response.data);
                 console.log(response.data)
@@ -17,7 +21,49 @@ const ProductsManagement = () => {
             .catch((err) => {
                 console.log(err.response);
             });
+        } else {
+            api.get("shopping/getallproducts")
+            .then((response) => {
+                setData(response.data);
+                console.log(response.data)
+            })
+            .catch((err) => {
+                console.log(err.response);
+            });
+        }
     }, []);
+
+    const deleteProduct = (id) => {
+        api.post('products/deleteproduct', {
+            id: id
+        })
+            .then((response) => {
+                swal({
+                    icon: "success",
+                    title: "Product Deleted!",
+                    text: "Product has been deleted!"
+                }).then((response) => {
+                    location.reload()
+                })
+            })
+            .catch(err => {
+                console.log(err.response)
+            })
+    }
+
+    const recoverProduct = (id) => {
+        api.post('products/recoverproduct', {
+            id: id
+        }).then((response) => {
+            swal({
+                icon: 'success',
+                title: 'Product Recovered!',
+                text: "Product has been recovered!"
+            }).then((response) => {
+                location.reload()
+            })
+        })
+    }
 
     const columns = [
         { field: "id", headerName: "ID", width: 90 },
@@ -44,8 +90,14 @@ const ProductsManagement = () => {
                         </div>
                         <div className="col-span-3">
                             <div className="flex h-full justify-end items-end space-x-4">
+                                {props.deleted == 'true' ? (
+                                    <Button variant="contained" color="success" onClick={() => recoverProduct(cellValue.row.id)}>Recover</Button>
+                                ) : (
+                                    <>
                                 <Button variant="contained" color="success">Edit</Button>
-                                <Button variant="contained" color="error">Delete</Button>
+                                <Button variant="contained" color="error" onClick={() => deleteProduct(cellValue.row.id)}>Delete</Button>
+                                    </>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -86,7 +138,8 @@ const ProductsManagement = () => {
     return (
         <div className="w-full">
             <div className="flex w-full justify-between items-center">
-                <CustomTitle text={`Product Management`} />
+                <CustomTitle text={props.deleted ? `Deleted Products` : `Product Management`} />
+                {!props.deleted && (
                 <Button
                     variant="contained"
                     sx={{ marginBottom: 1 }}
@@ -96,6 +149,7 @@ const ProductsManagement = () => {
                 >
                     Add Product
                 </Button>
+                )}
             </div>
             <DataGrid 
                 rows={data}
@@ -119,8 +173,10 @@ const ProductsManagement = () => {
 export default ProductsManagement;
 
 if (document.getElementById("ProductsManagement")) {
+    const element = document.getElementById("ProductsManagement");
+    const props = Object.assign({}, element.dataset);
     ReactDOM.render(
-        <ProductsManagement />,
+        <ProductsManagement {...props} />,
         document.getElementById("ProductsManagement")
     );
 }

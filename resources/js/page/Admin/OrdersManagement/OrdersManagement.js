@@ -1,24 +1,60 @@
-import React, { useEffect, useState } from 'react'
-import ReactDOM from 'react-dom';
-import CustomTitle from '../../../texts/CustomTitle';
-import swal from 'sweetalert';
-import { Button, Typography } from '@mui/material';
-import { api } from '../../../config/api';
-import { DataGrid } from '@mui/x-data-grid';
-import moment from 'moment';
+import React, { useEffect, useState } from "react";
+import ReactDOM from "react-dom";
+import CustomTitle from "../../../texts/CustomTitle";
+import swal from "sweetalert";
+import { Button, IconButton, Menu, MenuItem, Typography } from "@mui/material";
+import { api } from "../../../config/api";
+import { DataGrid } from "@mui/x-data-grid";
+import moment from "moment";
+import { MoreVert } from "@mui/icons-material";
 
-const OrdersManagement = () => {
-    const [data, setData] = useState([])
+const OrdersManagement = (props) => {
+    const type = props.type;
+    const [data, setData] = useState([]);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
 
     useEffect(() => {
-        api.get('ordersmanagement/getallorders')
-            .then(response => {
-                setData(response.data)
-            })
-            .catch(err => {
-                console.log(err.response)
-            })
-    }, [])
+        if (type == "Orders") {
+            api.get("ordersmanagement/getallorders")
+                .then((response) => {
+                    setData(response.data);
+                })
+                .catch((err) => {
+                    console.log(err.response);
+                });
+        } else if (type == "Cancelled") {
+            api.get("ordersmanagement/getcancelledorders")
+                .then((response) => {
+                    setData(response.data);
+                })
+                .catch((err) => {
+                    console.log(err.response);
+                });
+        }
+    }, []);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const cancelOrder = (id) => {
+        api.post("ordersmanagement/cancelorder", {
+            id: id,
+        }).then((response) => {
+            swal({
+                icon: "success",
+                title: "Order Cancelled!",
+                text: "The order has been cancelled",
+            }).then((response) => {
+                location.reload();
+            });
+        });
+    };
 
     const columns = [
         { field: "id", headerName: "ID", width: 90 },
@@ -30,12 +66,16 @@ const OrdersManagement = () => {
             renderCell: (cellValue) => {
                 // console.log(cellValue.row)
                 return (
-                    <div className='flex flex-col'>
-                    <Typography>Name: {cellValue.row.owned_by.name}</Typography>
-                    <Typography>Email: {cellValue.row.owned_by.email}</Typography>
+                    <div className="flex flex-col">
+                        <Typography>
+                            Name: {cellValue.row.owned_by.name}
+                        </Typography>
+                        <Typography>
+                            Email: {cellValue.row.owned_by.email}
+                        </Typography>
                     </div>
-                )
-            }
+                );
+            },
         },
         {
             field: "order_details",
@@ -45,9 +85,11 @@ const OrdersManagement = () => {
             renderCell: (cellValue) => {
                 return (
                     <>
-                    <Typography>Order Quantity: {cellValue.row.total_quantity}</Typography>
+                        <Typography>
+                            Order Quantity: {cellValue.row.total_quantity}
+                        </Typography>
                     </>
-                )
+                );
             },
         },
         {
@@ -58,9 +100,9 @@ const OrdersManagement = () => {
             renderCell: (cellValue) => {
                 return (
                     <>
-                    <Typography>P {cellValue.row.total_price}</Typography>
+                        <Typography>P {cellValue.row.total_price}</Typography>
                     </>
-                )
+                );
             },
         },
         {
@@ -71,9 +113,9 @@ const OrdersManagement = () => {
             renderCell: (cellValue) => {
                 return (
                     <>
-                    <Typography>{cellValue.row.payment_status}</Typography>
+                        <Typography>{cellValue.row.payment_status}</Typography>
                     </>
-                )
+                );
             },
         },
         {
@@ -84,44 +126,91 @@ const OrdersManagement = () => {
             renderCell: (cellValue) => {
                 return (
                     <>
-                    <Typography>{cellValue.row.order_status}</Typography>
+                        <Typography>{cellValue.row.order_status}</Typography>
                     </>
-                )
+                );
             },
         },
-        {
+        type == "Orders" && {
             field: "action",
             headerName: "Action",
             width: 200,
             editable: true,
             renderCell: (cellValue) => {
                 return (
-                    <div className='flex flex-col space-y-2'>
-                        <Button variant="contained" color="primary" sx={{ marginRight: 1 }}>
+                    <div className="flex flex-col space-y-2">
+                        {/* <Button variant="contained" color="primary" sx={{ marginRight: 1 }}>
                             Confirm Order
                         </Button>
                         <Button variant="contained" color="success">
                             Confirm Payment
-                        </Button>
+                        </Button> */}
+                        <IconButton
+                            aria-label="more"
+                            id={`menu-button${cellValue.row.id}`}
+                            aria-controls={
+                                open ? `menu${cellValue.row.id}` : undefined
+                            }
+                            aria-expanded={open ? "true" : undefined}
+                            aria-haspopup="true"
+                            onClick={handleClick}
+                        >
+                            <MoreVert />
+                        </IconButton>
+                        <Menu
+                            id={`menu${cellValue.row.id}`}
+                            MenuListProps={{
+                                "aria-labelledby": `menu-button${cellValue.row.id}`,
+                            }}
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                        >
+                            <MenuItem onClick={handleClose}>
+                                Confirm Payment
+                            </MenuItem>
+                            <MenuItem onClick={handleClose}>
+                                Display Payment
+                            </MenuItem>
+                            <MenuItem
+                                onClick={() => cancelOrder(cellValue.row.id)}
+                            >
+                                Cancel Order
+                            </MenuItem>
+                        </Menu>
                     </div>
-                )
+                );
             },
         },
     ];
 
     return (
         <div className="w-full">
-            <CustomTitle text={"Pending Delivery/Shipping"} />
-            <div className="flex w-full justify-end items-center">
-                <Button 
-                    variant="contained"
-                    sx={{ marginBottom: 1 }}
-                    onClick={() => swal({icon: "info", title: "Clicked!", text: "na click hehe"})}
-                >
-                    Add Order
-                </Button>
-            </div>
-            <DataGrid 
+            <CustomTitle
+                text={
+                    type == "Orders"
+                        ? "Pending Delivery/Shipping"
+                        : "Canceled Orders"
+                }
+            />
+            {type == "Orders" && (
+                <div className="flex w-full justify-end items-center">
+                    <Button
+                        variant="contained"
+                        sx={{ marginBottom: 1 }}
+                        onClick={() =>
+                            swal({
+                                icon: "info",
+                                title: "Clicked!",
+                                text: "na click hehe",
+                            })
+                        }
+                    >
+                        Add Order
+                    </Button>
+                </div>
+            )}
+            <DataGrid
                 rows={data}
                 columns={columns}
                 initialState={{
@@ -138,10 +227,15 @@ const OrdersManagement = () => {
             />
         </div>
     );
-}
+};
 
 export default OrdersManagement;
 
 if (document.getElementById("OrdersPage")) {
-    ReactDOM.render(<OrdersManagement />, document.getElementById('OrdersPage'))
+    const element = document.getElementById("OrdersPage");
+    const props = Object.assign({}, element.dataset);
+    ReactDOM.render(
+        <OrdersManagement {...props} />,
+        document.getElementById("OrdersPage")
+    );
 }

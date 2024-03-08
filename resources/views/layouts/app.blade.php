@@ -52,7 +52,7 @@
                             <a href="#" class="text-xs no-underline hover:text-amber-500">> Refunds</a>
                         </li>
                         <li class="my-2">
-                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Canceled Orders</a>
+                            <a href="/cancelledorders" class="text-xs no-underline hover:text-amber-500">> Canceled Orders</a>
                         </li>
                         <li class="my-2">
                             <a href="/orders" class="text-xs no-underline hover:text-amber-500">> Pending Delivery/Shipping</a>
@@ -69,7 +69,7 @@
                             <a href="/productsmanagement" class="text-xs no-underline hover:text-amber-500">> Product Management</a>
                         </li>
                         <li class="my-2">
-                            <a href="#" class="text-xs no-underline hover:text-amber-500">> Deleted Products</a>
+                            <a href="/deletedproducts" class="text-xs no-underline hover:text-amber-500">> Deleted Products</a>
                         </li>
                     </ul>
                 </div>

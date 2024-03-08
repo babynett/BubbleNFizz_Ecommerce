@@ -36,8 +36,10 @@ Route::get('/customersaccounts', [UserManagementController::class, 'customers'])
 Route::get('/employeesaccounts', [UserManagementController::class, 'index']);
 Route::get('/addemployee', [UserManagementController::class, 'addEmployee']);
 Route::get('/addcustomer', [UserManagementController::class, 'addCustomer']);
+Route::get('/cancelledorders', [OrdersController::class, 'cancelledOrders']);
 Route::get('/orders', [OrdersController::class, 'index']);
 Route::get('/productsmanagement', [ProductsController::class, 'index']);
+Route::get('/deletedproducts', [ProductsController::class, 'deletedProducts']);
 Route::get('/analyticsboard', [ReportsManagement::class, 'index']);
 
 Route::get('/shopping', [CustomerShopping::class, 'index']);

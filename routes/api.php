@@ -40,8 +40,16 @@ Route::prefix('usermanagement')->group(function () {
     Route::get('/getprofile/{id}', [AccountController::class, 'getProfile']); 
 });
 
+Route::prefix('products')->group(function () {
+    Route::post('/deleteproduct', [ProductsController::class, 'deleteProduct']);
+    Route::post('/recoverproduct', [ProductsController::class, 'recoverProduct']);
+    Route::get('/getdeletedproducts', [ProductsController::class, 'getDeletedProducts']);
+});
+
 Route::prefix('ordersmanagement')->group(function () {
     Route::get('/getallorders', [OrdersController::class, 'getAllOrders']);
+    Route::get('/getcancelledorders', [OrdersController::class, 'getCancelledOrders']);
+    Route::post('/cancelorder', [OrdersController::class, 'cancelOrder']);
 });
 
 Route::get('/dashboard', [DashboardController::class, 'dashboardData']);
@@ -61,6 +69,7 @@ Route::prefix('shopping')->group(function () {
     Route::post('/addreview', [ReviewController::class, 'addReview']);
     Route::get('/getusercartcount', [CartController::class, 'getUserCartCount']);
     Route::post('/addtocart', [CartController::class, 'addToCart']);
+    Route::post('/deletecartitem', [CartController::class, 'deleteCartItem']);
     Route::post('/addquantity', [CartController::class, 'addQuantity']);
     Route::post('/subquantity', [CartController::class, 'subQuantity']);
     Route::get('/getusercart', [CartController::class, 'getUserCart']);

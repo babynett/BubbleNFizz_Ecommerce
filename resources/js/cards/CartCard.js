@@ -17,10 +17,25 @@ const CartCard = ({
     const subQuantity = () => {
         if (Number(quantity) == 1) {
             swal({
-                icon: "error",
-                title: "Oops...",
-                text: "Quantity should not be lower than 1",
-            });
+                icon: "warning",
+                title: "Remove Item?",
+                text: "Are you sure you want to remove this item?",
+                buttons: ["No", "Yes"]
+            }).then(response => {
+                if (response == true) {
+                    api.post('shopping/deletecartitem', {
+                        id: cart.id
+                    }).then((response) => {
+                        swal({
+                            icon: "success",
+                            title: "Item Removed!",
+                            text: "Item has been removed!"
+                        }).then(() => {
+                            location.reload()
+                        })
+                    })
+                }
+            })
         } else {
             api.post('shopping/subquantity', {
                 id: cart.id,

@@ -11,4 +11,9 @@ class OrdersController extends Controller
     {
         return view('features.OrdersManagement.Orders');
     }
+
+    public function cancelledOrders()
+    {
+        return view('features.OrdersManagement.CancelledOrders');
+    }
 }

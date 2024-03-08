@@ -17,6 +17,7 @@ class Products extends Model
         'product_stock',
         'product_rating',
         'product_scent_name',
+        'is_deleted',
     ];
 
     public function scent()
