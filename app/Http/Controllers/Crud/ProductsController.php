@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ProductCategory;
 use App\Models\Products;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductsController extends Controller
 {
@@ -21,12 +22,12 @@ class ProductsController extends Controller
 
     public function getProduct(Request $request)
     {
-        return Products::where('id',$request->id)->first();
+        return Products::where('id', $request->id)->first();
     }
 
-    public function getAllProducts()
+    public function getAllProducts(Request $request)
     {
-        return Products::with('category')->where('is_deleted', 0)->get();
+        return Products::with('category')->where('is_deleted', 0)->orderBy(DB::raw('CAST(product_price AS UNSIGNED)'), $request->sort == 'Highest Price' ? 'asc' : 'desc')->get();
     }
 
     public function getDeletedProducts()

@@ -1009,9 +1009,6 @@ input:checked + .toggle-bg {
 .relative {
   position: relative;
 }
-.sticky {
-  position: sticky;
-}
 .inset-0 {
   inset: 0px;
 }
@@ -1583,10 +1580,6 @@ input:checked + .toggle-bg {
   --tw-bg-opacity: 1;
   background-color: rgb(227 160 8 / var(--tw-bg-opacity));
 }
-.bg-red-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(240 82 82 / var(--tw-bg-opacity));
-}
 .bg-cover {
   background-size: cover;
 }
@@ -1700,9 +1693,6 @@ input:checked + .toggle-bg {
 }
 .pt-5 {
   padding-top: 1.25rem;
-}
-.pb-6 {
-  padding-bottom: 1.5rem;
 }
 .text-left {
   text-align: left;

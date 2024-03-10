@@ -1,27 +1,24 @@
 import { Button, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import ProfileSideBar from "./ProfileSideBar";
+import MyProfile from "./contents/MyProfile";
+import MyPurchases from "./contents/MyPurchases";
 
 const EditProfile = () => {
+    const [page, setPage] = useState("Profile")
     return (
         <div className="w-full px-12">
             <div className="grid grid-cols-12 gap-8">
                 <div className="col-span-3">
-                    <ProfileSideBar name={"Robby"} />
+                    <ProfileSideBar name={"Robby"} setPage={setPage} page={page} />
                 </div>
                 <div className="col-span-9">
-                    <div className="flex justify-around border-b-2 py-6 border-black">
-                        <Button sx={{ color: "#000", paddingRight: 2, paddingLeft: 2, paddingTop: 1, paddingBottom: 1, "&:hover": {backgroundColor: "#B75800", color: "#fff"} }}>
-                            <Typography>Profile</Typography>
-                        </Button>
-                        <Button sx={{ color: "#000", paddingRight: 2, paddingLeft: 2, paddingTop: 1, paddingBottom: 1, "&:hover": {backgroundColor: "#B75800", color: "#fff"} }}>
-                            <Typography>Addresses</Typography>
-                        </Button>
-                        <Button sx={{ color: "#000", paddingRight: 2, paddingLeft: 2, paddingTop: 1, paddingBottom: 1, "&:hover": {backgroundColor: "#B75800", color: "#fff"} }}>
-                            <Typography>Change Password</Typography>
-                        </Button>
-                    </div>
+                    {page == "Profile" ? (
+                        <MyProfile />
+                    ) : (
+                        <MyPurchases />
+                    )}
                 </div>
             </div>
         </div>

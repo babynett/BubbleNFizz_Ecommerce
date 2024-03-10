@@ -2,7 +2,7 @@ import { Edit, Notifications, Person, ShoppingBag, Visibility } from "@mui/icons
 import { Typography } from "@mui/material";
 import React from "react";
 
-const ProfileSideBar = ({ id, name }) => {
+const ProfileSideBar = ({ id, name, page, setPage }) => {
     return (
         <div className="w-full px-12 py-8 bg-black text-white">
             <div className="flex space-x-6 px-4">
@@ -18,19 +18,19 @@ const ProfileSideBar = ({ id, name }) => {
             </div>
             <div className="w-full border-b-2 border-white my-5"></div>
             <div className="flex justify-center items-center flex-col w-full space-y-14 my-14">
-                <div className="flex space-x-3 w-2/3 hover:text-amber-500">
+                <div onClick={() => setPage('Profile')} className="flex space-x-3 w-2/3 hover:text-amber-500">
                     <Person className="text-xl" />
                     <a href="#">My Account</a>
                 </div>
-                <div className="flex space-x-3 w-2/3 hover:text-amber-500">
+                <div onClick={() => setPage('Purchases')} className="flex space-x-3 w-2/3 hover:text-amber-500">
                     <ShoppingBag className="text-xl" />
                     <a href="#">My Purchase</a>
                 </div>
-                <div className="flex space-x-3 w-2/3 hover:text-amber-500">
+                <div onClick={() => setPage('Profile')} className="flex space-x-3 w-2/3 hover:text-amber-500">
                     <Notifications className="text-xl" />
                     <a href="#">Notification</a>
                 </div>
-                <div className="flex space-x-3 w-2/3 hover:text-amber-500">
+                <div onClick={() => setPage('Profile')} className="flex space-x-3 w-2/3 hover:text-amber-500">
                     <Visibility className="text-xl" />
                     <a href="#">Recently Viewed Products</a>
                 </div>

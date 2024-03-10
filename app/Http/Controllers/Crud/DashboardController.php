@@ -12,7 +12,7 @@ class DashboardController extends Controller
 {
     public function dashboardData()
     {
-        $productCounts = Products::count();
+        $productCounts = Products::where('is_deleted', 0)->count();
         $totalRevenue = Orders::sum('total_price');
         $totalCustomer = User::where('user_role', 3)->count();
         $totalOrders = Orders::count();

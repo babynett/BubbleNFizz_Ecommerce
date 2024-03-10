@@ -6,21 +6,25 @@ import CustomShoppingCard from "../../components/shopping/CustomShoppingCard";
 
 const AllProductsPage = () => {
     const [products, setProducts] = useState([]);
+    const [sort, setSort] = useState('')
 
     useEffect(() => {
-        api.get("shopping/getallproducts")
+        api.get(`shopping/getallproducts?sort=${sort}`)
             .then((response) => {
                 setProducts(response.data);
             })
             .catch((err) => {
                 console.log(err.response);
             });
-    }, []);
+            console.log(sort)
+    }, [sort]);
+
+    const options = ['Highest Price', 'Lowest Price']
 
     return (
         <div className="w-full">
             <div className="mx-10 my-12">
-                <CustomTitle text={"All Products"} />
+                <CustomTitle text={"All Products"} options={options} hasButton setSort={setSort} sort={sort} />
                 <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
                     {products.map((item, index) => {
                         return (
