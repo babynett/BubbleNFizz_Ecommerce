@@ -27,7 +27,7 @@ class ProductsController extends Controller
 
     public function getAllProducts(Request $request)
     {
-        return Products::with('category')->where('is_deleted', 0)->orderBy(DB::raw('CAST(product_price AS UNSIGNED)'), $request->sort == 'Highest Price' ? 'asc' : 'desc')->get();
+        return Products::with('category')->where('is_deleted', 0)->orderBy(DB::raw('CAST(product_price AS UNSIGNED)'), $request->sort == 'Highest Price' ? 'desc' : 'asc')->get();
     }
 
     public function getDeletedProducts()

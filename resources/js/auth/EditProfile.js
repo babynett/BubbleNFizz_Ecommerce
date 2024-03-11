@@ -5,7 +5,8 @@ import ProfileSideBar from "./ProfileSideBar";
 import MyProfile from "./contents/MyProfile";
 import MyPurchases from "./contents/MyPurchases";
 
-const EditProfile = () => {
+const EditProfile = (props) => {
+    const userObject = JSON.parse(props.user)
     const [page, setPage] = useState("Profile")
     return (
         <div className="w-full px-12">
@@ -16,8 +17,10 @@ const EditProfile = () => {
                 <div className="col-span-9">
                     {page == "Profile" ? (
                         <MyProfile />
+                    ) : page == "Purchases" ? (
+                        <MyPurchases user={userObject} />
                     ) : (
-                        <MyPurchases />
+                        <div>dasd</div>
                     )}
                 </div>
             </div>

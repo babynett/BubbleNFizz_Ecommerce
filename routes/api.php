@@ -49,6 +49,8 @@ Route::prefix('products')->group(function () {
 Route::prefix('ordersmanagement')->group(function () {
     Route::get('/getallorders', [OrdersController::class, 'getAllOrders']);
     Route::get('/getcancelledorders', [OrdersController::class, 'getCancelledOrders']);
+    Route::get("/userorders", [OrdersController::class, 'userOrders']);
+    Route::post('/confirmpayment', [OrdersController::class, 'confirmPayment']);
     Route::post('/cancelorder', [OrdersController::class, 'cancelOrder']);
 });
 

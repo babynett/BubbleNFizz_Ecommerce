@@ -11,6 +11,7 @@ import { MoreVert } from "@mui/icons-material";
 const OrdersManagement = (props) => {
     const type = props.type;
     const [data, setData] = useState([]);
+    const [refresher, setRefresher] = useState(0);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 
@@ -32,7 +33,7 @@ const OrdersManagement = (props) => {
                     console.log(err.response);
                 });
         }
-    }, []);
+    }, [refresher]);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -52,6 +53,20 @@ const OrdersManagement = (props) => {
                 text: "The order has been cancelled",
             }).then((response) => {
                 location.reload();
+            });
+        });
+    };
+
+    const confirmOrder = (id) => {
+        api.post("ordersmanagement/confirmpayment", {
+            id: id,
+        }).then((response) => {
+            swal({
+                icon: "success",
+                title: "Payment Confirmed!",
+                text: "The order payment has been confirmed",
+            }).then(() => {
+                setRefresher(refresher + 1);
             });
         });
     };
@@ -139,12 +154,6 @@ const OrdersManagement = (props) => {
             renderCell: (cellValue) => {
                 return (
                     <div className="flex flex-col space-y-2">
-                        {/* <Button variant="contained" color="primary" sx={{ marginRight: 1 }}>
-                            Confirm Order
-                        </Button>
-                        <Button variant="contained" color="success">
-                            Confirm Payment
-                        </Button> */}
                         <IconButton
                             aria-label="more"
                             id={`menu-button${cellValue.row.id}`}
@@ -153,7 +162,7 @@ const OrdersManagement = (props) => {
                             }
                             aria-expanded={open ? "true" : undefined}
                             aria-haspopup="true"
-                            onClick={handleClick}
+                            onClick={(event) => setAnchorEl(event.currentTarget)}
                         >
                             <MoreVert />
                         </IconButton>
@@ -164,14 +173,22 @@ const OrdersManagement = (props) => {
                             }}
                             anchorEl={anchorEl}
                             open={open}
-                            onClose={handleClose}
+                            onClose={() => setAnchorEl(null)}
                         >
-                            <MenuItem onClick={handleClose}>
-                                Confirm Payment
-                            </MenuItem>
-                            <MenuItem onClick={handleClose}>
-                                Display Payment
-                            </MenuItem>
+                            {cellValue.row.order_status == "Pending" && (
+                                <MenuItem
+                                    onClick={() =>
+                                        console.log(cellValue.row.id)
+                                    }
+                                >
+                                    Confirm Payment
+                                </MenuItem>
+                            )}
+                            {cellValue.row.payment != "COD" && (
+                                <MenuItem onClick={handleClose}>
+                                    Display Payment
+                                </MenuItem>
+                            )}
                             <MenuItem
                                 onClick={() => cancelOrder(cellValue.row.id)}
                             >
