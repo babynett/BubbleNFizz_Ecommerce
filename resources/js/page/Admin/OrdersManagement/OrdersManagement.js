@@ -12,8 +12,8 @@ const OrdersManagement = (props) => {
     const type = props.type;
     const [data, setData] = useState([]);
     const [refresher, setRefresher] = useState(0);
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
+    // const [anchorEl, setAnchorEl] = React.useState(null);
+    // const open = Boolean(anchorEl);
 
     useEffect(() => {
         if (type == "Orders") {
@@ -35,13 +35,13 @@ const OrdersManagement = (props) => {
         }
     }, [refresher]);
 
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
+    // const handleClick = (event) => {
+    //     setAnchorEl(event.currentTarget);
+    // };
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    // const handleClose = () => {
+    //     setAnchorEl(null);
+    // };
 
     const cancelOrder = (id) => {
         api.post("ordersmanagement/cancelorder", {
@@ -152,6 +152,15 @@ const OrdersManagement = (props) => {
             width: 200,
             editable: true,
             renderCell: (cellValue) => {
+                const [anchorEl, setAnchorEl] = React.useState(null);
+                const open = Boolean(anchorEl);
+                const handleClick = (event) => {
+                    setAnchorEl(event.currentTarget);
+                };
+
+                const handleClose = () => {
+                    setAnchorEl(null);
+                };
                 return (
                     <div className="flex flex-col space-y-2">
                         <IconButton
