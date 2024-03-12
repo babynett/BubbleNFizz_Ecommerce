@@ -38,6 +38,9 @@ Route::prefix('usermanagement')->group(function () {
     Route::post("/adduserpoll", [UserManagementController::class, 'addUserPoll']);
     Route::post("/adduserprofile", [UserManagementController::class, 'addUserProfile']);
     Route::get('/getprofile/{id}', [AccountController::class, 'getProfile']); 
+    Route::post('/editcontactno', [AccountController::class, 'editContactNo']); 
+    Route::post('/editaddress', [AccountController::class, 'editAddress']); 
+    Route::post('/changepassword', [AccountController::class, 'changePassword']); 
 });
 
 Route::prefix('products')->group(function () {
@@ -51,6 +54,8 @@ Route::prefix('ordersmanagement')->group(function () {
     Route::get('/getcancelledorders', [OrdersController::class, 'getCancelledOrders']);
     Route::get("/userorders", [OrdersController::class, 'userOrders']);
     Route::post('/confirmpayment', [OrdersController::class, 'confirmPayment']);
+    Route::post('/toreceive', [OrdersController::class, 'toReceive']);
+    Route::post('/complete', [OrdersController::class, 'complete']);
     Route::post('/cancelorder', [OrdersController::class, 'cancelOrder']);
 });
 
@@ -66,6 +71,8 @@ Route::prefix('shopping')->group(function () {
     Route::get('/getbestsellers', [ProductsController::class, 'getBestSellers']);
     Route::get('/getallproducts', [ProductsController::class, 'getAllProducts']);
     Route::get('/getproduct', [ProductsController::class, 'getProduct']);
+    Route::post('/addrecentview', [ProductsController::class, 'addRecentView']);
+    Route::post('/getrecentproducts', [ProductsController::class, 'getRecentProducts']);
     Route::get('/getbathproducts', [ProductsController::class, 'getBathProducts']);
     Route::get('/getproductreviews', [ReviewController::class, 'getProductReviews']);
     Route::post('/addreview', [ReviewController::class, 'addReview']);

@@ -29,4 +29,33 @@ class AccountController extends Controller
     {
         return UserProfile::where('user_id', $id)->first();
     }
+
+    public function editContactNo(Request $request)
+    {
+        return UserProfile::where('user_id', $request->user_id)->update([
+            'contact_no' => $request->contact_no 
+        ]);
+    }
+
+    public function editAddress(Request $request)
+    {
+        return UserProfile::where('user_id', $request->user_id)->update([
+            'address' => $request->address,
+            'city' => $request->city,
+            'postal_code' => $request->postal_code
+        ]);
+    }
+
+    public function changePassword(Request $request)
+    {
+        $user = User::where('id', $request->id)->first();
+        if (!Hash::check($request->newPassword, $user->password)) {
+            return 'false';
+        } else {
+            User::where('id', $request->id)->update([
+                'password' => Hash::make($request->newPassword)
+            ]);
+            return 'true';
+        }
+    }
 }

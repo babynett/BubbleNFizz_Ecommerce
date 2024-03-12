@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Crud;
 use App\Http\Controllers\Controller;
 use App\Models\ProductCategory;
 use App\Models\Products;
+use App\Models\RecentView;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -38,6 +39,19 @@ class ProductsController extends Controller
     public function getBathProducts()
     {
         return ProductCategory::where('product_category', 'Bubble Bath')->with('product_details')->get();
+    }
+
+    public function addRecentView(Request $request)
+    {
+        return RecentView::create([
+            'user_id' => $request->user_id,
+            'product_id' => $request->product_id
+        ]);
+    }
+
+    public function getRecentProducts(Request $request)
+    {
+        return RecentView::where('user_id', $request->user_id)->with('product')->get();
     }
 
     public function deleteProduct(Request $request)

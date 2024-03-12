@@ -13,7 +13,7 @@ const ProfileSideBar = ({ id, name, page, setPage }) => {
                 />
                 <div>
                     <Typography variant="h6">{name}</Typography>
-                    <a href="#" className="hover:text-amber-500" style={{ fontSize: 10 }}> <Edit style={{ fontSize: 12 }} /> Edit Profile</a>
+                    {/* <a href="#" className="hover:text-amber-500" style={{ fontSize: 10 }}> <Edit style={{ fontSize: 12 }} /> Edit Profile</a> */}
                 </div>
             </div>
             <div className="w-full border-b-2 border-white my-5"></div>
@@ -26,11 +26,11 @@ const ProfileSideBar = ({ id, name, page, setPage }) => {
                     <ShoppingBag className="text-xl" />
                     <a href="#">My Purchase</a>
                 </div>
-                <div onClick={() => setPage('Profile')} className="flex space-x-3 w-2/3 hover:text-amber-500">
+                <div onClick={() => setPage('Notification')} className="flex space-x-3 w-2/3 hover:text-amber-500">
                     <Notifications className="text-xl" />
                     <a href="#">Notification</a>
                 </div>
-                <div onClick={() => setPage('Profile')} className="flex space-x-3 w-2/3 hover:text-amber-500">
+                <div onClick={() => setPage('RecentProducts')} className="flex space-x-3 w-2/3 hover:text-amber-500">
                     <Visibility className="text-xl" />
                     <a href="#">Recently Viewed Products</a>
                 </div>

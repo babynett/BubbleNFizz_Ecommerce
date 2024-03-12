@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import ProfileSideBar from "./ProfileSideBar";
 import MyProfile from "./contents/MyProfile";
 import MyPurchases from "./contents/MyPurchases";
+import MyRecentProducts from "./contents/MyRecentProducts";
 
 const EditProfile = (props) => {
     const userObject = JSON.parse(props.user)
@@ -12,15 +13,17 @@ const EditProfile = (props) => {
         <div className="w-full px-12">
             <div className="grid grid-cols-12 gap-8">
                 <div className="col-span-3">
-                    <ProfileSideBar name={"Robby"} setPage={setPage} page={page} />
+                    <ProfileSideBar name={`${userObject.name}`} setPage={setPage} page={page} />
                 </div>
                 <div className="col-span-9">
                     {page == "Profile" ? (
-                        <MyProfile />
+                        <MyProfile user={userObject} />
                     ) : page == "Purchases" ? (
                         <MyPurchases user={userObject} />
+                    ) : page == 'Notification' ? (
+                        <div>asdasd</div>   
                     ) : (
-                        <div>dasd</div>
+                        <MyRecentProducts user={userObject} />
                     )}
                 </div>
             </div>

@@ -44,31 +44,93 @@ const OrdersManagement = (props) => {
     // };
 
     const cancelOrder = (id) => {
-        api.post("ordersmanagement/cancelorder", {
-            id: id,
+        swal({
+            icon: "warning",
+            title: "Cancel Order??",
+            text: "Are you sure you want to cancel the order?",
+            buttons: ['No', "Yes"]
         }).then((response) => {
-            swal({
-                icon: "success",
-                title: "Order Cancelled!",
-                text: "The order has been cancelled",
-            }).then((response) => {
-                location.reload();
-            });
-        });
+            if (response) {
+                api.post("ordersmanagement/cancelorder", {
+                    id: id,
+                }).then((response) => {
+                    swal({
+                        icon: "success",
+                        title: "Order Cancelled!",
+                        text: "The order has been cancelled",
+                    }).then((response) => {
+                        location.reload();
+                    });
+                });
+            }
+        })
     };
 
-    const confirmOrder = (id) => {
-        api.post("ordersmanagement/confirmpayment", {
-            id: id,
-        }).then((response) => {
+    const confirmOrder = (id, status) => {
+        if (status == "Pending") {
             swal({
-                icon: "success",
-                title: "Payment Confirmed!",
-                text: "The order payment has been confirmed",
-            }).then(() => {
-                setRefresher(refresher + 1);
-            });
-        });
+                icon: "warning",
+                title: "Confirm Order?",
+                text: "Are you sure you want to confirm the order?",
+                buttons: ["No", "Yes"]
+            }).then((response) => {
+                if(response) {
+                    api.post("ordersmanagement/confirmpayment", {
+                        id: id,
+                    }).then((response) => {
+                        swal({
+                            icon: "success",
+                            title: "Order Confirmed!",
+                            text: "The order has been confirmed",
+                        }).then(() => {
+                            setRefresher(refresher + 1);
+                        });
+                    });
+                }
+            })
+        } else if (status == "To Ship") {
+            swal({
+                icon: "warning",
+                title: "To Receive Order?",
+                text: "Are you sure you want to confirm the order?",
+                buttons: ["No", "Yes"]
+            }).then((response) => {
+                if(response) {
+                    api.post("ordersmanagement/toreceive", {
+                        id: id,
+                    }).then((response) => {
+                        swal({
+                            icon: "success",
+                            title: "Status Changed!",
+                            text: "The order status has been changed",
+                        }).then(() => {
+                            setRefresher(refresher + 1);
+                        });
+                    });
+                }
+            })
+        } else if (status == "To Receive") {
+            swal({
+                icon: "warning",
+                title: "Complete Order?",
+                text: "Are you sure you want to complete the order?",
+                buttons: ["No", "Yes"]
+            }).then((response) => {
+                if(response) {
+                    api.post("ordersmanagement/complete", {
+                        id: id,
+                    }).then((response) => {
+                        swal({
+                            icon: "success",
+                            title: "Status Changed!",
+                            text: "The order status has been changed",
+                        }).then(() => {
+                            setRefresher(refresher + 1);
+                        });
+                    });
+                }
+            })
+        } 
     };
 
     const columns = [
@@ -184,13 +246,33 @@ const OrdersManagement = (props) => {
                             open={open}
                             onClose={() => setAnchorEl(null)}
                         >
+                            {/* PENDING */}
                             {cellValue.row.order_status == "Pending" && (
                                 <MenuItem
                                     onClick={() =>
-                                        console.log(cellValue.row.id)
+                                        confirmOrder(cellValue.row.id, cellValue.row.order_status)
                                     }
                                 >
                                     Confirm Payment
+                                </MenuItem>
+                            )}
+                            {/* TO SHIP */}
+                            {cellValue.row.order_status == "To Ship" && (
+                                <MenuItem
+                                    onClick={() =>
+                                        confirmOrder(cellValue.row.id, cellValue.row.order_status)
+                                    }
+                                >
+                                    To Receive
+                                </MenuItem>
+                            )}
+                            {cellValue.row.order_status == "To Receive" && (
+                                <MenuItem
+                                    onClick={() =>
+                                        confirmOrder(cellValue.row.id, cellValue.row.order_status)
+                                    }
+                                >
+                                    Complete
                                 </MenuItem>
                             )}
                             {cellValue.row.payment != "COD" && (
@@ -198,11 +280,13 @@ const OrdersManagement = (props) => {
                                     Display Payment
                                 </MenuItem>
                             )}
+                            {cellValue.row.order_status != "Complete" && (
                             <MenuItem
                                 onClick={() => cancelOrder(cellValue.row.id)}
                             >
                                 Cancel Order
                             </MenuItem>
+                            )}
                         </Menu>
                     </div>
                 );

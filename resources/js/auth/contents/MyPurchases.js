@@ -47,7 +47,7 @@ const MyPurchases = ({user}) => {
                             color: "#fff",
                         },
                     }}
-                    onClick={() => setPage("Profile")}
+                    onClick={() => setPage("To Ship")}
                 >
                     <Typography>To Ship</Typography>
                 </Button>
@@ -63,7 +63,7 @@ const MyPurchases = ({user}) => {
                             color: "#fff",
                         },
                     }}
-                    onClick={() => setPage("Profile")}
+                    onClick={() => setPage("To Receive")}
                 >
                     <Typography>To Receive</Typography>
                 </Button>
@@ -79,7 +79,7 @@ const MyPurchases = ({user}) => {
                             color: "#fff",
                         },
                     }}
-                    onClick={() => setPage("Profile")}
+                    onClick={() => setPage("Complete")}
                 >
                     <Typography>Complete</Typography>
                 </Button>
@@ -95,7 +95,7 @@ const MyPurchases = ({user}) => {
                             color: "#fff",
                         },
                     }}
-                    onClick={() => setPage("Profile")}
+                    onClick={() => setPage("Cancelled")}
                 >
                     <Typography>Cancelled</Typography>
                 </Button>
@@ -111,7 +111,7 @@ const MyPurchases = ({user}) => {
                             color: "#fff",
                         },
                     }}
-                    onClick={() => setPage("Profile")}
+                    onClick={() => setPage("Refund")}
                 >
                     <Typography>Refund</Typography>
                 </Button>
@@ -141,7 +141,7 @@ const MyPurchases = ({user}) => {
                         }
                         })}
                     </div>
-                ) : (
+                ) : page == "To Ship" ? (
                     <div>
                         {data.length > 0 ? data.map((item, index) => {
                         if (item.order_status == "To Ship") {
@@ -151,8 +151,120 @@ const MyPurchases = ({user}) => {
                                     <Typography variant="h5" fontWeight={700}>
                                     Order #{item.id} (₱{item.total_price})
                                     </Typography>
-                                    <div className="text-xs bg-amber-500 px-3 flex justify-center items-center rounded-full text-white">
-                                        To Pay
+                                    <div className="text-xs bg-sky-500 px-3 flex justify-center items-center rounded-full text-white">
+                                        To Ship
+                                    </div>
+                                    </div>
+                                    {item.order_items.map((item, index) => {
+                                        return (
+                                            <CheckOutCard cart={item} key={index} darkMode={false} isCart={false} />
+                                        )
+                                    })}
+                                </div>
+                            )
+                        }
+                        }) : (
+                            <div className="flex justify-center items-center py-3">
+                                <Typography variant="h5" fontWeight={700}>No items to display</Typography>
+                            </div>
+                        )}
+                    </div>
+                ) : page == "To Receive" ? (
+                    <div>
+                        {data.length > 0 ? data.map((item, index) => {
+                        if (item.order_status == "To Receive") {
+                            return (
+                                <div className="w-full mt-3" key={index}>
+                                    <div className="w-full flex justify-between">
+                                    <Typography variant="h5" fontWeight={700}>
+                                    Order #{item.id} (₱{item.total_price})
+                                    </Typography>
+                                    <div className="text-xs bg-yellow-500 px-3 flex justify-center items-center rounded-full text-white">
+                                        To Receive
+                                    </div>
+                                    </div>
+                                    {item.order_items.map((item, index) => {
+                                        return (
+                                            <CheckOutCard cart={item} key={index} darkMode={false} isCart={false} />
+                                        )
+                                    })}
+                                </div>
+                            )
+                        }
+                        }) : (
+                            <div className="flex justify-center items-center py-3">
+                                <Typography variant="h5" fontWeight={700}>No items to display</Typography>
+                            </div>
+                        )}
+                    </div>
+                ) : page == "Complete" ? (
+                    <div>
+                        {data.length > 0 ? data.map((item, index) => {
+                        if (item.order_status == "Complete") {
+                            return (
+                                <div className="w-full mt-3" key={index}>
+                                    <div className="w-full flex justify-between">
+                                    <Typography variant="h5" fontWeight={700}>
+                                    Order #{item.id} (₱{item.total_price})
+                                    </Typography>
+                                    <div className="text-xs bg-green-500 px-3 flex justify-center items-center rounded-full text-white">
+                                        Complete
+                                    </div>
+                                    </div>
+                                    {item.order_items.map((item, index) => {
+                                        return (
+                                            <CheckOutCard cart={item} key={index} darkMode={false} isCart={false} />
+                                        )
+                                    })}
+                                </div>
+                            )
+                        }
+                        }) : (
+                            <div className="flex justify-center items-center py-3">
+                                <Typography variant="h5" fontWeight={700}>No items to display</Typography>
+                            </div>
+                        )}
+                    </div>
+                ) : page == "Cancelled" ? (
+                    <div>
+                        {data.length > 0 ? data.map((item, index) => {
+                        if (item.order_status == "Cancelled") {
+                            return (
+                                <div className="w-full mt-3" key={index}>
+                                    <div className="w-full flex justify-between">
+                                    <Typography variant="h5" fontWeight={700}>
+                                    Order #{item.id} (₱{item.total_price})
+                                    </Typography>
+                                    <div className="text-xs bg-red-500 px-3 flex justify-center items-center rounded-full text-white">
+                                        Cancelled
+                                    </div>
+                                    </div>
+                                    {item.order_items.map((item, index) => {
+                                        return (
+                                            <CheckOutCard cart={item} key={index} darkMode={false} isCart={false} />
+                                        )
+                                    })}
+                                </div>
+                            )
+                        }
+                        }) : (
+                            <div className="flex justify-center items-center py-3">
+                                <Typography variant="h5" fontWeight={700}>No items to display</Typography>
+                            </div>
+                        )}
+                    </div>
+                ) : (
+                    <div>
+                        {data.length > 0 ? data.map((item, index) => {
+                        if (item.order_status == "Refund") {
+                            return (
+                                <div className="w-full mt-3" key={index}>
+                                    <div className="w-full flex justify-between">
+                                    <Typography variant="h5" fontWeight={700}>
+                                    Order #{item.id} (₱{item.total_price})
+                                    </Typography>
+                                    <div className="text-xs bg-red-500 px-3 flex justify-center items-center rounded-full text-white">
+                                        Refund
                                     </div>
                                     </div>
                                     {item.order_items.map((item, index) => {

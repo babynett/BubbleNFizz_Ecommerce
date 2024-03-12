@@ -22,9 +22,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/auth', function () {
     return view('welcome');
-});
+})->middleware('guest')->name('auth');
 
 Auth::routes();
 
@@ -43,8 +43,9 @@ Route::get('/deletedproducts', [ProductsController::class, 'deletedProducts']);
 Route::get('/analyticsboard', [ReportsManagement::class, 'index']);
 
 Route::get('/shopping', [CustomerShopping::class, 'index']);
+Route::get('/', [CustomerShopping::class, 'index']);
 Route::get('/allproducts', [CustomerShopping::class, 'allProducts']);
 Route::get('/bubblebath', [CustomerShopping::class, 'bubbleBath']);
-Route::get('/shopping/{id}', [CustomerShopping::class, 'getProduct']);
+Route::get('/shopping/{id}', [CustomerShopping::class, 'getProduct'])->middleware('auth');
 Route::get('/cart', [CartController::class, 'index']);
 Route::get('/checkout', [CartController::class, 'checkOutPage']);

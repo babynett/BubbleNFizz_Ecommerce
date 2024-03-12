@@ -29,8 +29,10 @@
                     </svg>
                 </button>
             </div>
-            <div class="flex justify-center items-center space-x-8">
-                @if (Auth::user()->user_role == 3)
+            <div class="flex justify-center items-center space-x-8 @guest
+                py-6
+            @endguest">
+                @guest
                     <a class="relative text-black font-semibold hover:text-amber-500" href="/shopping">Home</a>
                     <a class="relative text-black font-semibold hover:text-amber-500" href="/allproducts">All Products</a>
                     <a class="relative text-black font-semibold hover:text-amber-500" href="/bubblebath">Bubble Bath</a>
@@ -38,62 +40,82 @@
                         Body</a>
                     <a class="relative text-black font-semibold hover:text-amber-500" href="#">Bath Salt</a>
                     <a class="relative text-black font-semibold hover:text-amber-500" href="#">Bath Bomb Sets</a>
-                @endif
+                @endguest
+                @auth
+                    @if (Auth::user()->user_role == 3)
+                        <a class="relative text-black font-semibold hover:text-amber-500" href="/shopping">Home</a>
+                        <a class="relative text-black font-semibold hover:text-amber-500" href="/allproducts">All Products</a>
+                        <a class="relative text-black font-semibold hover:text-amber-500" href="/bubblebath">Bubble Bath</a>
+                        <a class="relative text-black font-semibold hover:text-amber-500" href="#">Artisan Facial N
+                            Body</a>
+                        <a class="relative text-black font-semibold hover:text-amber-500" href="#">Bath Salt</a>
+                        <a class="relative text-black font-semibold hover:text-amber-500" href="#">Bath Bomb Sets</a>
+                    @endif
+                @endauth
             </div>
             <nav :class="{ 'flex': open, 'hidden': !open }"
                 class="flex-col flex-grow pb-4 md:pb-0 hidden md:flex md:justify-end md:items-center md:flex-row">
-                <div @click.away="open = false" class="relative" x-data="{ open: false }">
-                    <button @click="open = !open"
-                        class="flex flex-row items-center w-full px-4 py-5 mt-2 text-sm font-semibold text-left bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:focus:bg-gray-600 dark-mode:hover:bg-gray-600 md:w-auto md:inline md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
-                        <span>{{ Auth::user()->name }}</span>
-                        <svg fill="currentColor" viewBox="0 0 20 20" :class="{ 'rotate-180': open, 'rotate-0': !open }"
-                            class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1">
-                            <path fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                    </button>
-                    <div x-show="open" x-transition:enter="transition ease-out duration-100"
-                        x-transition:enter-start="transform opacity-0 scale-95"
-                        x-transition:enter-end="transform opacity-100 scale-100"
-                        x-transition:leave="transition ease-in duration-75"
-                        x-transition:leave-start="transform opacity-100 scale-100"
-                        x-transition:leave-end="transform opacity-0 scale-95"
-                        class="absolute right-0 w-full mt-2 origin-top-right rounded-md shadow-lg md:w-48">
-                        <div class="px-2 py-2 bg-white rounded-md shadow dark-mode:bg-gray-800">
-                            <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                                href="/editprofile">Profile</a>
-                            <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                                href="#">Notifications</a>
-                            <form action="/logout" class="w-full flex justify-center" method="POST">
-                                @csrf
-                                <button
-                                    class="block px-4 font-bold border-t-2 w-full py-2 mt-2 text-sm bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
-                                    Logout</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                @if (Auth::user()->user_role == 3)
-                    <div class="relative">
-                        <div class="absolute bg-amber-500 rounded-full top-3 right-1 w-4 flex justify-center items-center"
-                            style="font-size: 11px" id="cartItems">
-                            0
-                        </div>
-                        <a href="/cart"
-                            class="flex flex-row items-center w-full px-4 py-5 mt-2 text-sm font-semibold text-left bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:focus:text-white dark-mode:focus:bg-gray-600  md:w-auto md:inline md:mt-0 md:ml-4  focus:text-gray-900  focus:bg-gray-200 focus:outline-none focus:shadow-outline">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#B75800"
-                                class="bi bi-cart" viewBox="0 0 16 16">
-                                <path
-                                    d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                @auth
+                    <div @click.away="open = false" class="relative" x-data="{ open: false }">
+                        <button @click="open = !open"
+                            class="flex flex-row items-center w-full px-4 py-5 mt-2 text-sm font-semibold text-left bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:focus:bg-gray-600 dark-mode:hover:bg-gray-600 md:w-auto md:inline md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
+                            <span>{{ Auth::user()->name }}</span>
+                            <svg fill="currentColor" viewBox="0 0 20 20" :class="{ 'rotate-180': open, 'rotate-0': !open }"
+                                class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1">
+                                <path fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"></path>
                             </svg>
-                        </a>
+                        </button>
+                        <div x-show="open" x-transition:enter="transition ease-out duration-100"
+                            x-transition:enter-start="transform opacity-0 scale-95"
+                            x-transition:enter-end="transform opacity-100 scale-100"
+                            x-transition:leave="transition ease-in duration-75"
+                            x-transition:leave-start="transform opacity-100 scale-100"
+                            x-transition:leave-end="transform opacity-0 scale-95"
+                            class="absolute right-0 w-full mt-2 origin-top-right rounded-md shadow-lg md:w-48">
+                            <div class="px-2 py-2 bg-white rounded-md shadow dark-mode:bg-gray-800">
+                                <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                                    href="/editprofile">Profile</a>
+                                <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                                    href="#">Notifications</a>
+                                <form action="/logout" class="w-full flex justify-center" method="POST">
+                                    @csrf
+                                    <button
+                                        class="block px-4 font-bold border-t-2 w-full py-2 mt-2 text-sm bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
+                                        Logout</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                @endif
+                    @if (Auth::user()->user_role == 3)
+                        <div class="relative">
+                            <div class="absolute bg-amber-500 rounded-full top-3 right-1 w-4 flex justify-center items-center"
+                                style="font-size: 11px" id="cartItems">
+                                0
+                            </div>
+                            <a href="/cart"
+                                class="flex flex-row items-center w-full px-4 py-5 mt-2 text-sm font-semibold text-left bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:focus:text-white dark-mode:focus:bg-gray-600  md:w-auto md:inline md:mt-0 md:ml-4  focus:text-gray-900  focus:bg-gray-200 focus:outline-none focus:shadow-outline">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#B75800"
+                                    class="bi bi-cart" viewBox="0 0 16 16">
+                                    <path
+                                        d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                                </svg>
+                            </a>
+                        </div>
+                    @endif
+                @endauth
             </nav>
         </div>
     </div>
+    @auth
     <div class="text-black {{ Auth::user()->user_role != 3 ? 'px-6 pt-5' : '' }}">
         @yield('main-content')
     </div>
+    @endauth
+    @guest
+    <div class="text-black">
+        @yield('main-content')
+    </div>
+    @endguest
 @endsection

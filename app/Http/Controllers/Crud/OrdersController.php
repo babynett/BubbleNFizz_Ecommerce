@@ -22,6 +22,20 @@ class OrdersController extends Controller
         ]);
     }
 
+    public function toReceive(Request $request)
+    {
+        return Orders::where('id', $request->id)->update([
+            'order_status' => "To Receive"
+        ]);
+    }
+
+    public function complete(Request $request)
+    {
+        return Orders::where('id', $request->id)->update([
+            'order_status' => "Complete"
+        ]);
+    }
+
     public function cancelOrder(Request $request)
     {
         return Orders::where('id', $request->id)->update([

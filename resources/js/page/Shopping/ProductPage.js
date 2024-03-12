@@ -36,6 +36,11 @@ const ProductPage = ({ id, user }) => {
             .catch(err => {
                 console.log(err.response)
             })
+        
+        api.post('shopping/addrecentview', {
+            user_id: userObject.id,
+            product_id: id
+        })
     }, []);
 
     const subQuantity = () => {
