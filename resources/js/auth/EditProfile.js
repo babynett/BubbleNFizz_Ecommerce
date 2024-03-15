@@ -5,6 +5,7 @@ import ProfileSideBar from "./ProfileSideBar";
 import MyProfile from "./contents/MyProfile";
 import MyPurchases from "./contents/MyPurchases";
 import MyRecentProducts from "./contents/MyRecentProducts";
+import MyNotification from "./contents/MyNotification";
 
 const EditProfile = (props) => {
     const userObject = JSON.parse(props.user)
