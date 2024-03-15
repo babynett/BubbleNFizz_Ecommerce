@@ -116,14 +116,10 @@
                             <div class="text-sm font-bold">CASH DRAWER</div>
                             <ul class="ml-4">
                                 <li class="my-2">
-                                    <a href="#" class="text-xs no-underline hover:text-amber-500">>
-                                        Deposit/Withdrawals</a>
-                                </li>
-                                <li class="my-2">
                                     <a href="#" class="text-xs no-underline hover:text-amber-500">> Balance</a>
                                 </li>
                                 <li class="my-2">
-                                    <a href="#" class="text-xs no-underline hover:text-amber-500">> Payment
+                                    <a href="/paymentregister" class="text-xs no-underline hover:text-amber-500">> Payment
                                         Register</a>
                                 </li>
                             </ul>

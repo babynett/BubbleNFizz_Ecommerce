@@ -30,8 +30,7 @@
                 </button>
             </div>
             <div class="flex justify-center items-center space-x-8 @guest
-                py-6
-            @endguest">
+py-6 @endguest">
                 @guest
                     <a class="relative text-black font-semibold hover:text-amber-500" href="/shopping">Home</a>
                     <a class="relative text-black font-semibold hover:text-amber-500" href="/allproducts">All Products</a>
@@ -75,14 +74,14 @@
                             x-transition:leave-end="transform opacity-0 scale-95"
                             class="absolute right-0 w-full mt-2 origin-top-right rounded-md shadow-lg md:w-48">
                             <div class="px-2 py-2 bg-white rounded-md shadow dark-mode:bg-gray-800">
-                                <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                                <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-white rounded-lg dark-mode:bg-white dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
                                     href="/editprofile">Profile</a>
-                                <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                                <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-white rounded-lg dark-mode:bg-white dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
                                     href="#">Notifications</a>
                                 <form action="/logout" class="w-full flex justify-center" method="POST">
                                     @csrf
                                     <button
-                                        class="block px-4 font-bold border-t-2 w-full py-2 mt-2 text-sm bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
+                                        class="block px-4 font-bold border-t-2 w-full py-2 mt-2 text-sm bg-white rounded-lg dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
                                         Logout</button>
                                 </form>
                             </div>
@@ -105,17 +104,156 @@
                         </div>
                     @endif
                 @endauth
+                @guest
+                    <div class="relative">
+                        <a href="/auth" class="text-amber-500 font-bold">Login</a>
+                    </div>
+                @endguest
             </nav>
         </div>
     </div>
     @auth
-    <div class="text-black {{ Auth::user()->user_role != 3 ? 'px-6 pt-5' : '' }}">
-        @yield('main-content')
-    </div>
+        <div class="text-black {{ Auth::user()->user_role != 3 ? 'px-6 pt-5' : '' }}">
+            @yield('main-content')
+        </div>
+        @if (Auth::user()->user_role == 3)
+            <div class="bg-black text-white mt-12">
+                <div class="py-12 px-20">
+                    <div class=" border-b-2 border-white pb-8 px-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                            {{-- FIRST --}}
+                            <div class="col-span-1">
+                                <div class="text-xl py-5">
+                                    <a href="#">
+                                        Products
+                                    </a>
+                                </div>
+                                <div class="text-xl py-5">
+                                    <a href="#">
+                                        About Us
+                                    </a>
+                                </div>
+                                <div class="text-xl py-5">
+                                    <a href="#">
+                                        Store Locator
+                                    </a>
+                                </div>
+                                <div class="text-xl py-5">
+                                    <a href="#">
+                                        Return Refund
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-span-1">
+                                <div class="text-xl">
+                                    Follow Us
+                                </div>
+                                <div class="flex mt-3">
+                                    <div class="ml-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                                            <path
+                                                d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951" />
+                                        </svg>
+                                    </div>
+                                    <div class="ml-5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-tiktok" viewBox="0 0 16 16">
+                                            <path
+                                                d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-span-1">
+                                <div class="text-xl font-bold mb-4">
+                                    Contact Us
+                                </div>
+                                <div class="text-base mb-2">
+                                    bnfbombs@gmail.com
+                                </div>
+                                <div class="text-base mb-2">
+                                    bombsincbathbombs@gmail.com
+                                </div>
+                                <div class="text-base mb-2">
+                                    0995 954 7558
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
     @endauth
     @guest
-    <div class="text-black">
-        @yield('main-content')
-    </div>
+        <div class="text-black">
+            @yield('main-content')
+        </div>
+        <div class="bg-black text-white mt-12">
+            <div class="py-12 px-20">
+                <div class=" border-b-2 border-white pb-8 px-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                        {{-- FIRST --}}
+                        <div class="col-span-1">
+                            <div class="text-xl py-5">
+                                <a href="#">
+                                    Products
+                                </a>
+                            </div>
+                            <div class="text-xl py-5">
+                                <a href="#">
+                                    About Us
+                                </a>
+                            </div>
+                            <div class="text-xl py-5">
+                                <a href="#">
+                                    Store Locator
+                                </a>
+                            </div>
+                            <div class="text-xl py-5">
+                                <a href="#">
+                                    Return Refund
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-span-1">
+                            <div class="text-xl">
+                                Follow Us
+                            </div>
+                            <div class="flex mt-3">
+                                <div class="ml-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                                        <path
+                                            d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951" />
+                                    </svg>
+                                </div>
+                                <div class="ml-5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        fill="currentColor" class="bi bi-tiktok" viewBox="0 0 16 16">
+                                        <path
+                                            d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-span-1">
+                            <div class="text-xl font-bold mb-4">
+                                Contact Us
+                            </div>
+                            <div class="text-base mb-2">
+                                bnfbombs@gmail.com
+                            </div>
+                            <div class="text-base mb-2">
+                                bombsincbathbombs@gmail.com
+                            </div>
+                            <div class="text-base mb-2">
+                                0995 954 7558
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     @endguest
 @endsection

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Features\AccountController;
 use App\Http\Controllers\Features\CartController;
+use App\Http\Controllers\Features\CashDrawerController;
 use App\Http\Controllers\Features\CustomerShopping;
 use App\Http\Controllers\Features\OrdersController;
 use App\Http\Controllers\Features\ProductsController;
@@ -41,6 +42,7 @@ Route::get('/orders', [OrdersController::class, 'index']);
 Route::get('/productsmanagement', [ProductsController::class, 'index']);
 Route::get('/deletedproducts', [ProductsController::class, 'deletedProducts']);
 Route::get('/analyticsboard', [ReportsManagement::class, 'index']);
+Route::get('/paymentregister', [CashDrawerController::class, 'index']);
 
 Route::get('/shopping', [CustomerShopping::class, 'index']);
 Route::get('/', [CustomerShopping::class, 'index']);

@@ -28,7 +28,19 @@ class ProductsController extends Controller
 
     public function getAllProducts(Request $request)
     {
+        // return Products::with(['category' => function($query) use ($request) {
+        //     $category = (string)$request->category;
+        //     $query->where('product_category', str_replace('%20', ' ', $category))->get();
+        // }])->where('is_deleted', 0)->orderBy(DB::raw('CAST(product_price AS UNSIGNED)'), $request->sort == 'Highest Price' ? 'desc' : 'asc')->get();
         return Products::with('category')->where('is_deleted', 0)->orderBy(DB::raw('CAST(product_price AS UNSIGNED)'), $request->sort == 'Highest Price' ? 'desc' : 'asc')->get();
+    }
+
+    public function getPaymentProduct(Request $request)
+    {
+        return ProductCategory::with(['product_details' => function($query) use ($request) {
+            $query->where('is_deleted', false);
+        }])->where('product_category', $request->category)->get();
+        // return $category;
     }
 
     public function getDeletedProducts()

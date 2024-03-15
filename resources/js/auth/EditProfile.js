@@ -21,7 +21,7 @@ const EditProfile = (props) => {
                     ) : page == "Purchases" ? (
                         <MyPurchases user={userObject} />
                     ) : page == 'Notification' ? (
-                        <div>asdasd</div>   
+                        <MyNotification user={userObject} />
                     ) : (
                         <MyRecentProducts user={userObject} />
                     )}

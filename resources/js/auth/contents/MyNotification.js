@@ -2,7 +2,7 @@ import { Button, Typography } from '@mui/material';
 import React, { useState } from 'react'
 import CheckoutCard from '../../cards/CheckoutCard';
 
-const MyNotification = () => {
+const MyNotification = ({user}) => {
     const [page, setPage] = useState("OrderReviews")
     return (
         <>

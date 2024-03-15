@@ -5,6 +5,7 @@ use App\Http\Controllers\Crud\CartController;
 use App\Http\Controllers\Crud\DashboardController;
 use App\Http\Controllers\Crud\OrdersController;
 use App\Http\Controllers\Crud\ProductsController;
+use App\Http\Controllers\Crud\RecommendationController;
 use App\Http\Controllers\Crud\ReportsManagement;
 use App\Http\Controllers\Crud\ReviewController;
 use App\Http\Controllers\Crud\UserManagementController;
@@ -66,10 +67,14 @@ Route::prefix('reportsmanagement')->group(function () {
     Route::get('getsalesreports', [ReportsManagement::class, 'getSalesReports']);
 });
 
+Route::get('/calculate/{u1}/{u2}', [RecommendationController::class, 'calculateSimilarity']);
+Route::post('/recommenditems', [RecommendationController::class, 'recommendItems']);
+
 Route::prefix('shopping')->group(function () {
     Route::get('/getthreeproducts', [ProductsController::class, 'getThreeProducts']);
     Route::get('/getbestsellers', [ProductsController::class, 'getBestSellers']);
     Route::get('/getallproducts', [ProductsController::class, 'getAllProducts']);
+    Route::get('/getpaymentproduct', [ProductsController::class, 'getPaymentProduct']);
     Route::get('/getproduct', [ProductsController::class, 'getProduct']);
     Route::post('/addrecentview', [ProductsController::class, 'addRecentView']);
     Route::post('/getrecentproducts', [ProductsController::class, 'getRecentProducts']);
