@@ -80,6 +80,7 @@ Route::prefix('shopping')->group(function () {
     Route::post('/getrecentproducts', [ProductsController::class, 'getRecentProducts']);
     Route::get('/getbathproducts', [ProductsController::class, 'getBathProducts']);
     Route::get('/getproductreviews', [ReviewController::class, 'getProductReviews']);
+    Route::post('/getproducttoreview', [ReviewController::class, 'getProductToReview']);
     Route::post('/addreview', [ReviewController::class, 'addReview']);
     Route::get('/getusercartcount', [CartController::class, 'getUserCartCount']);
     Route::post('/addtocart', [CartController::class, 'addToCart']);

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Crud;
 
 use App\Http\Controllers\Controller;
+use App\Models\OrderItems;
+use App\Models\Orders;
 use App\Models\ProductReview;
 use App\Models\Products;
 use Illuminate\Http\Request;
@@ -44,5 +46,35 @@ class ReviewController extends Controller
     public function getProductReviews(Request $request)
     {
         return ProductReview::where("product_id", $request->product_id)->orderBy('id', 'desc')->with('user')->limit(3)->get();
+    }
+
+    public function getProductToReview(Request $request)
+    {
+        $orders = Orders::where('user_id', $request->user_id)
+            ->with(['orderItems' => function ($query) {
+                $query->get();
+            }])
+            ->get();
+
+        $productsToReview = [];
+        $productsId = [];
+
+        foreach ($orders as $order) {
+            // $productsToReview[] = $order->orderItems; // Access the order items directly
+            foreach($order->orderItems as $item) {
+                $exist = ProductReview::where('product_id', $item->product_id)->first();
+                if (!$exist) {
+                    $productsId[] = $item->product_id;
+                }
+            }
+        }
+
+        $productIds = array_unique($productsId);
+
+        foreach($productIds as $productId) {
+            $productsToReview[] = Products::where('id', $productId)->first();
+        }
+
+        return $productsToReview;
     }
 }

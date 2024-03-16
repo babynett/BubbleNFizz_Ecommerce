@@ -1230,6 +1230,12 @@ input:checked + .toggle-bg {
 .h-full {
   height: 100%;
 }
+.h-2\/3 {
+  height: 66.666667%;
+}
+.h-1\/2 {
+  height: 50%;
+}
 .min-h-screen {
   min-height: 100vh;
 }
@@ -1638,6 +1644,10 @@ input:checked + .toggle-bg {
   --tw-bg-opacity: 1;
   background-color: rgb(194 120 3 / var(--tw-bg-opacity));
 }
+.bg-blue-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(63 131 248 / var(--tw-bg-opacity));
+}
 .bg-cover {
   background-size: cover;
 }
@@ -1707,6 +1717,10 @@ input:checked + .toggle-bg {
 .px-8 {
   padding-left: 2rem;
   padding-right: 2rem;
+}
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }
 .py-10 {
   padding-top: 2.5rem;
