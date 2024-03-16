@@ -33,7 +33,7 @@ const MyPurchases = ({user}) => {
                     }}
                     onClick={() => setPage("Pending")}
                 >
-                    <Typography>To Pay</Typography>
+                    <Typography fontWeight={page == "Pending" ? 700 : 400}>To Pay</Typography>
                 </Button>
                 <Button
                     sx={{
@@ -42,6 +42,7 @@ const MyPurchases = ({user}) => {
                         paddingLeft: 2,
                         paddingTop: 1,
                         paddingBottom: 1,
+                        fontWeight: page == "To Ship" ? 700 : 400,
                         "&:hover": {
                             backgroundColor: "#B75800",
                             color: "#fff",
@@ -49,7 +50,7 @@ const MyPurchases = ({user}) => {
                     }}
                     onClick={() => setPage("To Ship")}
                 >
-                    <Typography>To Ship</Typography>
+                    <Typography fontWeight={page == "To Ship" ? 700 : 400}>To Ship</Typography>
                 </Button>
                 <Button
                     sx={{
@@ -58,6 +59,7 @@ const MyPurchases = ({user}) => {
                         paddingLeft: 2,
                         paddingTop: 1,
                         paddingBottom: 1,
+                        fontWeight: page == "To Receive" ? 700 : 400,
                         "&:hover": {
                             backgroundColor: "#B75800",
                             color: "#fff",
@@ -65,7 +67,7 @@ const MyPurchases = ({user}) => {
                     }}
                     onClick={() => setPage("To Receive")}
                 >
-                    <Typography>To Receive</Typography>
+                    <Typography fontWeight={page == "To Receive" ? 700 : 400}>To Receive</Typography>
                 </Button>
                 <Button
                     sx={{
@@ -74,6 +76,7 @@ const MyPurchases = ({user}) => {
                         paddingLeft: 2,
                         paddingTop: 1,
                         paddingBottom: 1,
+                        fontWeight: page == "Complete" ? 700 : 400,
                         "&:hover": {
                             backgroundColor: "#B75800",
                             color: "#fff",
@@ -81,7 +84,7 @@ const MyPurchases = ({user}) => {
                     }}
                     onClick={() => setPage("Complete")}
                 >
-                    <Typography>Complete</Typography>
+                    <Typography fontWeight={page == "Complete" ? 700 : 400}>Complete</Typography>
                 </Button>
                 <Button
                     sx={{
@@ -90,6 +93,7 @@ const MyPurchases = ({user}) => {
                         paddingLeft: 2,
                         paddingTop: 1,
                         paddingBottom: 1,
+                        fontWeight: page == "Cancelled" ? 700 : 400,
                         "&:hover": {
                             backgroundColor: "#B75800",
                             color: "#fff",
@@ -97,7 +101,7 @@ const MyPurchases = ({user}) => {
                     }}
                     onClick={() => setPage("Cancelled")}
                 >
-                    <Typography>Cancelled</Typography>
+                    <Typography fontWeight={page == "Cancelled" ? 700 : 400}>Cancelled</Typography>
                 </Button>
                 <Button
                     sx={{
@@ -106,6 +110,7 @@ const MyPurchases = ({user}) => {
                         paddingLeft: 2,
                         paddingTop: 1,
                         paddingBottom: 1,
+                        fontWeight: page == "Refund" ? 700 : 400,
                         "&:hover": {
                             backgroundColor: "#B75800",
                             color: "#fff",
@@ -113,13 +118,13 @@ const MyPurchases = ({user}) => {
                     }}
                     onClick={() => setPage("Refund")}
                 >
-                    <Typography>Refund</Typography>
+                    <Typography fontWeight={page == "Refund" ? 700 : 400}>Refund</Typography>
                 </Button>
             </div>
             <div className="w-full">
                 {page == "Pending" ? (
                     <div>
-                        {data.length > 0 && data.map((item, index) => {
+                        {data.length > 0 ? data.map((item, index) => {
                         if (item.order_status == "Pending") {
                             return (
                                 <div className="w-full mt-3" key={index}>
@@ -139,7 +144,11 @@ const MyPurchases = ({user}) => {
                                 </div>
                             )
                         }
-                        })}
+                        }) : (
+                            <div className="flex justify-center items-center py-3">
+                                <Typography variant="h5" fontWeight={700}>No items to display</Typography>
+                            </div>
+                        )}
                     </div>
                 ) : page == "To Ship" ? (
                     <div>

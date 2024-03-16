@@ -495,7 +495,7 @@ class DatabaseSeeder extends Seeder
 
         ProductCategory::create([
             'product_id' => 18,
-            'product_category' => "Bath Bombs"
+            'product_category' => "Bath Bomb"
         ]);
 
         ProductScent::create([
@@ -551,7 +551,7 @@ class DatabaseSeeder extends Seeder
 
         ProductCategory::create([
             'product_id' => 20,
-            'product_category' => "Bath Bombs"
+            'product_category' => "Bath Bomb"
         ]);
 
         ProductScent::create([
@@ -606,7 +606,7 @@ class DatabaseSeeder extends Seeder
 
         ProductCategory::create([
             'product_id' => 22,
-            'product_category' => "Bath Bombs"
+            'product_category' => "Bath Bomb"
         ]);
 
         ProductScent::create([
@@ -661,7 +661,7 @@ class DatabaseSeeder extends Seeder
 
         ProductCategory::create([
             'product_id' => 24,
-            'product_category' => "Bath Bombs"
+            'product_category' => "Bath Bomb"
         ]);
 
         ProductScent::create([
@@ -716,7 +716,7 @@ class DatabaseSeeder extends Seeder
 
         ProductCategory::create([
             'product_id' => 26,
-            'product_category' => "Bath Bombs"
+            'product_category' => "Bath Bomb"
         ]);
 
         ProductScent::create([
@@ -771,7 +771,7 @@ class DatabaseSeeder extends Seeder
 
         ProductCategory::create([
             'product_id' => 28,
-            'product_category' => "Bath Bombs"
+            'product_category' => "Bath Bomb"
         ]);
 
         ProductScent::create([
@@ -826,7 +826,7 @@ class DatabaseSeeder extends Seeder
 
         ProductCategory::create([
             'product_id' => 30,
-            'product_category' => "Bath Bombs"
+            'product_category' => "Bath Bomb"
         ]);
 
         ProductScent::create([
@@ -881,7 +881,7 @@ class DatabaseSeeder extends Seeder
 
         ProductCategory::create([
             'product_id' => 32,
-            'product_category' => "Bath Bombs"
+            'product_category' => "Bath Bomb"
         ]);
 
         ProductScent::create([

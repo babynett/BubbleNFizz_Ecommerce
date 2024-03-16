@@ -96,6 +96,16 @@ const PaymentRegister = () => {
                     <div className="grid grid-cols-3 mt-5 gap-5">
                         {products.map((item, index) => {
                             if (item.product_details !== null) {
+                                let weight = ""
+                                if (category == 'Bubble Bath') {
+                                    weight = String(String(item.product_details.product_name).substring(String(item.product_details.product_name).length - 5)).replace(" ", '')
+                                } else {
+                                    weight = String(String(item.product_details.product_name).substring(String(item.product_details.product_name).length - 4)).replace(" ", '')
+                                }
+                                const trim1 = String(item.product_details.product_name).replace("Bubble N Fizz ", '')
+                                const trim2 = trim1.replace(/[0-9g]/g, '')
+                                const firstLetters = String(trim2).match(/\b(\w)/g)
+                                const acronym = firstLetters.join('')
                                 return (
                                     <div
                                         className="col-span-1 bg-gray-900 rounded-2xl"
@@ -111,7 +121,7 @@ const PaymentRegister = () => {
                                                 variant="h6"
                                                 sx={{ color: "#fff" }}
                                             >
-                                                {item.product_details.product_scent_name}
+                                                {`${acronym} ${item.product_details.product_scent_name} ${weight}`}
                                             </Typography>
                                         </div>
                                     </div>

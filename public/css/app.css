@@ -1200,6 +1200,9 @@ input:checked + .toggle-bg {
 .hidden {
   display: none;
 }
+.h-1\/2 {
+  height: 50%;
+}
 .h-28 {
   height: 7rem;
 }
@@ -1229,12 +1232,6 @@ input:checked + .toggle-bg {
 }
 .h-full {
   height: 100%;
-}
-.h-2\/3 {
-  height: 66.666667%;
-}
-.h-1\/2 {
-  height: 50%;
 }
 .min-h-screen {
   min-height: 100vh;
@@ -1575,6 +1572,10 @@ input:checked + .toggle-bg {
   --tw-bg-opacity: 1;
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
 }
+.bg-blue-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(63 131 248 / var(--tw-bg-opacity));
+}
 .bg-blue-700 {
   --tw-bg-opacity: 1;
   background-color: rgb(26 86 219 / var(--tw-bg-opacity));
@@ -1643,10 +1644,6 @@ input:checked + .toggle-bg {
 .bg-yellow-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(194 120 3 / var(--tw-bg-opacity));
-}
-.bg-blue-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(63 131 248 / var(--tw-bg-opacity));
 }
 .bg-cover {
   background-size: cover;
