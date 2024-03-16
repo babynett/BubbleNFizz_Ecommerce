@@ -1,15 +1,31 @@
-import { AccountCircle } from "@mui/icons-material";
+import { AccountCircle, Add, Remove } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import CustomAutoComplete from "../../../components/CustomAutoComplete";
 import { api } from "../../../config/api";
-import { Button, Typography } from "@mui/material";
+import {
+    Button,
+    IconButton,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography,
+} from "@mui/material";
+import CustomTextInput from "../../../components/CustomTextInput";
 
 const PaymentRegister = () => {
     const [allUsers, setAllUsers] = useState([]);
-    const [selectedUser, setSelectedUser] = useState({});
     const [category, setCategory] = useState("Artisan Facial and Body Soaps");
     const [products, setProducts] = useState([]);
+
+    // form
+    const [selectedUser, setSelectedUser] = useState({});
+    const [discount, setDiscount] = useState("");
+    const [items, setItems] = useState([]);
 
     useEffect(() => {
         api.get("usermanagement/getallcustomers")
@@ -63,6 +79,95 @@ const PaymentRegister = () => {
                             />
                         </div>
                     </div>
+                    <CustomTextInput
+                        label={`Discount`}
+                        value={discount}
+                        onChangeValue={(e) => setDiscount(e.target.value)}
+                    />
+                    <div className="my-3">
+                        <TableContainer component={Paper}>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Name</TableCell>
+                                        <TableCell>Grams</TableCell>
+                                        <TableCell>Qty</TableCell>
+                                        <TableCell>Price</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {items.length > 0 &&
+                                        items.map((item, index) => {
+                                            return (
+                                                <TableRow key={index}>
+                                                    <TableCell component={"th"}>
+                                                        {item.product_name}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {item.product_weight}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <IconButton
+                                                            onClick={() => {
+                                                                const updatedItems = items.map((tempItem) => {
+                                                                    if (tempItem.product_id === item.product_id) {
+                                                                        return {
+                                                                            ...tempItem,
+                                                                            product_quantity: Math.max(Number(tempItem.product_quantity) - 1, 0),
+                                                                            product_price: Number(tempItem.product_price) - Number(tempItem.fixed_price)
+                                                                        };
+                                                                    }
+                                                                    return tempItem;
+                                                                }).filter((tempItem) => tempItem.product_quantity > 0); 
+                                                                
+                                                                setItems(updatedItems);
+                                                            }}
+                                                        >
+                                                            <Remove />
+                                                        </IconButton>
+                                                        {item.product_quantity}{" "}
+                                                        <IconButton onClick={() => {
+                                                            const updatedItems = items.map((tempItem) => {
+                                                                if (tempItem.product_id === item.product_id) {
+                                                                    return {
+                                                                        ...tempItem,
+                                                                        product_quantity: Number(tempItem.product_quantity) + 1,
+                                                                        product_price: Number(tempItem.product_price) + Number(tempItem.fixed_price)
+                                                                    };
+                                                                }
+                                                                return tempItem;
+                                                            });
+                                                            
+                                                            setItems(updatedItems);
+                                                        }}>
+                                                        <Add />
+                                                        </IconButton>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {item.product_price}
+                                                    </TableCell>
+                                                </TableRow>
+                                            );
+                                        })}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </div>
+                    <div className="py-3 border-t-2 border-black w-full">
+                        <Typography variant="h4" fontWeight={700}>Order Summary</Typography>
+                        <div className="flex justify-between items-center">
+                            <Typography>Items</Typography>
+                            <Typography>7</Typography>
+                        </div>
+                        <div className="flex justify-between items-center pb-5">
+                            <Typography>Sub Total</Typography>
+                            <Typography>Php 250.00</Typography>
+                        </div>
+                        <div className="flex justify-between items-center border-t-2 border-black border-dashed py-5">
+                            <Typography variant="h5">Total</Typography>
+                            <Typography variant="h5">₱ 250.00</Typography>
+                        </div>
+                    </div>
                 </div>
                 <div className="col-span-1">
                     <div className="flex items-center space-x-4 justify-center">
@@ -96,20 +201,57 @@ const PaymentRegister = () => {
                     <div className="grid grid-cols-3 mt-5 gap-5">
                         {products.map((item, index) => {
                             if (item.product_details !== null) {
-                                let weight = ""
-                                if (category == 'Bubble Bath') {
-                                    weight = String(String(item.product_details.product_name).substring(String(item.product_details.product_name).length - 5)).replace(" ", '')
+                                let weight = "";
+                                if (category == "Bubble Bath") {
+                                    weight = String(
+                                        String(
+                                            item.product_details.product_name
+                                        ).substring(
+                                            String(
+                                                item.product_details
+                                                    .product_name
+                                            ).length - 5
+                                        )
+                                    ).replace(" ", "");
                                 } else {
-                                    weight = String(String(item.product_details.product_name).substring(String(item.product_details.product_name).length - 4)).replace(" ", '')
+                                    weight = String(
+                                        String(
+                                            item.product_details.product_name
+                                        ).substring(
+                                            String(
+                                                item.product_details
+                                                    .product_name
+                                            ).length - 4
+                                        )
+                                    ).replace(" ", "");
                                 }
-                                const trim1 = String(item.product_details.product_name).replace("Bubble N Fizz ", '')
-                                const trim2 = trim1.replace(/[0-9g]/g, '')
-                                const firstLetters = String(trim2).match(/\b(\w)/g)
-                                const acronym = firstLetters.join('')
+                                const trim1 = String(
+                                    item.product_details.product_name
+                                ).replace("Bubble N Fizz ", "");
+                                const trim2 = trim1.replace(/[0-9g]/g, "");
+                                const firstLetters =
+                                    String(trim2).match(/\b(\w)/g);
+                                const acronym = firstLetters.join("");
                                 return (
                                     <div
                                         className="col-span-1 bg-gray-900 rounded-2xl"
                                         key={index}
+                                        onClick={() => {
+                                            let temp = [
+                                                ...items,
+                                                {
+                                                    product_id: item.product_id,
+                                                    product_name: `${acronym} ${item.product_details.product_scent_name}`,
+                                                    product_weight: `${weight}`,
+                                                    product_quantity: 1,
+                                                    product_price:
+                                                        item.product_details
+                                                            .product_price,
+                                                    fixed_price: item.product_details.product_price
+                                                },
+                                            ];
+                                            setItems(temp);
+                                        }}
                                     >
                                         <div className="flex p-5 flex-col justify-center items-center space-y-4">
                                             <img

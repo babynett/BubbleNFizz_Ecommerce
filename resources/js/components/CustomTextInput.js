@@ -56,6 +56,7 @@ const CustomTextInput = ({
                 rows={multiline ? "4" : null}
                 error={error}
                 helperText={``}
+                autoComplete="off"
             />
         </>
     );
