@@ -16,6 +16,7 @@ import {
     Typography,
 } from "@mui/material";
 import CustomTextInput from "../../../components/CustomTextInput";
+import swal from "sweetalert";
 
 const PaymentRegister = () => {
     const [allUsers, setAllUsers] = useState([]);
@@ -26,6 +27,9 @@ const PaymentRegister = () => {
     const [selectedUser, setSelectedUser] = useState({});
     const [discount, setDiscount] = useState("");
     const [items, setItems] = useState([]);
+    const [totalQuantity, setTotalQuantity] = useState(0)
+    const [totalPrice, setTotalPrice] = useState(0)
+    const [subTotal, setSubTotal] = useState(0)
 
     useEffect(() => {
         api.get("usermanagement/getallcustomers")
@@ -59,6 +63,12 @@ const PaymentRegister = () => {
                 console.log(err.response);
             });
     }, [category]);
+
+    const submitPayment = () => {
+        console.log(selectedUser.id)
+        console.log(selectedUser.profile.address)
+        console.log(selectedUser.profile)
+    }
 
     return (
         <div className="w-full">
@@ -111,6 +121,9 @@ const PaymentRegister = () => {
                                                             onClick={() => {
                                                                 const updatedItems = items.map((tempItem) => {
                                                                     if (tempItem.product_id === item.product_id) {
+                                                                        setSubTotal(subTotal - Number(tempItem.fixed_price))
+                                                                        setTotalPrice(totalPrice - Number(tempItem.fixed_price))
+                                                                        setTotalQuantity(totalQuantity - 1)
                                                                         return {
                                                                             ...tempItem,
                                                                             product_quantity: Math.max(Number(tempItem.product_quantity) - 1, 0),
@@ -119,7 +132,7 @@ const PaymentRegister = () => {
                                                                     }
                                                                     return tempItem;
                                                                 }).filter((tempItem) => tempItem.product_quantity > 0); 
-                                                                
+
                                                                 setItems(updatedItems);
                                                             }}
                                                         >
@@ -129,6 +142,9 @@ const PaymentRegister = () => {
                                                         <IconButton onClick={() => {
                                                             const updatedItems = items.map((tempItem) => {
                                                                 if (tempItem.product_id === item.product_id) {
+                                                                    setSubTotal(subTotal + Number(tempItem.fixed_price))
+                                                                    setTotalPrice(totalPrice + Number(tempItem.fixed_price))
+                                                                    setTotalQuantity(totalQuantity + 1)
                                                                     return {
                                                                         ...tempItem,
                                                                         product_quantity: Number(tempItem.product_quantity) + 1,
@@ -137,7 +153,6 @@ const PaymentRegister = () => {
                                                                 }
                                                                 return tempItem;
                                                             });
-                                                            
                                                             setItems(updatedItems);
                                                         }}>
                                                         <Add />
@@ -157,16 +172,30 @@ const PaymentRegister = () => {
                         <Typography variant="h4" fontWeight={700}>Order Summary</Typography>
                         <div className="flex justify-between items-center">
                             <Typography>Items</Typography>
-                            <Typography>7</Typography>
+                            <Typography>{totalQuantity}</Typography>
                         </div>
                         <div className="flex justify-between items-center pb-5">
                             <Typography>Sub Total</Typography>
-                            <Typography>Php 250.00</Typography>
+                            <Typography>Php {subTotal}.00</Typography>
                         </div>
                         <div className="flex justify-between items-center border-t-2 border-black border-dashed py-5">
                             <Typography variant="h5">Total</Typography>
-                            <Typography variant="h5">₱ 250.00</Typography>
+                            <Typography variant="h5">₱ {totalPrice}.00</Typography>
                         </div>
+                        <Button variant="contained" fullWidth onClick={() => {
+                            swal({
+                                icon: "warning",
+                                title: "Submit Order?",
+                                text: "Are you sure you want to submit the order?",
+                                buttons: ['No', 'Yes']
+                            }).then((response) => {
+                                if (response) {
+                                    console.log(items)
+                                }
+                            })
+                        }}>
+                            Pay Now!
+                        </Button>
                     </div>
                 </div>
                 <div className="col-span-1">
@@ -250,6 +279,9 @@ const PaymentRegister = () => {
                                                     fixed_price: item.product_details.product_price
                                                 },
                                             ];
+                                            setTotalQuantity(totalQuantity + 1)
+                                            setTotalPrice(totalPrice + Number(item.product_details.product_price))
+                                            setSubTotal(subTotal + Number(item.product_details.product_price))
                                             setItems(temp);
                                         }}
                                     >
