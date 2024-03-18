@@ -91,8 +91,9 @@ class CartController extends Controller
             Products::where('id', $items->product_id)->update([
                 'product_stock' => (int)$productStock->product_stock - (int)$items->cart_quantity
             ]);
-
-            Cart::where('id', $items->id)->delete();
+            if (!$request->order_shipping == "Walk In") {
+                Cart::where('id', $items->id)->delete();
+            }
         }
     }
 }

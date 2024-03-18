@@ -303,23 +303,6 @@ const OrdersManagement = (props) => {
                         : "Canceled Orders"
                 }
             />
-            {type == "Orders" && (
-                <div className="flex w-full justify-end items-center">
-                    <Button
-                        variant="contained"
-                        sx={{ marginBottom: 1 }}
-                        onClick={() =>
-                            swal({
-                                icon: "info",
-                                title: "Clicked!",
-                                text: "na click hehe",
-                            })
-                        }
-                    >
-                        Add Order
-                    </Button>
-                </div>
-            )}
             <DataGrid
                 rows={data}
                 columns={columns}

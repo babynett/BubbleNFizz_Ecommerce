@@ -24,8 +24,9 @@ const PaymentRegister = () => {
     const [products, setProducts] = useState([]);
 
     // form
-    const [selectedUser, setSelectedUser] = useState({});
-    const [discount, setDiscount] = useState("");
+    const [selectedUser, setSelectedUser] = useState(undefined);
+    // const [discount, setDiscount] = useState("");
+    const [apartment, setApartment] = useState("");
     const [items, setItems] = useState([]);
     const [totalQuantity, setTotalQuantity] = useState(0)
     const [totalPrice, setTotalPrice] = useState(0)
@@ -41,7 +42,7 @@ const PaymentRegister = () => {
                         ...temp,
                         {
                             label: item.name,
-                            value: item.id,
+                            value: item,
                         },
                     ];
                 });
@@ -65,9 +66,62 @@ const PaymentRegister = () => {
     }, [category]);
 
     const submitPayment = () => {
-        console.log(selectedUser.id)
-        console.log(selectedUser.profile.address)
-        console.log(selectedUser.profile)
+        swal({
+            icon: "warning",
+            title: "Submit Order?",
+            text: "Are you sure you want to submit the order?",
+            buttons: ['No', 'Yes']
+        }).then((response) => {
+            if (response) {
+                if (selectedUser == undefined || apartment == "") {
+                    swal({
+                        icon: "error",
+                        title: "Error!",
+                        text: "Please complete the form!",
+                    })
+                } else {
+                    console.log(items)
+                    console.log(selectedUser.value.id)
+                    console.log(selectedUser.value.profile.address)
+                    console.log(apartment)
+                    console.log(selectedUser.value.profile.contact_no)
+                    console.log('Walk In')
+                    console.log('POS')
+                    console.log(totalQuantity)
+                    console.log(totalPrice)
+                    api.post('shopping/submitorder', {
+                        user_id: selectedUser.value.id,
+                        order_address: selectedUser.value.profile.address,
+                        order_apartment: apartment,
+                        order_phone_number: selectedUser.value.profile.contact_no,
+                        order_shipping: "Walk In",
+                        payment: "POS",
+                        total_quantity: totalQuantity,
+                        total_price: totalPrice,
+                        carts: JSON.stringify(items)
+                    }).then(response => {
+                        swal({
+                            icon: 'success',
+                            title: "Order Added!",
+                            text: "The order has been added!"
+                        }).then(() => {
+                            setSelectedUser(undefined)
+                            setApartment("")
+                            setItems([])
+                            setTotalQuantity(0)
+                            setTotalPrice(0)
+                            setSubTotal(0)
+                        })
+                        console.log(response.data)
+                    }).catch(err => {
+                        console.log(err.response)
+                    })
+                }
+                // console.log(selectedUser.id)
+                // console.log(selectedUser.profile.address)
+                // console.log(selectedUser.profile)
+            }
+        })
     }
 
     return (
@@ -81,7 +135,7 @@ const PaymentRegister = () => {
                         <div className="w-full">
                             <CustomAutoComplete
                                 label={`Customer`}
-                                value={selectedUser.label}
+                                value={selectedUser? selectedUser.label : ''}
                                 onChange={(e, value) => {
                                     setSelectedUser(value);
                                 }}
@@ -89,11 +143,13 @@ const PaymentRegister = () => {
                             />
                         </div>
                     </div>
+                    {selectedUser && (
                     <CustomTextInput
-                        label={`Discount`}
-                        value={discount}
-                        onChangeValue={(e) => setDiscount(e.target.value)}
+                        label={`Apartment`}
+                        value={apartment}
+                        onChangeValue={(e) => setApartment(e.target.value)}
                     />
+                    )}
                     <div className="my-3">
                         <TableContainer component={Paper}>
                             <Table>
@@ -126,19 +182,20 @@ const PaymentRegister = () => {
                                                                         setTotalQuantity(totalQuantity - 1)
                                                                         return {
                                                                             ...tempItem,
-                                                                            product_quantity: Math.max(Number(tempItem.product_quantity) - 1, 0),
-                                                                            product_price: Number(tempItem.product_price) - Number(tempItem.fixed_price)
+                                                                            id: item.product_id,
+                                                                            cart_quantity: Math.max(Number(tempItem.cart_quantity) - 1, 0),
+                                                                            cart_price: Number(tempItem.cart_price) - Number(tempItem.fixed_price)
                                                                         };
                                                                     }
                                                                     return tempItem;
-                                                                }).filter((tempItem) => tempItem.product_quantity > 0); 
+                                                                }).filter((tempItem) => tempItem.cart_quantity > 0); 
 
                                                                 setItems(updatedItems);
                                                             }}
                                                         >
                                                             <Remove />
                                                         </IconButton>
-                                                        {item.product_quantity}{" "}
+                                                        {item.cart_quantity}{" "}
                                                         <IconButton onClick={() => {
                                                             const updatedItems = items.map((tempItem) => {
                                                                 if (tempItem.product_id === item.product_id) {
@@ -147,8 +204,8 @@ const PaymentRegister = () => {
                                                                     setTotalQuantity(totalQuantity + 1)
                                                                     return {
                                                                         ...tempItem,
-                                                                        product_quantity: Number(tempItem.product_quantity) + 1,
-                                                                        product_price: Number(tempItem.product_price) + Number(tempItem.fixed_price)
+                                                                        cart_quantity: Number(tempItem.cart_quantity) + 1,
+                                                                        cart_price: Number(tempItem.cart_price) + Number(tempItem.fixed_price)
                                                                     };
                                                                 }
                                                                 return tempItem;
@@ -159,7 +216,7 @@ const PaymentRegister = () => {
                                                         </IconButton>
                                                     </TableCell>
                                                     <TableCell>
-                                                        {item.product_price}
+                                                        {item.cart_price}
                                                     </TableCell>
                                                 </TableRow>
                                             );
@@ -182,18 +239,7 @@ const PaymentRegister = () => {
                             <Typography variant="h5">Total</Typography>
                             <Typography variant="h5">₱ {totalPrice}.00</Typography>
                         </div>
-                        <Button variant="contained" fullWidth onClick={() => {
-                            swal({
-                                icon: "warning",
-                                title: "Submit Order?",
-                                text: "Are you sure you want to submit the order?",
-                                buttons: ['No', 'Yes']
-                            }).then((response) => {
-                                if (response) {
-                                    console.log(items)
-                                }
-                            })
-                        }}>
+                        <Button variant="contained" fullWidth sx={{ backgroundColor: "#B75800", "&:hover": {backgroundColor: "#B75800"} }} onClick={submitPayment}>
                             Pay Now!
                         </Button>
                     </div>
@@ -272,8 +318,8 @@ const PaymentRegister = () => {
                                                     product_id: item.product_id,
                                                     product_name: `${acronym} ${item.product_details.product_scent_name}`,
                                                     product_weight: `${weight}`,
-                                                    product_quantity: 1,
-                                                    product_price:
+                                                    cart_quantity: 1,
+                                                    cart_price:
                                                         item.product_details
                                                             .product_price,
                                                     fixed_price: item.product_details.product_price
@@ -294,6 +340,7 @@ const PaymentRegister = () => {
                                             <Typography
                                                 variant="h6"
                                                 sx={{ color: "#fff" }}
+                                                textAlign={'center'}
                                             >
                                                 {`${acronym} ${item.product_details.product_scent_name} ${weight}`}
                                             </Typography>

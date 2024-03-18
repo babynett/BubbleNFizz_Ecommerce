@@ -79,4 +79,13 @@ class ProductsController extends Controller
             'is_deleted' => false
         ]);
     }
+
+    public function editProduct(Request $request)
+    {
+        return Products::where('id', $request->id)->update([
+            'product_name' => $request->product_name,
+            'product_price' => $request->product_price,
+            'product_scent_name' => $request->product_scent,
+        ]);
+    }
 }
