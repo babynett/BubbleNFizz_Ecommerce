@@ -65,15 +65,12 @@
                                     <a href="/orders" class="text-xs no-underline hover:text-amber-500">> Pending
                                         Delivery/Shipping</a>
                                 </li>
-                                <li class="my-2">
-                                    <a href="#" class="text-xs no-underline hover:text-amber-500">> Pending
-                                        Payments</a>
-                                </li>
                             </ul>
                         </div>
                         <div class="m-4 border-b-2">
                             <div class="text-sm font-bold">PRODUCT INVENTORY</div>
                             <ul class="ml-4">
+                                @if (Auth::user()->user_role == 1)
                                 <li class="my-2">
                                     <a href="/productsmanagement" class="text-xs no-underline hover:text-amber-500">>
                                         Product Management</a>
@@ -82,6 +79,12 @@
                                     <a href="/deletedproducts" class="text-xs no-underline hover:text-amber-500">> Deleted
                                         Products</a>
                                 </li>
+                                @endif
+                                @if (Auth::user()->user_role == 2)
+                                <li class="my-2">
+                                    <a href="/deletedproducts" class="text-xs no-underline hover:text-amber-500">> Stock Management</a>
+                                </li>
+                                @endif
                             </ul>
                         </div>
                         <div class="m-4 border-b-2">
@@ -105,11 +108,15 @@
                                         Customers
                                         Accounts</a>
                                 </li>
+                                @auth
+                                    @if (Auth::user()->user_role == 1)
                                 <li class="my-2">
                                     <a href="/employeesaccounts" class="text-xs no-underline hover:text-amber-500">>
                                         Employees
                                         Accounts</a>
-                                </li>
+                                    </li>
+                                    @endif
+                                    @endauth
                             </ul>
                         </div>
                         <div class="m-4 border-b-2">
