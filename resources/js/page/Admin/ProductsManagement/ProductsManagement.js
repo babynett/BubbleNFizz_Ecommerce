@@ -23,10 +23,13 @@ const ProductsManagement = (props) => {
     const [productName, setProductName] = useState("");
     const [productPrice, setProductPrice] = useState("");
     const [productScent, setProductScent] = useState("");
+    // stock
+    const [stock, setStock] = useState('');
     const [refresher, setRefresher] = useState(0);
 
     useEffect(() => {
         console.log(props.deleted);
+        console.log(props.stock == true);
         if (props.deleted == "true") {
             api.get("products/getdeletedproducts")
                 .then((response) => {
@@ -79,6 +82,17 @@ const ProductsManagement = (props) => {
             });
         });
     };
+
+    const handleStockAdjustment = () => {
+        api.post('products/adjuststock', {
+            id: productId,
+            product_stock: stock
+        }).then((response) => {
+            setRefresher(refresher + 1)
+        }).catch(err => {
+            console.log(err.response)
+        })
+    }
 
     const handleEditProduct = () => {
         api.post("products/editproduct", {
@@ -139,36 +153,58 @@ const ProductsManagement = (props) => {
                                     </Button>
                                 ) : (
                                     <>
-                                        <Button
-                                            variant="contained"
-                                            color="success"
-                                            onClick={() => {
-                                                setOpen(true);
-                                                setProductId(cellValue.row.id)
-                                                setProductName(
-                                                    cellValue.row.product_name
-                                                );
-                                                setProductPrice(
-                                                    cellValue.row.product_price
-                                                );
-                                                setProductScent(
-                                                    cellValue.row
-                                                        .product_scent_name
-                                                );
-                                            }}
-                                        >
-                                            Edit
-                                        </Button>
+                                        {props.stock == "true" ? (
+                                            <Button
+                                                variant="contained"
+                                                color="success"
+                                                onClick={() => {
+                                                    setOpen(true);
+                                                    setProductId(cellValue.row.id)
+                                                    setStock(cellValue.row.product_stock)
+                                                }}
+                                            >
+                                                Adjust Stock
+                                            </Button>
+                                        ) : (
+                                            <>
+                                                <Button
+                                                    variant="contained"
+                                                    color="success"
+                                                    onClick={() => {
+                                                        setOpen(true);
+                                                        setProductId(
+                                                            cellValue.row.id
+                                                        );
+                                                        setProductName(
+                                                            cellValue.row
+                                                                .product_name
+                                                        );
+                                                        setProductPrice(
+                                                            cellValue.row
+                                                                .product_price
+                                                        );
+                                                        setProductScent(
+                                                            cellValue.row
+                                                                .product_scent_name
+                                                        );
+                                                    }}
+                                                >
+                                                    Edit
+                                                </Button>
 
-                                        <Button
-                                            variant="contained"
-                                            color="error"
-                                            onClick={() =>
-                                                deleteProduct(cellValue.row.id)
-                                            }
-                                        >
-                                            Delete
-                                        </Button>
+                                                <Button
+                                                    variant="contained"
+                                                    color="error"
+                                                    onClick={() =>
+                                                        deleteProduct(
+                                                            cellValue.row.id
+                                                        )
+                                                    }
+                                                >
+                                                    Delete
+                                                </Button>
+                                            </>
+                                        )}
                                     </>
                                 )}
                             </div>
@@ -202,7 +238,7 @@ const ProductsManagement = (props) => {
                             Total Stock: {cellValue.row.product_stock}
                         </Typography>
                         <Typography>
-                            Sold: {100 - Number(cellValue.row.product_stock)}
+                            Sold: {cellValue.row.category.product_sales}
                         </Typography>
                     </div>
                 );
@@ -268,27 +304,39 @@ const ProductsManagement = (props) => {
                 </div>
                 <DialogContent>
                     <div className="flex justify-center items-center w-full flex-col space-y-4 ">
-                        <CustomTextInput
-                            label={`Product Name`}
-                            value={productName}
-                            onChangeValue={(e) =>
-                                setProductName(e.target.value)
-                            }
-                        />
-                        <CustomTextInput
-                            label={`Product Price`}
-                            value={productPrice}
-                            onChangeValue={(e) =>
-                                setProductPrice(e.target.value)
-                            }
-                        />
-                        <CustomTextInput
-                            label={`Product Scent`}
-                            value={productScent}
-                            onChangeValue={(e) =>
-                                setProductScent(e.target.value)
-                            }
-                        />
+                        {props.stock == "true" ? (
+                            <CustomTextInput
+                                label={`Stock Adjustment`}
+                                value={stock}
+                                onChangeValue={(e) =>
+                                    setStock(e.target.value)
+                                }
+                            />
+                        ) : (
+                            <>
+                                <CustomTextInput
+                                    label={`Product Name`}
+                                    value={productName}
+                                    onChangeValue={(e) =>
+                                        setProductName(e.target.value)
+                                    }
+                                />
+                                <CustomTextInput
+                                    label={`Product Price`}
+                                    value={productPrice}
+                                    onChangeValue={(e) =>
+                                        setProductPrice(e.target.value)
+                                    }
+                                />
+                                <CustomTextInput
+                                    label={`Product Scent`}
+                                    value={productScent}
+                                    onChangeValue={(e) =>
+                                        setProductScent(e.target.value)
+                                    }
+                                />
+                            </>
+                        )}
                     </div>
                     <DialogContentText id="alert-dialog-description"></DialogContentText>
                 </DialogContent>
@@ -308,7 +356,11 @@ const ProductsManagement = (props) => {
                     </Button>
                     <Button
                         onClick={() => {
-                            handleEditProduct();
+                            if (props.stock == 'true') {
+                                handleStockAdjustment()
+                            } else {
+                                handleEditProduct();
+                            }
                             setOpen(false);
                             setProductName("");
                             setProductPrice("");

@@ -16,4 +16,9 @@ class ProductsController extends Controller
     {
         return view('features.ProductsManagement.DeletedProducts');
     }
+
+    public function stockManagement()
+    {
+        return view('features.ProductsManagement.StockManagement');
+    }
 }

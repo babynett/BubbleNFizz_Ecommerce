@@ -48,6 +48,7 @@ Route::prefix('products')->group(function () {
     Route::post('/deleteproduct', [ProductsController::class, 'deleteProduct']);
     Route::post('/recoverproduct', [ProductsController::class, 'recoverProduct']);
     Route::post('/editproduct', [ProductsController::class, 'editProduct']);
+    Route::post('/adjuststock', [ProductsController::class, 'adjustStock']);
     Route::get('/getdeletedproducts', [ProductsController::class, 'getDeletedProducts']);
 });
 

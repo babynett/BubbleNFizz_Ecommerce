@@ -88,4 +88,11 @@ class ProductsController extends Controller
             'product_scent_name' => $request->product_scent,
         ]);
     }
+
+    public function adjustStock(Request $request)
+    {
+        return Products::where('id', $request->id)->update([
+            'product_stock' => $request->product_stock
+        ]);
+    }
 }

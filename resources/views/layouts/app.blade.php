@@ -54,9 +54,9 @@
                         <div class="m-4 border-b-2">
                             <div class="text-sm font-bold">ORDER MANAGEMENT</div>
                             <ul class="ml-4 translate-y-0">
-                                <li class="my-2">
+                                {{-- <li class="my-2">
                                     <a href="#" class="text-xs no-underline hover:text-amber-500">> Refunds</a>
-                                </li>
+                                </li> --}}
                                 <li class="my-2">
                                     <a href="/cancelledorders" class="text-xs no-underline hover:text-amber-500">> Canceled
                                         Orders</a>
@@ -82,7 +82,7 @@
                                 @endif
                                 @if (Auth::user()->user_role == 2)
                                 <li class="my-2">
-                                    <a href="/deletedproducts" class="text-xs no-underline hover:text-amber-500">> Stock Management</a>
+                                    <a href="/stockmanagement" class="text-xs no-underline hover:text-amber-500">> Stock Management</a>
                                 </li>
                                 @endif
                             </ul>
@@ -94,10 +94,10 @@
                                     <a href="/analyticsboard" class="text-xs no-underline hover:text-amber-500">> Analytics
                                         Board</a>
                                 </li>
-                                <li class="my-2">
+                                {{-- <li class="my-2">
                                     <a href="#" class="text-xs no-underline hover:text-amber-500">> Ratings and
                                         Reviews</a>
-                                </li>
+                                </li> --}}
                             </ul>
                         </div>
                         <div class="m-4 border-b-2">
