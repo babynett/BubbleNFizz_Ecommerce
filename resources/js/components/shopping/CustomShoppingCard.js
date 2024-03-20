@@ -5,9 +5,9 @@ const CustomShoppingCard = ({ title, scentName, rating, price, onClick }) => {
     return (
         <div className="border-2 flex justify-center items-center flex-col hover:border-amber-500" onClick={onClick}>
             <img
-                src={`https://picsum.photos/500/300`}
-                height={300}
-                width={500}
+                src={`https://picsum.photos/250/150`}
+                height={150}
+                width={250}
             />
             <div className="my-8 w-1/2 text-center">
                 <Typography variant="body1" fontWeight={700}>

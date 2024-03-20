@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Features;
 
 use App\Http\Controllers\Controller;
+use App\Models\Visitor;
 use Illuminate\Http\Request;
 
 class CustomerShopping extends Controller
 {
     public function index()
     {
+        Visitor::create([
+            'ipaddress' => request()->ip()
+        ]);
         return view('customer.CustomerIndex');
     }
 

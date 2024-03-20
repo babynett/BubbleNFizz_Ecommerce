@@ -11,14 +11,14 @@ const CustomPollButton = ({ title, my, value, onClick }) => {
             sx={{
                 marginTop: my,
                 marginBottom: my,
-                color: title != value ? "#B75800" : "#fff",
-                borderColor: "#B75800",
-                backgroundColor: title == value ? "#B75800" : "transparent",
+                color: title != value ? "#EDBF47" : "#fff",
+                borderColor: "#EDBF47",
+                backgroundColor: title == value ? "#EDBF47" : "transparent",
                 height: 60,
                 "&:hover": {
                     color: "#fff",
-                    backgroundColor: "#B75800",
-                    borderColor: "#B75800",
+                    backgroundColor: "#EDBF47",
+                    borderColor: "#EDBF47",
                 },
             }}
         >

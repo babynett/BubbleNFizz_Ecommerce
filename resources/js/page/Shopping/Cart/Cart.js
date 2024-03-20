@@ -84,10 +84,10 @@ const Cart = ({ user }) => {
                                 <a href="/checkout">
                                     <Button
                                         sx={{
-                                            backgroundColor: "#B75800",
+                                            backgroundColor: "#EDBF47",
                                             color: "#fff",
                                             "&:hover": {
-                                                backgroundColor: "#B75800",
+                                                backgroundColor: "#EDBF47",
                                                 color: "#fff",
                                             },
                                         }}

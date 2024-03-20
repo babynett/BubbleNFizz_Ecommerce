@@ -7,6 +7,7 @@ use App\Models\Orders;
 use App\Models\Products;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -17,6 +18,15 @@ class DashboardController extends Controller
         $totalCustomer = User::where('user_role', 3)->count();
         $totalOrders = Orders::count();
 
-        return response(['product_counts' => $productCounts, 'total_revenue' => $totalRevenue, 'total_customer' => $totalCustomer, 'total_orders' => $totalOrders]);
+        $monthlyVisitor = DB::select("SELECT MONTHNAME(created_at) AS month,
+            COUNT(*) AS visitor_count
+            FROM visitors
+            GROUP BY MONTHNAME(created_at)
+            ORDER BY MONTH(created_at);
+        ");
+
+        // return ($monthlyVisitor);
+
+        return response(['product_counts' => $productCounts, 'total_revenue' => $totalRevenue, 'total_customer' => $totalCustomer, 'total_orders' => $totalOrders, 'monthlyVisitor' => $monthlyVisitor]);
     }
 }

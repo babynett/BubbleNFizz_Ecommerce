@@ -16,18 +16,24 @@ const Checkout = ({ user }) => {
     const [quantity, setQuantity] = useState(0);
     const [subTotalPrice, setSubTotalPrice] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
-    
+
     // ADDRESS
-    const [address, setAddress] = useState("")
-    const [apartment, setApartment] = useState("")
-    const [phoneNumber, setPhoneNumber] = useState(userObject.profile.contact_no)
-    
+    const [address, setAddress] = useState("");
+    const [apartment, setApartment] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState(
+        userObject.profile.contact_no
+    );
+
     // SHIPPING METHOD
     const [delivery, setDelivery] = useState("PickUp");
-    
+
     // PAYMENT
     const [mop, setMop] = useState("GCash");
     const [gcashFile, setGcashFile] = useState({}); // IF GCASH
+
+    const [addressError, setAddressError] = useState(false);
+    const [apartmentError, setApartmentError] = useState(false);
+    const [phoneNumberError, setPhoneNumberError] = useState(false);
 
     useEffect(() => {
         api.get(`shopping/getusercart?user_id=${userObject.id}`)
@@ -58,45 +64,53 @@ const Checkout = ({ user }) => {
     }, []);
 
     useEffect(() => {
-        if (delivery == 'PickUp') {
-            setTotalPrice(subTotalPrice)
-        } else if (delivery == 'Standard') {
-            setTotalPrice(subTotalPrice + 39)
+        if (delivery == "PickUp") {
+            setTotalPrice(subTotalPrice);
+        } else if (delivery == "Standard") {
+            setTotalPrice(subTotalPrice + 39);
         } else {
-            setTotalPrice(subTotalPrice + 150)
+            setTotalPrice(subTotalPrice + 150);
         }
-    }, [subTotalPrice, delivery])
+    }, [subTotalPrice, delivery]);
 
     const onSubmitOrder = () => {
-        const formdata = new FormData()
-        formdata.append('user_id', userObject.id)
-        formdata.append('order_address', address)
-        formdata.append('order_apartment', apartment)
-        formdata.append('order_phone_number', phoneNumber)
-        formdata.append('order_shipping', delivery)
-        formdata.append('payment', mop)
-        if (mop == "GCash") {
-            formdata.append('payment_image', gcashFile)
+        if (apartmentError || addressError || phoneNumberError || apartment == "" || address == "" ) {
+            swal({
+                icon: "error",
+                title: "Oops...",
+                text: "Please fill in the form!",
+            })
         } else {
-            formdata.append("payment_image", "")
-        }
-        formdata.append("total_quantity", quantity)
-        formdata.append("total_price", totalPrice)
-        formdata.append("carts", JSON.stringify(carts))
-        api.post('shopping/submitorder', formdata)
-            .then((response) => {
-                swal({
-                    icon: "success",
-                    title: "Order Submitted!",
-                    text: "Your order has been submitted!"
-                }).then(() => {
-                    location.href = 'shopping'
+            const formdata = new FormData();
+            formdata.append("user_id", userObject.id);
+            formdata.append("order_address", address);
+            formdata.append("order_apartment", apartment);
+            formdata.append("order_phone_number", phoneNumber);
+            formdata.append("order_shipping", delivery);
+            formdata.append("payment", mop);
+            if (mop == "GCash") {
+                formdata.append("payment_image", gcashFile);
+            } else {
+                formdata.append("payment_image", "");
+            }
+            formdata.append("total_quantity", quantity);
+            formdata.append("total_price", totalPrice);
+            formdata.append("carts", JSON.stringify(carts));
+            api.post("shopping/submitorder", formdata)
+                .then((response) => {
+                    swal({
+                        icon: "success",
+                        title: "Order Submitted!",
+                        text: "Your order has been submitted!",
+                    }).then(() => {
+                        location.href = "shopping";
+                    });
                 })
-            })
-            .catch(err => {
-                console.log(err.response)
-            })
-    }
+                .catch((err) => {
+                    console.log(err.response);
+                });
+        }
+    };
 
     return (
         <div className="w-full border-t-2 border-black">
@@ -117,13 +131,43 @@ const Checkout = ({ user }) => {
                             />
                         </div>
                         <div className="col-span-1">
-                            <CustomTextInput label={`Address`} value={address} onChangeValue={(e) => setAddress(e.target.value)} />
+                            <CustomTextInput
+                                error={addressError}
+                                setError={setAddressError}
+                                label={`Address`}
+                                value={address}
+                                onChangeValue={(e) =>
+                                    setAddress(e.target.value)
+                                }
+                                restrictions={`alphabet`}
+                                errorMessage={`Address should only be letters`}
+                            />
                         </div>
                         <div className="col-span-1">
-                            <CustomTextInput label={`Apartment, Suite, etc.`} value={apartment} onChangeValue={(e) => setApartment(e.target.value)} />
+                            <CustomTextInput
+                                error={apartmentError}
+                                setError={setApartmentError}
+                                label={`Apartment, Suite, etc.`}
+                                value={apartment}
+                                onChangeValue={(e) =>
+                                    setApartment(e.target.value)
+                                }
+                                restrictions={`alphabet`}
+                                errorMessage={`Apartment, Suite, etc. should only be letters`}
+                            />
                         </div>
                         <div className="col-span-1">
-                            <CustomTextInput label={`Phone Number`} value={phoneNumber} onChangeValue={(e) => setPhoneNumber(e.target.value)} />
+                            <CustomTextInput
+                                error={phoneNumberError}
+                                setError={setPhoneNumberError}
+                                label={`Phone Number`}
+                                value={phoneNumber}
+                                onChangeValue={(e) =>
+                                    setPhoneNumber(e.target.value)
+                                }
+                                restrictions={`numeric`}
+                                errorMessage={`Phone number should only be numeric`}
+                            />
                         </div>
                     </div>
                     <div className="text-2xl font-bold mb-6">
@@ -150,7 +194,7 @@ const Checkout = ({ user }) => {
                                     </div>
                                 </div>
                                 <StoreIcon
-                                    sx={{ color: "#B75800", fontSize: 30 }}
+                                    sx={{ color: "#EDBF47", fontSize: 30 }}
                                 />
                             </div>
                         </div>
@@ -164,7 +208,6 @@ const Checkout = ({ user }) => {
                                     setTotalPrice(Number(totalPrice) + 39);
                                 }
                             }}
-                            
                         >
                             <div className="flex justify-between items-center">
                                 <div className="flex flex-col justify-around">
@@ -264,10 +307,10 @@ const Checkout = ({ user }) => {
                     )}
                     <Button
                         sx={{
-                            backgroundColor: "#B75800",
+                            backgroundColor: "#EDBF47",
                             color: "#FFF",
                             "&:hover": {
-                                backgroundColor: "#B75800",
+                                backgroundColor: "#EDBF47",
                                 color: "#FFF",
                             },
                         }}

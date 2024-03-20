@@ -239,7 +239,7 @@ const PaymentRegister = () => {
                             <Typography variant="h5">Total</Typography>
                             <Typography variant="h5">₱ {totalPrice}.00</Typography>
                         </div>
-                        <Button variant="contained" fullWidth sx={{ backgroundColor: "#B75800", "&:hover": {backgroundColor: "#B75800"} }} onClick={submitPayment}>
+                        <Button variant="contained" fullWidth sx={{ backgroundColor: "#EDBF47", "&:hover": {backgroundColor: "#EDBF47"} }} onClick={submitPayment}>
                             Pay Now!
                         </Button>
                     </div>

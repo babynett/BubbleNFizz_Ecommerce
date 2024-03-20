@@ -20,6 +20,9 @@ const ShoppingPage = (props) => {
                     console.log(err.response);
                 });
         } else {
+            if (userObject.user_role == 1) {
+                location.href = 'home'
+            }
             api.post('recommenditems', {
                 user_id: userObject.id 
             }).then((response) => {
@@ -77,7 +80,7 @@ const ShoppingPage = (props) => {
             </div>
 
             <div className="mx-10">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+                <div className="grid grid-cols-1 lg:grid-cols-6 gap-5">
                     {products.map((item, index) => {
                         return (
                             <div className="col-span-1">
@@ -113,10 +116,10 @@ const ShoppingPage = (props) => {
                                     variant="contained"
                                     className="hover:scale-110"
                                     sx={{
-                                        backgroundColor: "#B75800",
+                                        backgroundColor: "#EDBF47",
                                         color: "#fff",
                                         "&:hover": {
-                                            backgroundColor: "#B75800",
+                                            backgroundColor: "#EDBF47",
                                         },
                                     }}
                                 >
@@ -139,10 +142,10 @@ const ShoppingPage = (props) => {
                                     variant="contained"
                                     className="hover:scale-110"
                                     sx={{
-                                        backgroundColor: "#B75800",
+                                        backgroundColor: "#EDBF47",
                                         color: "#fff",
                                         "&:hover": {
-                                            backgroundColor: "#B75800",
+                                            backgroundColor: "#EDBF47",
                                         },
                                     }}
                                 >
@@ -161,7 +164,7 @@ const ShoppingPage = (props) => {
             </div>
 
             <div className="mx-10">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+                <div className="grid grid-cols-1 lg:grid-cols-6 gap-5">
                     {bestProducts.map((item, index) => {
                         return (
                             <div className="col-span-1">

@@ -96,14 +96,14 @@ const CartCard = ({
                 <div className="flex justify-center items-center h-full">
                     <button onClick={subQuantity}>
                         <RemoveCircleIcon
-                            sx={{ color: "#B75800" }}
+                            sx={{ color: "#EDBF47" }}
                             className="cursor-pointer"
                         />
                     </button>
                     <div className="text-lg mx-4"> {quantity} </div>
                     <button onClick={addQuantity}>
                         <AddCircleIcon
-                            sx={{ color: "#B75800" }}
+                            sx={{ color: "#EDBF47" }}
                             className="cursor-pointer"
                         />
                     </button>

@@ -63,8 +63,8 @@ const NotificationCard = ({ order, setRefresher, user, refresher }) => {
                         <Button
                             variant="contained"
                             sx={{
-                                backgroundColor: "#B75800",
-                                "&:hover": { backgroundColor: "#B75800" },
+                                backgroundColor: "#EDBF47",
+                                "&:hover": { backgroundColor: "#EDBF47" },
                             }}
                             onClick={() => setOpen(true)}
                         >

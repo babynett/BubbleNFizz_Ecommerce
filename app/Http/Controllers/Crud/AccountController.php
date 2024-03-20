@@ -49,7 +49,7 @@ class AccountController extends Controller
     public function changePassword(Request $request)
     {
         $user = User::where('id', $request->id)->first();
-        if (!Hash::check($request->newPassword, $user->password)) {
+        if (!Hash::check($request->currPassword, $user->password)) {
             return 'false';
         } else {
             User::where('id', $request->id)->update([

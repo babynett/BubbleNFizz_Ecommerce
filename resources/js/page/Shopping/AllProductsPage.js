@@ -25,7 +25,7 @@ const AllProductsPage = () => {
         <div className="w-full">
             <div className="mx-10 my-12">
                 <CustomTitle text={"All Products"} options={options} hasButton setSort={setSort} sort={sort} />
-                <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-5">
                     {products.map((item, index) => {
                         return (
                             <div className="col-span-1" key={index}>

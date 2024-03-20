@@ -27,7 +27,7 @@ const MyPurchases = ({user}) => {
                         paddingTop: 1,
                         paddingBottom: 1,
                         "&:hover": {
-                            backgroundColor: "#B75800",
+                            backgroundColor: "#EDBF47",
                             color: "#fff",
                         },
                     }}
@@ -44,7 +44,7 @@ const MyPurchases = ({user}) => {
                         paddingBottom: 1,
                         fontWeight: page == "To Ship" ? 700 : 400,
                         "&:hover": {
-                            backgroundColor: "#B75800",
+                            backgroundColor: "#EDBF47",
                             color: "#fff",
                         },
                     }}
@@ -61,7 +61,7 @@ const MyPurchases = ({user}) => {
                         paddingBottom: 1,
                         fontWeight: page == "To Receive" ? 700 : 400,
                         "&:hover": {
-                            backgroundColor: "#B75800",
+                            backgroundColor: "#EDBF47",
                             color: "#fff",
                         },
                     }}
@@ -78,7 +78,7 @@ const MyPurchases = ({user}) => {
                         paddingBottom: 1,
                         fontWeight: page == "Complete" ? 700 : 400,
                         "&:hover": {
-                            backgroundColor: "#B75800",
+                            backgroundColor: "#EDBF47",
                             color: "#fff",
                         },
                     }}
@@ -95,7 +95,7 @@ const MyPurchases = ({user}) => {
                         paddingBottom: 1,
                         fontWeight: page == "Cancelled" ? 700 : 400,
                         "&:hover": {
-                            backgroundColor: "#B75800",
+                            backgroundColor: "#EDBF47",
                             color: "#fff",
                         },
                     }}
@@ -112,7 +112,7 @@ const MyPurchases = ({user}) => {
                         paddingBottom: 1,
                         fontWeight: page == "Refund" ? 700 : 400,
                         "&:hover": {
-                            backgroundColor: "#B75800",
+                            backgroundColor: "#EDBF47",
                             color: "#fff",
                         },
                     }}
@@ -222,7 +222,7 @@ const MyPurchases = ({user}) => {
                                     </div>
                                     {item.order_items.map((item, index) => {
                                         return (
-                                            <CheckOutCard cart={item} key={index} darkMode={false} isCart={false} />
+                                            <CheckOutCard cart={item} key={index} darkMode={false} isCart={false} refundButton />
                                         )
                                     })}
                                 </div>

@@ -11,8 +11,10 @@ const CustomTextInput = ({
     isHalf,
     restrictions,
     disabled = false,
+    error,
+    setError,
+    errorMessage
 }) => {
-    const [error, setError] = useState(false);
     const firstUpdate = useRef(true); // to prevent render on first mount
     useEffect(() => {
         const numbers = /^[0-9]+$/;
@@ -54,10 +56,13 @@ const CustomTextInput = ({
                 }}
                 multiline={multiline}
                 rows={multiline ? "4" : null}
-                error={error}
                 helperText={``}
                 autoComplete="off"
             />
+
+            {error && (
+                <Typography variant="caption" color={`red`}>{errorMessage}</Typography>
+            )}
         </>
     );
 };

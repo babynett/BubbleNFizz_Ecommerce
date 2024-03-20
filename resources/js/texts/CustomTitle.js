@@ -7,7 +7,7 @@ const CustomTitle = ({ text, hasButton = false, setSort, sort, options }) => {
         <div className="flex justify-between items-center w-full">
             <Typography
                 variant="h3"
-                color={"#B75800"}
+                color={"#EDBF47"}
                 fontWeight={700}
                 sx={{ marginBottom: 3 }}
             >

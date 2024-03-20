@@ -21,6 +21,7 @@ const ProductsManagement = (props) => {
     const [open, setOpen] = useState(false);
     const [productId, setProductId] = useState("");
     const [productName, setProductName] = useState("");
+    const [productDescription, setProductDescription] = useState("");
     const [productPrice, setProductPrice] = useState("");
     const [productScent, setProductScent] = useState("");
     // stock
@@ -98,8 +99,10 @@ const ProductsManagement = (props) => {
         api.post("products/editproduct", {
             id: productId,
             product_name: productName,
+            product_description: productDescription,
             product_price: productPrice,
             product_scent: productScent,
+            product_stock: stock
         })
             .then((response) => {
                 setRefresher(refresher + 1);
@@ -179,6 +182,10 @@ const ProductsManagement = (props) => {
                                                             cellValue.row
                                                                 .product_name
                                                         );
+                                                        setProductDescription(
+                                                            cellValue.row
+                                                                .product_description
+                                                        );
                                                         setProductPrice(
                                                             cellValue.row
                                                                 .product_price
@@ -186,6 +193,10 @@ const ProductsManagement = (props) => {
                                                         setProductScent(
                                                             cellValue.row
                                                                 .product_scent_name
+                                                        );
+                                                        setStock(
+                                                            cellValue.row
+                                                                .product_stock
                                                         );
                                                     }}
                                                 >
@@ -251,9 +262,9 @@ const ProductsManagement = (props) => {
             <div className="flex w-full justify-between items-center">
                 <CustomTitle
                     text={
-                        props.deleted
+                        props.deleted == "true"
                             ? `Deleted Products`
-                            : `Product Management`
+                            : props.stock == 'true' ? `Stock Management` : `Product Management`
                     }
                 />
                 {!props.deleted && (
@@ -289,9 +300,10 @@ const ProductsManagement = (props) => {
                 onClose={() => {
                     setOpen(false);
                     setProductName("");
-                    setProductPrice("");
+                    setProductDescription("");
                     setProductScent("");
                     setProductId("");
+                    setStock("");
                 }}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
@@ -322,6 +334,14 @@ const ProductsManagement = (props) => {
                                     }
                                 />
                                 <CustomTextInput
+                                    label={`Product Description`}
+                                    value={productDescription}
+                                    onChangeValue={(e) =>
+                                        setProductDescription(e.target.value)
+                                    }
+                                    multiline
+                                />
+                                <CustomTextInput
                                     label={`Product Price`}
                                     value={productPrice}
                                     onChangeValue={(e) =>
@@ -335,6 +355,13 @@ const ProductsManagement = (props) => {
                                         setProductScent(e.target.value)
                                     }
                                 />
+                                <CustomTextInput
+                                label={`Stock Adjustment`}
+                                value={stock}
+                                onChangeValue={(e) =>
+                                    setStock(e.target.value)
+                                }
+                            />
                             </>
                         )}
                     </div>
@@ -345,9 +372,9 @@ const ProductsManagement = (props) => {
                         onClick={() => {
                             setOpen(false);
                             setProductName("");
-                            setProductPrice("");
+                            setProductDescription("");
                             setProductScent("");
-                            setProductId("");
+                            setStock("");
                         }}
                         variant="contained"
                         color="error"
@@ -363,9 +390,9 @@ const ProductsManagement = (props) => {
                             }
                             setOpen(false);
                             setProductName("");
-                            setProductPrice("");
+                            setProductDescription("");
                             setProductScent("");
-                            setProductId("");
+                            setStock("");
                         }}
                         autoFocus
                         variant="contained"

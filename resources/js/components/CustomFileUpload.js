@@ -24,7 +24,7 @@ const CustomFileUpload = ({ handleFile, my }) => {
         <Button
             startIcon={<CloudUploadIcon />}
             variant="contained"
-            sx={{ backgroundColor: "#B75800", "&:hover": {backgroundColor: "#B75800"} }}
+            sx={{ backgroundColor: "#EDBF47", "&:hover": {backgroundColor: "#EDBF47"} }}
             onClick={handleClick}
             fullWidth
             style={{

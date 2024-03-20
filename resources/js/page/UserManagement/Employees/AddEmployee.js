@@ -69,7 +69,7 @@ const AddEmployee = () => {
                 onChangeValue={(e) => setConfPassword(e.target.value)}
             />
             <div className="flex justify-center items-center w-full my-3">
-                <Button variant="contained" fullWidth onClick={submit} sx={{ backgroundColor:"#B75800", fontWeight: 700 }}>
+                <Button variant="contained" fullWidth onClick={submit} sx={{ backgroundColor:"#EDBF47", fontWeight: 700 }}>
                     Submit
                 </Button>
             </div>

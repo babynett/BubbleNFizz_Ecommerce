@@ -66,6 +66,7 @@ const MyProfile = ({ user }) => {
                 api.post("usermanagement/changepassword", {
                     id: user.id,
                     newPassword,
+                    currPassword
                 }).then((response) => {
                     console.log(response.data)
                     if (response.data) {
@@ -99,7 +100,7 @@ const MyProfile = ({ user }) => {
                         paddingTop: 1,
                         paddingBottom: 1,
                         "&:hover": {
-                            backgroundColor: "#B75800",
+                            backgroundColor: "#EDBF47",
                             color: "#fff",
                         },
                     }}
@@ -115,7 +116,7 @@ const MyProfile = ({ user }) => {
                         paddingTop: 1,
                         paddingBottom: 1,
                         "&:hover": {
-                            backgroundColor: "#B75800",
+                            backgroundColor: "#EDBF47",
                             color: "#fff",
                         },
                     }}
@@ -131,7 +132,7 @@ const MyProfile = ({ user }) => {
                         paddingTop: 1,
                         paddingBottom: 1,
                         "&:hover": {
-                            backgroundColor: "#B75800",
+                            backgroundColor: "#EDBF47",
                             color: "#fff",
                         },
                     }}

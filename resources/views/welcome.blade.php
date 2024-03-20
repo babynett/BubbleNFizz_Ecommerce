@@ -37,7 +37,7 @@
             position: relative;
             width: 768px;
             max-width: 100%;
-            min-height: 480px;
+            min-height: 680px;
             background: #fff;
             border-radius: 10px;
             overflow: hidden;
@@ -199,12 +199,29 @@
                     <a href="#" class="social"></a>
                 </div>
                 <p>Use your email for registration</p>
-                <input type="text" name="name" placeholder="Name" required>
-                <input type="email" name="email" placeholder="Email" required autocomplete="off">
-                <input type="password" name="password" placeholder="Password" required>
-                <input type="password" name="password_confirmation" placeholder="Confirm Password" required>
+                <input type="text" name="fname" placeholder="First Name">
+                @error('fname')
+                    <h1 style="font-size: 10px; color: rgb(239 68 68);">{{ $message }}</h1>
+                @enderror
+                <input type="text" name="lname" placeholder="Last Name">
+                @error('lname')
+                    <h1 style="font-size: 10px; color: rgb(239 68 68);">{{ $message }}</h1>
+                @enderror
+                <input type="text" name="uname" placeholder="Username">
+                <input type="email" name="email" placeholder="Email" autocomplete="off">
+                @error('email')
+                    <h1 style="font-size: 10px; color: rgb(239 68 68);">{{ $message }}</h1>
+                @enderror
+                <input type="password" name="password" placeholder="Password">
+                @error('password')
+                    <h1 style="font-size: 10px; color: rgb(239 68 68);">{{ $message }}</h1>
+                @enderror
+                <input type="password" name="password_confirmation" placeholder="Confirm Password">
+                @error('password_confirmation')
+                    <h1 style="font-size: 10px; color: rgb(239 68 68);">{{ $message }}</h1>
+                @enderror
                 <a href="#">Forgot your password?</a>
-                <button type="submit">Sign In</button>
+                <button type="submit">Sign Up</button>
             </form>
         </div>
         <div class="sign-in">
@@ -217,8 +234,14 @@
                     <a href="#" class="social"></a>
                 </div>
                 <p>or Use your account</p>
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Password" required>
+                <input type="email" name="email" placeholder="Email" >
+                @error('email')
+                    <h1 style="font-size: 10px; color: rgb(239 68 68);">{{ $message }}</h1>
+                @enderror
+                <input type="password" name="password" placeholder="Password" id="loginPassword" >
+                @error('password')
+                    <h1 style="font-size: 10px; color: rgb(239 68 68);">{{ $message }}</h1>
+                @enderror
                 <a href="#">Forgot your password?</a>
                 <button>Sign In</button>
             </form>
@@ -243,6 +266,8 @@
         const signUpButton = document.getElementById('signUp')
         const signInButton = document.getElementById('signIn')
         const main = document.getElementById('main')
+        const loginPassword = document.getElementById('loginPassword')
+        
 
         signUpButton.addEventListener('click', () => {
             main.classList.add("right-panel-active")

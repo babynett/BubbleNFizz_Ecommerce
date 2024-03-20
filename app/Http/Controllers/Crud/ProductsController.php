@@ -13,12 +13,12 @@ class ProductsController extends Controller
 {
     public function getThreeProducts()
     {
-        return Products::limit(3)->get();
+        return Products::limit(6)->get();
     }
 
     public function getBestSellers()
     {
-        return ProductCategory::with('product_details')->orderBy('product_sales', 'desc')->limit(3)->get();
+        return ProductCategory::with('product_details')->orderBy('product_sales', 'desc')->limit(6)->get();
     }
 
     public function getProduct(Request $request)
@@ -85,7 +85,9 @@ class ProductsController extends Controller
         return Products::where('id', $request->id)->update([
             'product_name' => $request->product_name,
             'product_price' => $request->product_price,
+            'product_description' => $request->product_description,
             'product_scent_name' => $request->product_scent,
+            'product_stock' => $request->product_stock,
         ]);
     }
 

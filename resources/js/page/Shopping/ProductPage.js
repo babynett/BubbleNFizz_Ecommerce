@@ -9,8 +9,8 @@ import { Button, Rating } from "@mui/material";
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import CommentsCard from "../../cards/CommentsCard";
 
-const ProductPage = ({ id, user }) => {
-    const userObject = JSON.parse(user);
+const ProductPage = ({ id, user, guest }) => {
+    const userObject = guest == "true" ? undefined : JSON.parse(user);
     const [product, setProduct] = useState({});
     const [quantity, setQuantity] = useState(1);
     const [totalPrice, setTotalPrice] = useState(0);
@@ -36,11 +36,12 @@ const ProductPage = ({ id, user }) => {
             .catch(err => {
                 console.log(err.response)
             })
-        
-        api.post('shopping/addrecentview', {
-            user_id: userObject.id,
-            product_id: id
-        })
+        if (userObject) {
+            api.post('shopping/addrecentview', {
+                user_id: userObject.id,
+                product_id: id
+            })
+        }
     }, []);
 
     const subQuantity = () => {
@@ -62,46 +63,54 @@ const ProductPage = ({ id, user }) => {
     };
 
     const submitReview = () => {
-        api.post("/shopping/addreview", {
-            user_id: userObject.id,
-            product_id: product.id,
-            product_rating: rating,
-            product_description: review,
-        })
-            .then((response) => {
-                console.log(response.data);
-                swal({
-                    icon: "success",
-                    title: "Review Added!",
-                    text: "Your review has been added!",
-                }).then(() => {
-                    setReview("");
-                });
+        if (userObject) {
+            api.post("/shopping/addreview", {
+                user_id: userObject.id,
+                product_id: product.id,
+                product_rating: rating,
+                product_description: review,
             })
-            .catch((err) => {
-                console.log(err.response);
-            });
+                .then((response) => {
+                    console.log(response.data);
+                    swal({
+                        icon: "success",
+                        title: "Review Added!",
+                        text: "Your review has been added!",
+                    }).then(() => {
+                        setReview("");
+                    });
+                })
+                .catch((err) => {
+                    console.log(err.response);
+                });
+        } else {
+            location.href = `/auth`
+        }
     };
 
     const addToCart = () => {
-        api.post("shopping/addtocart", {
-            product_id: product.id,
-            user_id: userObject.id,
-            cart_quantity: quantity,
-            cart_price: totalPrice,
-        })
-            .then((response) => {
-                swal({
-                    icon: "success",
-                    title: "Added to Cart!",
-                    text: "Item has been added to cart!",
-                }).then(() => {
-                    location.reload();
-                });
+        if (userObject) {
+            api.post("shopping/addtocart", {
+                product_id: product.id,
+                user_id: userObject.id,
+                cart_quantity: quantity,
+                cart_price: totalPrice,
             })
-            .catch((err) => {
-                console.log(err.response);
-            });
+                .then((response) => {
+                    swal({
+                        icon: "success",
+                        title: "Added to Cart!",
+                        text: "Item has been added to cart!",
+                    }).then(() => {
+                        location.reload();
+                    });
+                })
+                .catch((err) => {
+                    console.log(err.response);
+                });
+        } else {
+            location.href = `/auth`
+        }
     };
 
     return (
@@ -162,14 +171,14 @@ const ProductPage = ({ id, user }) => {
                             Quantity:{" "}
                             <button onClick={subQuantity}>
                                 <RemoveCircleIcon
-                                    sx={{ color: "#B75800" }}
+                                    sx={{ color: "#EDBF47" }}
                                     className="cursor-pointer"
                                 />
                             </button>{" "}
                             {quantity}{" "}
                             <button onClick={addQuantity}>
                                 <AddCircleIcon
-                                    sx={{ color: "#B75800" }}
+                                    sx={{ color: "#EDBF47" }}
                                     className="cursor-pointer"
                                 />
                             </button>
@@ -179,12 +188,12 @@ const ProductPage = ({ id, user }) => {
                         </div>
                         <Button
                             sx={{
-                                backgroundColor: "#B75800",
+                                backgroundColor: "#EDBF47",
                                 color: "#fff",
                                 paddingLeft: 4,
                                 paddingRight: 4,
                                 "&:hover": {
-                                    backgroundColor: "#B75800",
+                                    backgroundColor: "#EDBF47",
                                     color: "#fff",
                                 },
                             }}
@@ -202,7 +211,7 @@ const ProductPage = ({ id, user }) => {
                     {String(product.product_description).replace(/~/g, "\n")}
                 </div>
             </div>
-            <div className="border-2 my-12 mx-10 border-black"></div>
+            {/* <div className="border-2 my-12 mx-10 border-black"></div>
             <div className="px-10 w-full">
                 <div className="flex justify-center items-center flex-col">
                     <div className="text-2xl font-bold mb-12">
@@ -228,13 +237,13 @@ const ProductPage = ({ id, user }) => {
                     </div>
                     <Button
                         sx={{
-                            backgroundColor: "#B75800",
+                            backgroundColor: "#EDBF47",
                             color: "#fff",
                             paddingLeft: 4,
                             paddingRight: 4,
                             marginTop: 2,
                             "&:hover": {
-                                backgroundColor: "#B75800",
+                                backgroundColor: "#EDBF47",
                                 color: "#fff",
                             },
                         }}
@@ -243,7 +252,7 @@ const ProductPage = ({ id, user }) => {
                         Submit Review
                     </Button>
                 </div>
-            </div>
+            </div> */}
             <div className="border-2 my-12 mx-10 border-black"></div>
             <div className="px-10 w-full">
                 <div className="flex justify-center items-center flex-col">
