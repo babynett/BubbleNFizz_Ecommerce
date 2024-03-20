@@ -46,10 +46,6 @@
                                 <a href="/home" class="text-sm font-bold cursor-pointer hover:text-amber-500">>
                                     DASHBOARD</a>
                             </div>
-                            <div class="my-4">
-                                <a href="/home" class="text-sm font-bold cursor-pointer hover:text-amber-500">>
-                                    SETTINGS</a>
-                            </div>
                         </div>
                         <div class="m-4 border-b-2">
                             <div class="text-sm font-bold">ORDER MANAGEMENT</div>

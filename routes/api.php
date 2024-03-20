@@ -49,6 +49,7 @@ Route::prefix('products')->group(function () {
     Route::post('/recoverproduct', [ProductsController::class, 'recoverProduct']);
     Route::post('/editproduct', [ProductsController::class, 'editProduct']);
     Route::post('/adjuststock', [ProductsController::class, 'adjustStock']);
+    Route::post('/addproduct', [ProductsController::class, 'addProduct']);
     Route::get('/getdeletedproducts', [ProductsController::class, 'getDeletedProducts']);
 });
 
@@ -73,6 +74,7 @@ Route::get('/calculate/{u1}/{u2}', [RecommendationController::class, 'calculateS
 Route::post('/recommenditems', [RecommendationController::class, 'recommendItems']);
 
 Route::prefix('shopping')->group(function () {
+    Route::get('/similarproducts', [RecommendationController::class, 'similarProducts']);
     Route::get('/getthreeproducts', [ProductsController::class, 'getThreeProducts']);
     Route::get('/getbestsellers', [ProductsController::class, 'getBestSellers']);
     Route::get('/getallproducts', [ProductsController::class, 'getAllProducts']);

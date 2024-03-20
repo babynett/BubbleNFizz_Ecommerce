@@ -8,6 +8,7 @@ const ShoppingPage = (props) => {
     const userObject = props.user == undefined ? null : JSON.parse(props.user)
     const [products, setProducts] = useState([]);
     const [bestProducts, setBestProducts] = useState([]);
+    const [similarProducts, setSimilarProducts] = useState([])
 
     useEffect(() => {
         console.log(JSON.parse(props.image));
@@ -42,6 +43,12 @@ const ShoppingPage = (props) => {
                 console.log(err.response);
             });
 
+        api.get('shopping/similarproducts')
+            .then((response) => {
+                setSimilarProducts(response.data)
+            }).catch(err => {
+                console.log(err.response)
+            })
     }, []);
     return (
         <div className="w-full">
@@ -82,6 +89,33 @@ const ShoppingPage = (props) => {
             <div className="mx-10">
                 <div className="grid grid-cols-1 lg:grid-cols-6 gap-5">
                     {products.map((item, index) => {
+                        return (
+                            <div className="col-span-1">
+                                <CustomShoppingCard
+                                    title={item.product_name}
+                                    price={item.product_price}
+                                    rating={item.product_rating}
+                                    scentName={item.product_scent_name}
+                                    onClick={() =>
+                                        window.location.href = 
+                                            `/shopping/${item.id}`
+                                        
+                                    }
+                                />
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+            <div className="mx-10 my-12">
+                <Typography variant="h4" fontWeight={700}>
+                    SIMILAR PRODUCTS YOU LIKE
+                </Typography>
+            </div>
+
+            <div className="mx-10">
+                <div className="grid grid-cols-1 lg:grid-cols-6 gap-5">
+                    {similarProducts.map((item, index) => {
                         return (
                             <div className="col-span-1">
                                 <CustomShoppingCard

@@ -2,58 +2,81 @@ import { Button, Card, Typography } from "@mui/material";
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import CustomTextInput from "../../../components/CustomTextInput";
-import {api} from '../../../config/api'
-import swal from 'sweetalert';
-import CustomTitle from '../../../texts/CustomTitle'
-
+import { api } from "../../../config/api";
+import swal from "sweetalert";
+import CustomTitle from "../../../texts/CustomTitle";
 
 const AddEmployee = () => {
-    const [name, setName] = useState("");
+    const [fname, setFname] = useState("");
+    const [lname, setLname] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confPassword, setConfPassword] = useState("");
 
     const submit = () => {
-        api.post('usermanagement/addemployee', {
-            name: name,
-            email: email,
-            password: password,
-        }).then((response) => {
+        if (password !== confPassword) {
             swal({
-                icon: 'success',
-                title: "Employee Added!",
-                text: "User has been added!",
-            }).then(() => {
-                setName("")
-                setEmail("")
-                setPassword("")
-                setConfPassword("")
+                icon: "error",
+                title: "Error!",
+                text: "Password did not match!"
             })
-        }).catch(err => {
-            console.error(err.response)
-            swal({
-                icon: 'error',
-                title: "Email Taken!",
-                text: "User's email has been taken!",
+        } else {
+            api.post("usermanagement/addemployee", {
+                fname,
+                lname,
+                email: email,
+                password: password,
             })
-        })
+                .then((response) => {
+                    swal({
+                        icon: "success",
+                        title: "Employee Added!",
+                        text: "User has been added!",
+                    }).then(() => {
+                        setName("");
+                        setEmail("");
+                        setPassword("");
+                        setConfPassword("");
+                    });
+                })
+                .catch((err) => {
+                    console.error(err.response);
+                    swal({
+                        icon: "error",
+                        title: "Email Taken!",
+                        text: "User's email has been taken!",
+                    });
+                });
+        }
     };
 
     return (
         <div className="w-full">
             <CustomTitle text={`Employee Details`} />
-            <CustomTextInput
-                my={6}
-                value={name}
-                onChangeValue={(e) => setName(e.target.value)}
-                label={`Employee Name`}
-            />
-            <CustomTextInput
-                my={6}
-                value={email}
-                onChangeValue={(e) => setEmail(e.target.value)}
-                label={`Employee Email`}
-            />
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                <div className="col-span-1">
+                    <CustomTextInput
+                        my={6}
+                        value={fname}
+                        onChangeValue={(e) => setFname(e.target.value)}
+                        label={`Employee First Name`}
+                    />
+                </div>
+                <div className="col-span-1">
+                    <CustomTextInput
+                        my={6}
+                        value={lname}
+                        onChangeValue={(e) => setLname(e.target.value)}
+                        label={`Employee Last Name`}
+                    />
+                </div>
+            </div>
+                    <CustomTextInput
+                        my={6}
+                        value={email}
+                        onChangeValue={(e) => setEmail(e.target.value)}
+                        label={`Employee Email`}
+                    />
             <CustomTextInput
                 my={6}
                 value={password}
@@ -69,7 +92,12 @@ const AddEmployee = () => {
                 onChangeValue={(e) => setConfPassword(e.target.value)}
             />
             <div className="flex justify-center items-center w-full my-3">
-                <Button variant="contained" fullWidth onClick={submit} sx={{ backgroundColor:"#EDBF47", fontWeight: 700 }}>
+                <Button
+                    variant="contained"
+                    fullWidth
+                    onClick={submit}
+                    sx={{ backgroundColor: "#EDBF47", fontWeight: 700 }}
+                >
                     Submit
                 </Button>
             </div>

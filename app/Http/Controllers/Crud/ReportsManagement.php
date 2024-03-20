@@ -79,10 +79,11 @@ class ReportsManagement extends Controller
         // ", [$startOfWeek, $endOfWeek]);
         
         $weeklySales = DB::select("
-    SELECT DAYNAME(created_at) as day_of_week, SUM(total_price) as total_sales
-    FROM orders
-    WHERE created_at BETWEEN ? AND ?
-    GROUP BY DAYNAME(created_at)
+        SELECT DATE_FORMAT(created_at, '%Y-%m-%d') as day_of_week,
+        SUM(total_price) as total_sales
+ FROM orders
+ WHERE created_at BETWEEN ? AND ?
+ GROUP BY DATE_FORMAT(created_at, '%Y-%m-%d')
 ", [$startOfWeek, $endOfWeek]);
 
         // Monthly sales report query

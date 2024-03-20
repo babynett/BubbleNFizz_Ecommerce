@@ -15,17 +15,22 @@ import { api } from "../../../config/api";
 import { DataGrid } from "@mui/x-data-grid";
 import swal from "sweetalert";
 import CustomTextInput from "../../../components/CustomTextInput";
+import CustomFileUpload from "../../../components/CustomFileUpload";
+import CustomSelectInput from "../../../components/CustomSelectInput";
 
 const ProductsManagement = (props) => {
     const [data, setData] = useState([]);
     const [open, setOpen] = useState(false);
+    const [openAdd, setOpenAdd] = useState(false);
     const [productId, setProductId] = useState("");
     const [productName, setProductName] = useState("");
     const [productDescription, setProductDescription] = useState("");
+    const [productCategory, setProductCategory] = useState("");
+    const [productImages, setProductImages] = useState("");
     const [productPrice, setProductPrice] = useState("");
     const [productScent, setProductScent] = useState("");
-    // stock
-    const [stock, setStock] = useState('');
+    const [stock, setStock] = useState("");
+
     const [refresher, setRefresher] = useState(0);
 
     useEffect(() => {
@@ -85,24 +90,9 @@ const ProductsManagement = (props) => {
     };
 
     const handleStockAdjustment = () => {
-        api.post('products/adjuststock', {
+        api.post("products/adjuststock", {
             id: productId,
-            product_stock: stock
-        }).then((response) => {
-            setRefresher(refresher + 1)
-        }).catch(err => {
-            console.log(err.response)
-        })
-    }
-
-    const handleEditProduct = () => {
-        api.post("products/editproduct", {
-            id: productId,
-            product_name: productName,
-            product_description: productDescription,
-            product_price: productPrice,
-            product_scent: productScent,
-            product_stock: stock
+            product_stock: stock,
         })
             .then((response) => {
                 setRefresher(refresher + 1);
@@ -111,6 +101,62 @@ const ProductsManagement = (props) => {
                 console.log(err.response);
             });
     };
+
+    const handleEditProduct = () => {
+        api.post("products/editproduct", {
+            id: productId,
+            product_name: productName,
+            product_description: productDescription,
+            product_price: productPrice,
+            product_scent: productScent,
+            product_stock: stock,
+        })
+            .then((response) => {
+                setRefresher(refresher + 1);
+            })
+            .catch((err) => {
+                console.log(err.response);
+            });
+    };
+
+    const handleAddProduct = () => {
+        if (productName == '',
+            productDescription == '',
+            productCategory == '',
+            productImages == '',
+            productPrice == '',
+            productScent == '',
+            stock == '') {
+                swal({
+                    icon: "error",
+                    title: "Error!",
+                    text: "Please complete the form!"
+                })
+            } else {
+                const formdata = new FormData()
+                formdata.append('product_image', productImages)
+                formdata.append('product_name', productName)
+                formdata.append('product_description', productDescription)
+                formdata.append('product_price', productPrice)
+                formdata.append('product_stock', stock)
+                formdata.append('product_scent', productScent)
+                formdata.append('product_category', productCategory)
+
+                api.post('products/addproduct', formdata)
+                    .then((response) => {
+                        console.log(response.data)
+                        if (response.data) {
+                            swal({
+                                icon: "success",
+                                title: "Product Added!",
+                                text: "The product has been added!"
+                            }).then(() => setRefresher(refresher + 1))
+                        }
+                    }).catch(err => {
+                        console.log(err.response)
+                    })
+            }
+    }
 
     const columns = [
         { field: "id", headerName: "ID", width: 90 },
@@ -162,8 +208,13 @@ const ProductsManagement = (props) => {
                                                 color="success"
                                                 onClick={() => {
                                                     setOpen(true);
-                                                    setProductId(cellValue.row.id)
-                                                    setStock(cellValue.row.product_stock)
+                                                    setProductId(
+                                                        cellValue.row.id
+                                                    );
+                                                    setStock(
+                                                        cellValue.row
+                                                            .product_stock
+                                                    );
                                                 }}
                                             >
                                                 Adjust Stock
@@ -257,6 +308,13 @@ const ProductsManagement = (props) => {
         },
     ];
 
+    const options = [
+        "Artisan Facial and Body Soaps",
+        "Shampoo Bars",
+        "Bath Bomb",
+        "Bubble Bath",
+    ];
+
     return (
         <div className="w-full">
             <div className="flex w-full justify-between items-center">
@@ -264,15 +322,17 @@ const ProductsManagement = (props) => {
                     text={
                         props.deleted == "true"
                             ? `Deleted Products`
-                            : props.stock == 'true' ? `Stock Management` : `Product Management`
+                            : props.stock == "true"
+                            ? `Stock Management`
+                            : `Product Management`
                     }
                 />
-                {!props.deleted && (
+                {props.deleted == "false" && (
                     <Button
                         variant="contained"
-                        sx={{ marginBottom: 1 }}
+                        // sx={{ marginBottom: 1 }}
                         onClick={() => {
-                            alert("add product");
+                            setOpenAdd(true);
                         }}
                     >
                         Add Product
@@ -294,7 +354,116 @@ const ProductsManagement = (props) => {
                 autoHeight
                 rowHeight={200}
             />
+            {/* ADD DIALOG */}
+            <Dialog
+                open={openAdd}
+                onClose={() => {
+                    setOpenAdd(false);
+                    setProductName("");
+                    setProductDescription("");
+                    setProductScent("");
+                    setProductId("");
+                    setStock("");
+                }}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                fullWidth
+            >
+                <div className="w-full border-b-2 border-black">
+                    <DialogTitle id="alert-dialog-title">
+                        Add Product
+                    </DialogTitle>
+                </div>
+                <DialogContent>
+                    <div className="flex justify-center items-center w-full flex-col space-y-4 ">
+                        <>
+                            <CustomTextInput
+                                label={`Product Name`}
+                                value={productName}
+                                onChangeValue={(e) =>
+                                    setProductName(e.target.value)
+                                }
+                            />
+                            <CustomTextInput
+                                label={`Product Description`}
+                                value={productDescription}
+                                onChangeValue={(e) =>
+                                    setProductDescription(e.target.value)
+                                }
+                                multiline
+                            />
+                            <CustomTextInput
+                                label={`Product Price`}
+                                value={productPrice}
+                                onChangeValue={(e) =>
+                                    setProductPrice(e.target.value)
+                                }
+                            />
+                            <CustomTextInput
+                                label={`Product Scent`}
+                                value={productScent}
+                                onChangeValue={(e) =>
+                                    setProductScent(e.target.value)
+                                }
+                            />
+                            <CustomSelectInput
+                                label={`Product Category`}
+                                onChange={(e) =>
+                                    setProductCategory(e.target.value)
+                                }
+                                value={productCategory}
+                                options={options}
+                                fullWidth
+                            />
+                            <CustomTextInput
+                                label={`Product Stock`}
+                                value={stock}
+                                onChangeValue={(e) => setStock(e.target.value)}
+                            />
+                            <CustomFileUpload handleFile={setProductImages} />
+                        </>
+                    </div>
+                    <DialogContentText id="alert-dialog-description"></DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button
+                        onClick={() => {
+                            setOpenAdd(false);
+                            setProductName("");
+                            setProductDescription("");
+                            setProductPrice("");
+                            setProductScent("");
+                            setProductCategory("");
+                            setStock("");
+                            setProductImages(undefined);
+                        }}
+                        variant="contained"
+                        color="error"
+                    >
+                        Cancel
+                    </Button>
+                    <Button
+                        onClick={() => {
+                            handleAddProduct()
+                            setOpenAdd(false);
+                            setProductName("");
+                            setProductDescription("");
+                            setProductPrice("");
+                            setProductScent("");
+                            setProductCategory("");
+                            setStock("");
+                            setProductImages(undefined);
+                        }}
+                        autoFocus
+                        variant="contained"
+                        color="primary"
+                    >
+                        ADD
+                    </Button>
+                </DialogActions>
+            </Dialog>
 
+            {/* EDIT PRODUCTS */}
             <Dialog
                 open={open}
                 onClose={() => {
@@ -320,9 +489,7 @@ const ProductsManagement = (props) => {
                             <CustomTextInput
                                 label={`Stock Adjustment`}
                                 value={stock}
-                                onChangeValue={(e) =>
-                                    setStock(e.target.value)
-                                }
+                                onChangeValue={(e) => setStock(e.target.value)}
                             />
                         ) : (
                             <>
@@ -356,12 +523,12 @@ const ProductsManagement = (props) => {
                                     }
                                 />
                                 <CustomTextInput
-                                label={`Stock Adjustment`}
-                                value={stock}
-                                onChangeValue={(e) =>
-                                    setStock(e.target.value)
-                                }
-                            />
+                                    label={`Stock Adjustment`}
+                                    value={stock}
+                                    onChangeValue={(e) =>
+                                        setStock(e.target.value)
+                                    }
+                                />
                             </>
                         )}
                     </div>
@@ -383,8 +550,8 @@ const ProductsManagement = (props) => {
                     </Button>
                     <Button
                         onClick={() => {
-                            if (props.stock == 'true') {
-                                handleStockAdjustment()
+                            if (props.stock == "true") {
+                                handleStockAdjustment();
                             } else {
                                 handleEditProduct();
                             }
@@ -398,7 +565,7 @@ const ProductsManagement = (props) => {
                         variant="contained"
                         color="primary"
                     >
-                        Agree
+                        UPDATE
                     </Button>
                 </DialogActions>
             </Dialog>

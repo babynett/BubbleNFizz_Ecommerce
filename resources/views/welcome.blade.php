@@ -31,7 +31,7 @@
             background: #f6f5f7;
             font-family: 'poppins', sans-serif;
             min-height: 100%;
-            margin: 10%;
+            margin: 6.5%;
         }
         .container {
             position: relative;

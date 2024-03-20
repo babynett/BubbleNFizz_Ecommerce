@@ -33,7 +33,7 @@ class UserManagementController extends Controller
         // }
 
         $user = User::create([
-            'name' => $request->name,
+            'name' => $request->fname . " " . $request->lname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'user_role' => 2,

@@ -22,16 +22,30 @@ const MyProfile = ({ user }) => {
     const [confPassword, setConfPassword] = useState("");
 
     const handleSubmitProfile = () => {
-        api.post("usermanagement/editcontactno", {
-            user_id: user.id,
-            contact_no: phoneNumber,
-        })
-            .then((response) => {
-                location.reload();
+        if (phoneNumber.length == 11) {
+            api.post("usermanagement/editcontactno", {
+                user_id: user.id,
+                contact_no: phoneNumber,
             })
-            .catch((err) => {
-                console.log(err.response);
+                .then((response) => {
+                    swal({
+                        icon: "success",
+                        title: "Profile Updated!",
+                        text: "Your profile has been updated!"
+                    }).then(() => {
+                        location.reload()
+                    })
+                })
+                .catch((err) => {
+                    console.log(err.response);
+                });
+        } else {
+            swal({
+                icon: "error",
+                title: "Error!",
+                text: "Phone number must be 11 characters",
             });
+        }
     };
 
     const handleSubmitAddress = () => {
@@ -60,15 +74,15 @@ const MyProfile = ({ user }) => {
                 swal({
                     icon: "error",
                     title: "Oops...",
-                    text: "New password and confirm password does not match!"
-                })
+                    text: "New password and confirm password does not match!",
+                });
             } else {
                 api.post("usermanagement/changepassword", {
                     id: user.id,
                     newPassword,
-                    currPassword
+                    currPassword,
                 }).then((response) => {
-                    console.log(response.data)
+                    console.log(response.data);
                     if (response.data) {
                         swal({
                             icon: "success",
@@ -76,7 +90,7 @@ const MyProfile = ({ user }) => {
                             text: "Password has been updated!",
                         }).then(() => {
                             location.reload();
-                        })
+                        });
                     } else {
                         swal({
                             icon: "error",
@@ -170,9 +184,11 @@ const MyProfile = ({ user }) => {
                                 <CustomTextInput
                                     label={`Phone Number`}
                                     value={phoneNumber}
-                                    onChangeValue={(e) =>
-                                        setPhoneNumber(e.target.value)
-                                    }
+                                    onChangeValue={(e) => {
+                                        let numOnly = e.target.value
+                                        numOnly = numOnly.replace(/[A-Z a-z]/g, '')
+                                        setPhoneNumber(numOnly);
+                                    }}
                                 />
                             </div>
                             <div className="w-full">

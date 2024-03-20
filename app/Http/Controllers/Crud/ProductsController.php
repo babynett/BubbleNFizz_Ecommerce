@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Crud;
 use App\Http\Controllers\Controller;
 use App\Models\ProductCategory;
 use App\Models\Products;
+use App\Models\ProductScent;
 use App\Models\RecentView;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -96,5 +97,41 @@ class ProductsController extends Controller
         return Products::where('id', $request->id)->update([
             'product_stock' => $request->product_stock
         ]);
+    }
+
+    public function addProduct(Request $request)
+    {
+        if ($request->hasFile('product_image')) {
+            $file = $request->file('product_image');
+            $filename = $file->getClientOriginalName();
+            $file->move(public_path('images/products'), $filename);
+
+            $product = Products::create([
+                'product_name' => $request->product_name,
+                'product_description' => $request->product_description,
+                'product_images' => $filename,
+                'product_price' => $request->product_price,
+                'product_stock' => $request->product_stock,
+                'product_rating' => '0',
+                'product_scent_name' => $request->product_scent,
+                'is_deleted' => 0,
+            ]);
+
+            ProductCategory::create([
+                'product_id' => $product->id,
+                'product_category' => $request->product_category,
+                'product_sales' => 0
+            ]);
+
+            ProductScent::create([
+                'product_id' => $product->id,
+                'product_scent' => $request->product_scent,
+                'product_selected' => 0,
+            ]);
+
+            return 'true';
+        } else {
+            return 'false';
+        }
     }
 }

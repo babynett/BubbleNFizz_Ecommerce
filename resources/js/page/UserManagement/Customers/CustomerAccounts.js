@@ -36,12 +36,12 @@ const CustomerAccounts = () => {
             },
         },
         {
-            field: "birthday",
-            headerName: "Birthday",
+            field: "created_at",
+            headerName: "Date Joined",
             width: 350,
             editable: true,
             renderCell: (cellValue) => {
-                return moment(cellValue.value).format("LL");
+                return moment(cellValue.value).format("LL hh:mm:ssA");
             },
         },
         {
@@ -52,11 +52,8 @@ const CustomerAccounts = () => {
             renderCell: (cellValue) => {
                 return (
                     <>
-                        <Button variant="contained" color="warning" sx={{ marginRight: 1 }}>
-                            Edit User
-                        </Button>
                         <Button variant="contained" color="error">
-                            Delete User
+                            Suspend User
                         </Button>
                     </>
                 )

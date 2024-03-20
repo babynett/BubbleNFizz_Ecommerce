@@ -1015,6 +1015,9 @@ input:checked + .toggle-bg {
 .bottom-0 {
   bottom: 0px;
 }
+.bottom-10 {
+  bottom: 2.5rem;
+}
 .bottom-\[60px\] {
   bottom: 60px;
 }
@@ -1030,14 +1033,11 @@ input:checked + .toggle-bg {
 .top-0 {
   top: 0px;
 }
-.top-3 {
-  top: 0.75rem;
-}
 .top-10 {
   top: 2.5rem;
 }
-.bottom-10 {
-  bottom: 2.5rem;
+.top-3 {
+  top: 0.75rem;
 }
 .z-10 {
   z-index: 10;
@@ -1081,6 +1081,10 @@ input:checked + .toggle-bg {
 .mx-10 {
   margin-left: 2.5rem;
   margin-right: 2.5rem;
+}
+.mx-24 {
+  margin-left: 6rem;
+  margin-right: 6rem;
 }
 .mx-4 {
   margin-left: 1rem;
@@ -1133,18 +1137,6 @@ input:checked + .toggle-bg {
 .my-8 {
   margin-top: 2rem;
   margin-bottom: 2rem;
-}
-.mx-52 {
-  margin-left: 13rem;
-  margin-right: 13rem;
-}
-.mx-96 {
-  margin-left: 24rem;
-  margin-right: 24rem;
-}
-.mx-24 {
-  margin-left: 6rem;
-  margin-right: 6rem;
 }
 .-ml-60 {
   margin-left: -15rem;
@@ -1200,14 +1192,11 @@ input:checked + .toggle-bg {
 .mt-3 {
   margin-top: 0.75rem;
 }
-.mt-5 {
-  margin-top: 1.25rem;
-}
-.mt-6 {
-  margin-top: 1.5rem;
-}
 .mt-4 {
   margin-top: 1rem;
+}
+.mt-5 {
+  margin-top: 1.25rem;
 }
 .block {
   display: block;
@@ -1854,6 +1843,14 @@ input:checked + .toggle-bg {
   font-size: 1.5rem;
   line-height: 2rem;
 }
+.text-4xl {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
+.text-7xl {
+  font-size: 4.5rem;
+  line-height: 1;
+}
 .text-9xl {
   font-size: 8rem;
   line-height: 1;
@@ -1877,14 +1874,6 @@ input:checked + .toggle-bg {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
-}
-.text-4xl {
-  font-size: 2.25rem;
-  line-height: 2.5rem;
-}
-.text-7xl {
-  font-size: 4.5rem;
-  line-height: 1;
 }
 .font-bold {
   font-weight: 700;
@@ -1938,13 +1927,13 @@ input:checked + .toggle-bg {
   --tw-text-opacity: 1;
   color: rgb(17 24 39 / var(--tw-text-opacity));
 }
-.text-white {
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
-}
 .text-slate-700 {
   --tw-text-opacity: 1;
   color: rgb(51 65 85 / var(--tw-text-opacity));
+}
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 .underline {
   text-decoration-line: underline;
@@ -2354,10 +2343,6 @@ textarea {
 }
 
 @media (min-width: 1024px) {
-
-  .lg\:relative {
-    position: relative;
-  }
 
   .lg\:mx-96 {
     margin-left: 24rem;

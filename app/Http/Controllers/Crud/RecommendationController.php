@@ -15,7 +15,7 @@ class RecommendationController extends Controller
         $users = User::where('id', '!=', $request->user_id)->get(); // get all other users
 
         $similarities = []; // nag declare ako ng array
-        foreach($users as $user) { //loop ko lahat ng nakuha kong users
+        foreach ($users as $user) { //loop ko lahat ng nakuha kong users
             $similarity = $this->calculateSimilarity($request->user_id, $user->id);
             $similarities[$user->id] = $similarity; // $similarities[3] = 3
         }
@@ -50,6 +50,42 @@ class RecommendationController extends Controller
         return $prodItems;
     }
 
+    public function similarProducts()
+    {
+        $products = RecentView::with('product')->get();
+        if ($products->isEmpty()) {
+            // Fetch all products
+            $uniqueProductIds = Products::pluck('id')->unique();
+        } else {
+            // Fetch unique product IDs from recent views
+            $uniqueProductIds = $products->pluck('product_id')->unique();
+        }
+
+        $randomProducts = [];
+        $maxProducts = 6;
+
+        // Make sure there are enough unique products to fetch
+        if ($uniqueProductIds->count() >= $maxProducts) {
+            // Shuffle the product IDs
+            $shuffledProductIds = $uniqueProductIds->shuffle();
+
+            // Fetch random products based on shuffled product IDs
+            foreach ($shuffledProductIds->take($maxProducts) as $productId) {
+                $randomProducts[] = Products::find($productId);
+            }
+        } else {
+            // Handle case when there are not enough unique products
+            // You may fetch all unique products or handle it according to your requirements
+            $randomProducts = [];
+            $products = Products::all();
+            for ($i = 0; $i < 6; $i++) {
+                $randomProducts[] = $products->random();
+            }
+        }
+
+        return $randomProducts;
+    }
+
     public function calculateSimilarity($user1, $user2)
     {
         $user1View = RecentView::where('user_id', $user1)->orderBy('id', 'desc')->limit(6)->get();
@@ -60,16 +96,16 @@ class RecommendationController extends Controller
         $user1Prod = []; // [1, 5, 7, 30, 21, 9]
         $user2Prod = []; // [6, 7, 30, 1, 44, 11]
 
-        foreach($user1View as $view) {
+        foreach ($user1View as $view) {
             array_push($user1Prod, $view->product_id);
         }
 
-        foreach($user2View as $view) {
+        foreach ($user2View as $view) {
             array_push($user2Prod, $view->product_id);
         }
-        
-        foreach($user1Prod as $prod) {
-            if(in_array($prod, $user2Prod)) {
+
+        foreach ($user1Prod as $prod) {
+            if (in_array($prod, $user2Prod)) {
                 $similarityCount = $similarityCount + 1;
             }
         }

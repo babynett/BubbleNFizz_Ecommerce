@@ -29,7 +29,7 @@ Route::get('/auth', function () {
 
 Route::get('/aboutus', function () {
     return view('aboutus');
-})->middleware(['guest']);
+});
 
 Auth::routes();
 
