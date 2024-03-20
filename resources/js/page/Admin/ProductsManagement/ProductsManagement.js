@@ -125,7 +125,7 @@ const ProductsManagement = (props) => {
                     <div className="grid grid-cols-12 gap-4">
                         <div className="col-span-3">
                             <img
-                                src={`https://picsum.photos/300/300`}
+                                src={`https://bubblenfizz-store.com/images/static/image282.png`}
                                 height={300}
                                 width={300}
                             />

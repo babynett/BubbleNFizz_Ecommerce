@@ -7,7 +7,7 @@ const CheckoutCard = ({ cart, darkMode = true, isCart = true, refundButton = fal
             <div className="col-span-3">
                 <div className="flex justify-center items-center h-full">
                     <img
-                        src={`https://picsum.photos/500/300`}
+                        src={`https://bubblenfizz-store.com/images/static/image282.png`}
                         height={300}
                         width={500}
                     />

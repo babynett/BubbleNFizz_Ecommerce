@@ -12,7 +12,7 @@ const RecentProductCard = ({
             <div className="col-span-3">
                 <div className="flex justify-center items-center h-full">
                     <img
-                        src={`https://picsum.photos/500/300`}
+                        src={`https://bubblenfizz-store.com/images/static/image282.png`}
                         height={300}
                         width={500}
                     />

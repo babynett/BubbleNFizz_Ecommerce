@@ -333,7 +333,7 @@ const PaymentRegister = () => {
                                     >
                                         <div className="flex p-5 flex-col justify-center items-center space-y-4">
                                             <img
-                                                src={`https://picsum.photos/200/200`}
+                                                src={`https://bubblenfizz-store.com/images/static/image282.png`}
                                                 height={200}
                                                 width={200}
                                             />

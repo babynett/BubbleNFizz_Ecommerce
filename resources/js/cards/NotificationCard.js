@@ -40,7 +40,7 @@ const NotificationCard = ({ order, setRefresher, user, refresher }) => {
         <>
             <div className="col-span-3 bg-blue-500">
                 <img
-                    src={`https://picsum.photos/500/300`}
+                    src={`https://bubblenfizz-store.com/images/static/image282.png`}
                     height={300}
                     width={500}
                 />

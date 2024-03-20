@@ -33,6 +33,11 @@ class HomeController extends Controller
             'user' => $user,
         ]);
     }
+
+    public function aboutUs()
+    {
+        return view('aboutus');
+    }
     
     public function customerPoll()
     {

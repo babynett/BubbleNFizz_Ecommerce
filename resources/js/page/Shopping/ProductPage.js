@@ -121,22 +121,22 @@ const ProductPage = ({ id, user, guest }) => {
                         {/* smaller images */}
                         <div className="col-span-2">
                             <img
-                                src={`https://picsum.photos/125/125`}
+                                src={`https://bubblenfizz-store.com/images/static/image282.png`}
                                 height={125}
                                 width={125}
                             />
                             <img
-                                src={`https://picsum.photos/125/125`}
+                                src={`https://bubblenfizz-store.com/images/static/image282.png`}
                                 height={125}
                                 width={125}
                             />
                             <img
-                                src={`https://picsum.photos/125/125`}
+                                src={`https://bubblenfizz-store.com/images/static/image282.png`}
                                 height={125}
                                 width={125}
                             />
                             <img
-                                src={`https://picsum.photos/125/125`}
+                                src={`https://bubblenfizz-store.com/images/static/image282.png`}
                                 height={125}
                                 width={125}
                             />
@@ -144,7 +144,7 @@ const ProductPage = ({ id, user, guest }) => {
                         {/* large, single image */}
                         <div className="col-span-8">
                             <img
-                                src={`https://picsum.photos/500/500`}
+                                src={`https://bubblenfizz-store.com/images/static/image282.png`}
                                 height={500}
                                 width={500}
                             />

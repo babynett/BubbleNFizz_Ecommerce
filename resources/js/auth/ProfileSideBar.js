@@ -7,7 +7,7 @@ const ProfileSideBar = ({ id, name, page, setPage }) => {
         <div className="w-full px-12 py-8 bg-black text-white">
             <div className="flex space-x-6 px-4">
                 <img
-                    src={`https://picsum.photos/100/100`}
+                    src={`https://bubblenfizz-store.com/images/static/image282.png`}
                     height={100}
                     width={100}
                 />

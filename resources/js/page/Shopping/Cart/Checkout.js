@@ -291,7 +291,7 @@ const Checkout = ({ user }) => {
                                 <div className="col-span-1">
                                     <div className="flex justify-between items-center">
                                         <img
-                                            src={`https://picsum.photos/500/500`}
+                                            src={`https://bubblenfizz-store.com/images/static/image282.png`}
                                             height={500}
                                             width={500}
                                         />

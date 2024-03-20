@@ -149,7 +149,12 @@
                 @endif
             @endauth
             <main id="mainContent"
-                class="main -ml-60 flex flex-grow flex-col transition-all duration-150 ease-in md:ml-0">
+                class="main @auth
+                @if (Auth::user()->user_role != 3)
+                
+                -ml-60
+                @endif
+                @endauth flex flex-grow flex-col transition-all duration-150 ease-in md:ml-0">
                 <div class="flex h-full bg-white flex-col shadow-md">
                     @yield('content')
                 </div>

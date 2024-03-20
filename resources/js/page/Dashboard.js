@@ -256,7 +256,7 @@ const Dashboard = (props) => {
                                                     <div className="grid grid-cols-12 gap-4">
                                                         <div className="col-span-3">
                                                     <img
-                                                        src={`https://picsum.photos/100/100`}
+                                                        src={`https://bubblenfizz-store.com/images/static/image282.png`}
                                                         height={100}
                                                         width={100}
                                                         />

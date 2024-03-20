@@ -27,6 +27,10 @@ Route::get('/auth', function () {
     return view('welcome');
 })->middleware('guest')->name('auth');
 
+Route::get('/aboutus', function () {
+    return view('aboutus');
+})->middleware(['guest']);
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
