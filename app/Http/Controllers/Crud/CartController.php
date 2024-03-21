@@ -58,19 +58,38 @@ class CartController extends Controller
     public function submitOrder(Request $request)
     {
         // return json_encode(json_decode($request->carts));
-        $order = Orders::create([
-            'user_id' => $request->user_id,
-            'order_address' => $request->order_address,
-            'order_apartment' => $request->order_apartment,
-            'order_phone_number' => $request->order_phone_number,
-            'order_shipping' => $request->order_shipping,
-            'order_status' => 'Pending',
-            'payment' => $request->payment,
-            'payment_image' => $request->payment_image,
-            'payment_status' => "Pending",
-            'total_quantity' => $request->total_quantity,
-            'total_price' => $request->total_price,
-        ]);
+        if ($request->hasFile('payment_image')) {
+            $file = $request->file('payment_image');
+            $filename = $file->getClientOriginalName();
+            request()->payment_image->move(public_path('image/order'), $filename);
+            $order = Orders::create([
+                'user_id' => $request->user_id,
+                'order_address' => $request->order_address,
+                'order_apartment' => $request->order_apartment,
+                'order_phone_number' => $request->order_phone_number,
+                'order_shipping' => $request->order_shipping,
+                'order_status' => 'Pending',
+                'payment' => $request->payment,
+                'payment_image' => $filename,
+                'payment_status' => "Pending",
+                'total_quantity' => $request->total_quantity,
+                'total_price' => $request->total_price,
+            ]);
+        } else {
+            $order = Orders::create([
+                'user_id' => $request->user_id,
+                'order_address' => $request->order_address,
+                'order_apartment' => $request->order_apartment,
+                'order_phone_number' => $request->order_phone_number,
+                'order_shipping' => $request->order_shipping,
+                'order_status' => 'Pending',
+                'payment' => $request->payment,
+                'payment_image' => NULL,
+                'payment_status' => "Pending",
+                'total_quantity' => $request->total_quantity,
+                'total_price' => $request->total_price,
+            ]);
+        }
 
         $cart_items = json_decode(json_encode(json_decode($request->carts)));
 
@@ -91,7 +110,7 @@ class CartController extends Controller
             Products::where('id', $items->product_id)->update([
                 'product_stock' => (int)$productStock->product_stock - (int)$items->cart_quantity
             ]);
-            if (!$request->order_shipping == "Walk In") {
+            if ($request->order_shipping != "Walk In") {
                 Cart::where('id', $items->id)->delete();
             }
         }

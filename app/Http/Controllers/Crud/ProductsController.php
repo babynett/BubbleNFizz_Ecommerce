@@ -83,13 +83,20 @@ class ProductsController extends Controller
 
     public function editProduct(Request $request)
     {
-        return Products::where('id', $request->id)->update([
-            'product_name' => $request->product_name,
-            'product_price' => $request->product_price,
-            'product_description' => $request->product_description,
-            'product_scent_name' => $request->product_scent,
-            'product_stock' => $request->product_stock,
-        ]);
+        if ($request->hasFile('product_image')) {
+            $file = $request->file('product_image');
+            $filename = $file->getClientOriginalName();
+            request()->product_image->move(public_path('image/products'), $filename);
+
+            return Products::where('id', $request->id)->update([
+                'product_name' => $request->product_name,
+                'product_price' => $request->product_price,
+                'product_images' => $filename,
+                'product_description' => $request->product_description,
+                'product_scent_name' => $request->product_scent,
+                'product_stock' => $request->product_stock,
+            ]);
+        }
     }
 
     public function adjustStock(Request $request)
@@ -104,7 +111,7 @@ class ProductsController extends Controller
         if ($request->hasFile('product_image')) {
             $file = $request->file('product_image');
             $filename = $file->getClientOriginalName();
-            $file->move(public_path('images/products'), $filename);
+            request()->product_image->move(public_path('image/products'), $filename);
 
             $product = Products::create([
                 'product_name' => $request->product_name,

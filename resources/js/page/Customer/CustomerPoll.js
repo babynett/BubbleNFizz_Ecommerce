@@ -8,7 +8,8 @@ import swal from "sweetalert";
 import CustomTextInput from "../../components/CustomTextInput";
 import moment from "moment";
 import CustomDatePicker from "../../components/CustomDatePicker";
-import {api} from '../../config/api'
+import { api } from "../../config/api";
+import CustomShoppingCard from "../../components/shopping/CustomShoppingCard";
 
 const CustomerPoll = (props) => {
     const userObject = JSON.parse(props.user);
@@ -25,11 +26,13 @@ const CustomerPoll = (props) => {
     const [loading, setLoading] = useState(false);
 
     // FOR PROFILE
-    const [birthday, setBirthday] = useState(moment())
-    const [address, setAddress] = useState('')
-    const [city, setCity] = useState('')
-    const [postalCode, setPostalCode] = useState('')
-    const [contactNo, setContactNo] = useState('')
+    const [birthday, setBirthday] = useState(moment());
+    const [address, setAddress] = useState("");
+    const [city, setCity] = useState("");
+    const [postalCode, setPostalCode] = useState("");
+    const [contactNo, setContactNo] = useState("");
+
+    const [pollResults, setPollResults] = useState([]);
 
     useEffect(() => {
         console.log(userObject);
@@ -90,8 +93,8 @@ const CustomerPoll = (props) => {
                 title: "Oops...",
                 text: "You haven't picked a bath preference yet!",
             });
-        else if (page == 9 && bathType !== "") 
-            api.post('usermanagement/adduserpoll', {
+        else if (page == 9 && bathType !== "")
+            api.post("usermanagement/adduserpoll", {
                 user_id: userObject.id,
                 gender: gender,
                 scent: selectedScent,
@@ -102,32 +105,50 @@ const CustomerPoll = (props) => {
                 age_bracket: ageBracket,
                 frequency: frequency,
                 bath_type: bathType,
-            }).then((response) => {
-                console.log(response.data)
-                setPage(page + 1)
-            }).catch(err => {
-                console.err(err.response)
             })
-        else if (page == 10 && (birthday == "" || address == "" || city == "" || postalCode == "" || contactNo == ""))
+                .then((response) => {
+                    console.log(response.data);
+                    setPage(page + 1);
+                })
+                .catch((err) => {
+                    console.err(err.response);
+                });
+        else if (
+            page == 10 &&
+            (birthday == "" ||
+                address == "" ||
+                city == "" ||
+                postalCode == "" ||
+                contactNo == "")
+        )
             swal({
                 icon: "error",
                 title: "Oops...",
                 text: "Please complete the form to proceed!",
             });
-        else if (page == 10 && (birthday !== "" || address !== "" || city !== "" || postalCode !== "" || contactNo !== ""))
-            api.post('usermanagement/adduserprofile', {
+        else if (
+            page == 10 &&
+            (birthday !== "" ||
+                address !== "" ||
+                city !== "" ||
+                postalCode !== "" ||
+                contactNo !== "")
+        )
+            api.post("usermanagement/adduserprofile", {
                 user_id: userObject.id,
-                birthday: moment(birthday).format('YYYY-MM-DD'),
+                birthday: moment(birthday).format("YYYY-MM-DD"),
                 address: address,
                 city: city,
                 postal_code: postalCode,
-                contact_no: contactNo
-            }).then((response) => {
-                console.log(response.data)
-                setPage(page + 1)
-            }).catch(err => {
-                console.err(err.response)
+                contact_no: contactNo,
             })
+                .then((response) => {
+                    console.log(response.data);
+                    setPage(page + 1);
+                })
+                .catch((err) => {
+                    console.err(err.response);
+                });
         else setPage(page + 1);
     };
 
@@ -329,18 +350,20 @@ const CustomerPoll = (props) => {
                                 What is your fragrance type?
                             </Typography>
                         </div>
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 py-10 w-full">
+                        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 py-10 w-full">
                             <div className="w-full flex justify-center items-center">
                                 <div
                                     className={`col-span-1 text-center flex justify-center items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        selectedScent == "Fresh"
+                                        selectedScent == "Toasted Marshmallow"
                                             ? "border-amber-600"
                                             : ""
                                     }`}
-                                    onClick={() => setSelectedScent("Fresh")}
+                                    onClick={() =>
+                                        setSelectedScent("Toasted Marshmallow")
+                                    }
                                 >
                                     <FragranceColor
-                                        title={`Fresh`}
+                                        title={`Toasted Marshmallow`}
                                         color={"#33CC1A"}
                                         description={
                                             "Comprise of citrus, water and green notes."
@@ -351,14 +374,14 @@ const CustomerPoll = (props) => {
                             <div className="w-full flex justify-center items-center">
                                 <div
                                     className={`col-span-1 text-center flex justify-center items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        selectedScent == "Floral"
+                                        selectedScent == "Lavender"
                                             ? "border-amber-600"
                                             : ""
                                     }`}
-                                    onClick={() => setSelectedScent("Floral")}
+                                    onClick={() => setSelectedScent("Lavender")}
                                 >
                                     <FragranceColor
-                                        title={`Floral`}
+                                        title={`Lavender`}
                                         color={"#F2C6E3"}
                                         description={
                                             "Sweet and flowery scent such as roses, jasmine, lilies and peonies."
@@ -369,14 +392,14 @@ const CustomerPoll = (props) => {
                             <div className="w-full flex justify-center items-center">
                                 <div
                                     className={`col-span-1 text-center flex justify-center items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        selectedScent == "Woody"
+                                        selectedScent == "Rosewood"
                                             ? "border-amber-600"
                                             : ""
                                     }`}
-                                    onClick={() => setSelectedScent("Woody")}
+                                    onClick={() => setSelectedScent("Rosewood")}
                                 >
                                     <FragranceColor
-                                        title={`Woody`}
+                                        title={`Rosewood`}
                                         color={"#493F07"}
                                         description={
                                             "Mysterious and captivating scent favoured like cedarwood, sandalwood, vetiver and amber."
@@ -387,14 +410,16 @@ const CustomerPoll = (props) => {
                             <div className="w-full flex justify-center items-center">
                                 <div
                                     className={`col-span-1 text-center flex justify-center items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        selectedScent == "Oriental"
+                                        selectedScent == "Peppermint"
                                             ? "border-amber-600"
                                             : ""
                                     }`}
-                                    onClick={() => setSelectedScent("Oriental")}
+                                    onClick={() =>
+                                        setSelectedScent("Peppermint")
+                                    }
                                 >
                                     <FragranceColor
-                                        title={`Oriental`}
+                                        title={`Peppermint`}
                                         color={"#FF0000"}
                                         description={
                                             "Luxurious fragrance family, oriental from floral oriental, soft oriental and woody oriental."
@@ -843,42 +868,46 @@ const CustomerPoll = (props) => {
                 ) : page == 10 ? (
                     <div className="w-2/3">
                         <div className="text-center">
-                            <Typography variant="h4" fontWeight={700} color={"#EDBF47"}>
+                            <Typography
+                                variant="h4"
+                                fontWeight={700}
+                                color={"#EDBF47"}
+                            >
                                 Complete your profile!
                             </Typography>
                         </div>
-                        <CustomDatePicker 
+                        <CustomDatePicker
                             label={"Birthday"}
                             my={15}
                             onChangeValue={(value) => setBirthday(value)}
                             value={birthday}
                         />
-                        <CustomTextInput 
+                        <CustomTextInput
                             my={15}
                             label={`Address`}
-                            onChangeValue={e => setAddress(e.target.value)}
+                            onChangeValue={(e) => setAddress(e.target.value)}
                             value={address}
                         />
-                        <CustomTextInput 
+                        <CustomTextInput
                             my={15}
                             label={`City`}
-                            onChangeValue={e => setCity(e.target.value)}
+                            onChangeValue={(e) => setCity(e.target.value)}
                             value={city}
                         />
-                        <CustomTextInput 
+                        <CustomTextInput
                             my={15}
                             label={`Postal Code`}
-                            onChangeValue={e => setPostalCode(e.target.value)}
+                            onChangeValue={(e) => setPostalCode(e.target.value)}
                             value={postalCode}
                         />
-                        <CustomTextInput 
+                        <CustomTextInput
                             my={15}
                             label={`Contact Number`}
-                            onChangeValue={e => setContactNo(e.target.value)}
+                            onChangeValue={(e) => setContactNo(e.target.value)}
                             value={contactNo}
                         />
                     </div>
-                ) : (
+                ) : page == 11 ? (
                     <>
                         <div className="text-center w-2/3">
                             <div className="px-10 py-12">
@@ -891,7 +920,7 @@ const CustomerPoll = (props) => {
                                 </Typography>
                             </div>
                             <div className="w-full flex justify-center">
-                                <div className="px-10 py-12 w-2/3">
+                                <div className="px-10 p     y-12 w-2/3">
                                     <Typography variant="h5">
                                         Thank you!! Your account is all set. You
                                         may now get the best deals our shop has
@@ -902,7 +931,18 @@ const CustomerPoll = (props) => {
                             <div className="px-10 py-12">
                                 <Button
                                     className="hover:scale-110 duration-100"
-                                    onClick={() => window.location.href = '/shopping'}
+                                    onClick={() => {
+                                        api.post("customerpollresult", {
+                                            product_scent: selectedScent,
+                                        })
+                                            .then((response) => {
+                                                setPage(page + 1);
+                                                setPollResults(response.data);
+                                            })
+                                            .catch((err) => {
+                                                console.log(err.response);
+                                            });
+                                    }}
                                     sx={{
                                         backgroundColor: "#EDBF47",
                                         borderColor: "#EDBF47",
@@ -916,6 +956,30 @@ const CustomerPoll = (props) => {
                                     Shop now!
                                 </Button>
                             </div>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <div className="grid grid-cols-1 gap-5 md:grid-cols-3 lg:grid-cols-6">
+                            {pollResults.map((item, index) => {
+                                if (index < 6) {
+                                    return (
+                                        <div className="col-span-1">
+                                            <CustomShoppingCard
+                                                title={item.product_name}
+                                                price={item.product_price}
+                                                rating={item.product_rating}
+                                                scentName={
+                                                    item.product_scent_name
+                                                }
+                                                onClick={() => {
+                                                    window.location.href = `/shopping/${item.id}`;
+                                                }}
+                                            />
+                                        </div>
+                                    );
+                                }
+                            })}
                         </div>
                     </>
                 )}
@@ -934,7 +998,7 @@ const CustomerPoll = (props) => {
                     ) : (
                         <div></div>
                     )}
-                    {page < 11 ? (
+                    {page < 12 ? (
                         <Button
                             onClick={nextPage}
                             variant="contained"

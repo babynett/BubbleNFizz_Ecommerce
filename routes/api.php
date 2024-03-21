@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Crud\AccountController;
 use App\Http\Controllers\Crud\CartController;
 use App\Http\Controllers\Crud\DashboardController;
@@ -30,6 +31,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Auth::routes();
 
 Route::post("/mobilelogin", [AccountController::class, 'mobileLogin']);
+Route::post('/customerpollresult', [RecommendationController::class, 'pollResult']);
 
 Route::prefix('usermanagement')->group(function () {
     Route::get("/getallcustomers", [UserManagementController::class, 'getAllCustomers']);
@@ -41,7 +43,10 @@ Route::prefix('usermanagement')->group(function () {
     Route::get('/getprofile/{id}', [AccountController::class, 'getProfile']); 
     Route::post('/editcontactno', [AccountController::class, 'editContactNo']); 
     Route::post('/editaddress', [AccountController::class, 'editAddress']); 
-    Route::post('/changepassword', [AccountController::class, 'changePassword']); 
+    Route::post('/changepassword', [AccountController::class, 'changePassword']);
+    Route::post('/suspenduser', [UserManagementController::class, 'suspendUser']);
+    Route::post('/unsuspenduser', [UserManagementController::class, 'unsuspendUser']);
+    Route::post('/checksuspension', [LoginController::class, 'checkSuspension']);
 });
 
 Route::prefix('products')->group(function () {
@@ -61,6 +66,7 @@ Route::prefix('ordersmanagement')->group(function () {
     Route::post('/toreceive', [OrdersController::class, 'toReceive']);
     Route::post('/complete', [OrdersController::class, 'complete']);
     Route::post('/cancelorder', [OrdersController::class, 'cancelOrder']);
+    Route::post('/refunditem', [OrdersController::class, 'refundItem']);
 });
 
 Route::get('/dashboard', [DashboardController::class, 'dashboardData']);

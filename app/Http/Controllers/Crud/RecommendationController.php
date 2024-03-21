@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Crud;
 
 use App\Http\Controllers\Controller;
+use App\Models\ProductCategory;
 use App\Models\Products;
 use App\Models\RecentView;
 use App\Models\User;
@@ -52,38 +53,73 @@ class RecommendationController extends Controller
 
     public function similarProducts()
     {
-        $products = RecentView::with('product')->get();
-        if ($products->isEmpty()) {
-            // Fetch all products
-            $uniqueProductIds = Products::pluck('id')->unique();
-        } else {
-            // Fetch unique product IDs from recent views
-            $uniqueProductIds = $products->pluck('product_id')->unique();
-        }
+        $products = RecentView::with('product.category', 'product.scent')->get();
 
         $randomProducts = [];
         $maxProducts = 6;
 
-        // Make sure there are enough unique products to fetch
-        if ($uniqueProductIds->count() >= $maxProducts) {
-            // Shuffle the product IDs
-            $shuffledProductIds = $uniqueProductIds->shuffle();
+        // Extract unique category and scent IDs from the recent views
+        $categoryIds = $products->pluck('product.category.id')->unique()->toArray();
+        $scentIds = $products->pluck('product.scent.id')->unique()->toArray();
 
-            // Fetch random products based on shuffled product IDs
-            foreach ($shuffledProductIds->take($maxProducts) as $productId) {
-                $randomProducts[] = Products::find($productId);
-            }
+        // Fetch products that match the category and scent of recent views
+        $filteredProducts = Products::whereHas('category', function ($query) use ($categoryIds) {
+            $query->whereIn('id', $categoryIds);
+        })->whereHas('scent', function ($query) use ($scentIds) {
+            $query->whereIn('id', $scentIds);
+        });
+
+        // Ensure enough unique products to fetch
+        if ($filteredProducts->count() >= $maxProducts) {
+            // Shuffle the filtered products
+            $shuffledProducts = $filteredProducts->inRandomOrder()->take($maxProducts)->get();
+
+            $randomProducts = $shuffledProducts->all();
         } else {
             // Handle case when there are not enough unique products
-            // You may fetch all unique products or handle it according to your requirements
-            $randomProducts = [];
-            $products = Products::all();
-            for ($i = 0; $i < 6; $i++) {
-                $randomProducts[] = $products->random();
-            }
+            $randomProducts = $filteredProducts->inRandomOrder()->get();
+            $remainingProductsCount = $maxProducts - $randomProducts->count();
+
+            // Fetch additional random products to meet the required count
+            $additionalRandomProducts = Products::whereNotIn('id', $randomProducts->pluck('id')->toArray())
+                ->inRandomOrder()
+                ->take($remainingProductsCount)
+                ->get();
+
+            $randomProducts = $randomProducts->concat($additionalRandomProducts);
         }
 
         return $randomProducts;
+    }
+
+    public function pollResult(Request $request)
+    {
+        $pollRes = Products::where('product_scent_name', $request->product_scent)
+            ->with('category')
+            ->get();
+
+        $allProducts = collect();
+
+        // If products are found
+        if ($pollRes->isNotEmpty()) {
+            // Select a random category from the retrieved products
+            $randomCategory = $pollRes->random()->category;
+
+            // Retrieve products with the same random category
+            $randomCategoryProducts = Products::whereHas('category', function ($query) use ($randomCategory) {
+                $query->where('product_category', $randomCategory->product_category);
+            })->inRandomOrder()->limit(5)->get();
+
+            // Merge the random category products with the initially retrieved products
+            $allProducts = $allProducts->merge($pollRes)->merge($randomCategoryProducts);
+
+            // Remove duplicates
+            $allProducts = $allProducts->unique('id')->values();
+
+            return $allProducts;
+        }
+
+        // Handle case when no products are found
     }
 
     public function calculateSimilarity($user1, $user2)

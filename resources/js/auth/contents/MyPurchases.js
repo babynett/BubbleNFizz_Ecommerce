@@ -222,7 +222,7 @@ const MyPurchases = ({user}) => {
                                     </div>
                                     {item.order_items.map((item, index) => {
                                         return (
-                                            <CheckOutCard cart={item} key={index} darkMode={false} isCart={false} refundButton />
+                                            <CheckOutCard cart={item} key={index} darkMode={false} isCart={false} refundButton={true} />
                                         )
                                     })}
                                 </div>

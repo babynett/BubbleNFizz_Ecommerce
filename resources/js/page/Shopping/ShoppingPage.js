@@ -5,10 +5,10 @@ import CustomShoppingCard from "../../components/shopping/CustomShoppingCard";
 import { api } from "../../config/api";
 
 const ShoppingPage = (props) => {
-    const userObject = props.user == undefined ? null : JSON.parse(props.user)
+    const userObject = props.user == undefined ? null : JSON.parse(props.user);
     const [products, setProducts] = useState([]);
     const [bestProducts, setBestProducts] = useState([]);
-    const [similarProducts, setSimilarProducts] = useState([])
+    const [similarProducts, setSimilarProducts] = useState([]);
 
     useEffect(() => {
         console.log(JSON.parse(props.image));
@@ -22,16 +22,18 @@ const ShoppingPage = (props) => {
                 });
         } else {
             if (userObject.user_role == 1) {
-                location.href = 'home'
+                location.href = "home";
             }
-            api.post('recommenditems', {
-                user_id: userObject.id 
-            }).then((response) => {
-                setProducts(response.data)
-                console.log(response.data)
-            }).catch(err => {
-                console.log(err.response)
+            api.post("recommenditems", {
+                user_id: userObject.id,
             })
+                .then((response) => {
+                    setProducts(response.data);
+                    console.log(response.data);
+                })
+                .catch((err) => {
+                    console.log(err.response);
+                });
         }
 
         api.get("shopping/getbestsellers")
@@ -43,12 +45,13 @@ const ShoppingPage = (props) => {
                 console.log(err.response);
             });
 
-        api.get('shopping/similarproducts')
+        api.get("shopping/similarproducts")
             .then((response) => {
-                setSimilarProducts(response.data)
-            }).catch(err => {
-                console.log(err.response)
+                setSimilarProducts(response.data);
             })
+            .catch((err) => {
+                console.log(err.response);
+            });
     }, []);
     return (
         <div className="w-full">
@@ -89,21 +92,21 @@ const ShoppingPage = (props) => {
             <div className="mx-10">
                 <div className="grid grid-cols-1 lg:grid-cols-6 gap-5">
                     {products.map((item, index) => {
-                        return (
-                            <div className="col-span-1">
-                                <CustomShoppingCard
-                                    title={item.product_name}
-                                    price={item.product_price}
-                                    rating={item.product_rating}
-                                    scentName={item.product_scent_name}
-                                    onClick={() =>
-                                        window.location.href = 
-                                            `/shopping/${item.id}`
-                                        
-                                    }
-                                />
-                            </div>
-                        );
+                        if (index < 6) {
+                            return (
+                                <div className="col-span-1">
+                                    <CustomShoppingCard
+                                        title={item.product_name}
+                                        price={item.product_price}
+                                        rating={item.product_rating}
+                                        scentName={item.product_scent_name}
+                                        onClick={() =>
+                                            (window.location.href = `/shopping/${item.id}`)
+                                        }
+                                    />
+                                </div>
+                            );
+                        }
                     })}
                 </div>
             </div>
@@ -124,9 +127,7 @@ const ShoppingPage = (props) => {
                                     rating={item.product_rating}
                                     scentName={item.product_scent_name}
                                     onClick={() =>
-                                        window.location.href = 
-                                            `/shopping/${item.id}`
-                                        
+                                        (window.location.href = `/shopping/${item.id}`)
                                     }
                                 />
                             </div>
@@ -223,30 +224,69 @@ const ShoppingPage = (props) => {
                 <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-8">
                     <div className="col-span-1">
                         <div className="flex justify-center items-center flex-col space-y-7">
-                            <img src={JSON.parse(props.image)[3]} height={125} width={125} />
-                            <Typography variant="h4" fontWeight={700}>FREE SHIPPING</Typography>
-                            <Typography variant="h6" fontWeight={400} textAlign={'center'}>FREE SHIPPING <br /> on orders over ₱250</Typography>
+                            <img
+                                src={JSON.parse(props.image)[3]}
+                                height={125}
+                                width={125}
+                            />
+                            <Typography variant="h4" fontWeight={700}>
+                                FREE SHIPPING
+                            </Typography>
+                            <Typography
+                                variant="h6"
+                                fontWeight={400}
+                                textAlign={"center"}
+                            >
+                                FREE SHIPPING <br /> on orders over ₱250
+                            </Typography>
                         </div>
                     </div>
                     <div className="col-span-1">
                         <div className="flex justify-center items-center flex-col space-y-7">
-                            <img src={JSON.parse(props.image)[4]} height={125} width={125} />
-                            <Typography variant="h4" fontWeight={700}>EASY RETURNS</Typography>
-                            <Typography variant="h6" fontWeight={400} textAlign={'center'}>Return the product <br /> anytime within 30 days</Typography>
+                            <img
+                                src={JSON.parse(props.image)[4]}
+                                height={125}
+                                width={125}
+                            />
+                            <Typography variant="h4" fontWeight={700}>
+                                EASY RETURNS
+                            </Typography>
+                            <Typography
+                                variant="h6"
+                                fontWeight={400}
+                                textAlign={"center"}
+                            >
+                                Return the product <br /> anytime within 30 days
+                            </Typography>
                         </div>
                     </div>
                     <div className="col-span-1">
                         <div className="flex justify-center items-center flex-col space-y-7">
-                            <img src={JSON.parse(props.image)[5]} height={125} width={125} />
-                            <Typography variant="h4" fontWeight={700}>RATING CERTIFIED</Typography>
-                            <Typography variant="h6" fontWeight={400} textAlign={'center'}>Our certified organic produce is rated 5 <br /> stars by over 1,000 customers.</Typography>
+                            <img
+                                src={JSON.parse(props.image)[5]}
+                                height={125}
+                                width={125}
+                            />
+                            <Typography variant="h4" fontWeight={700}>
+                                RATING CERTIFIED
+                            </Typography>
+                            <Typography
+                                variant="h6"
+                                fontWeight={400}
+                                textAlign={"center"}
+                            >
+                                Our certified organic produce is rated 5 <br />{" "}
+                                stars by over 1,000 customers.
+                            </Typography>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div className="mx-10 my-12">
-                <Typography textAlign={'center'} fontWeight={700} variant="h4">Don't take our word for it? See what others are saying</Typography>
+                <Typography textAlign={"center"} fontWeight={700} variant="h4">
+                    Don't take our word for it? See what others are saying
+                </Typography>
             </div>
         </div>
     );

@@ -103,14 +103,16 @@ const ProductsManagement = (props) => {
     };
 
     const handleEditProduct = () => {
-        api.post("products/editproduct", {
-            id: productId,
-            product_name: productName,
-            product_description: productDescription,
-            product_price: productPrice,
-            product_scent: productScent,
-            product_stock: stock,
-        })
+        const formdata = new FormData();
+        formdata.append('id', productId)
+        formdata.append('product_name', productName)
+        formdata.append('product_description', productDescription)
+        formdata.append('product_image', productImages)
+        formdata.append('product_price', productPrice)
+        formdata.append('product_scent', productScent)
+        formdata.append('product_stock', stock)
+
+        api.post("products/editproduct", formdata)
             .then((response) => {
                 setRefresher(refresher + 1);
             })
@@ -170,11 +172,19 @@ const ProductsManagement = (props) => {
                 return (
                     <div className="grid grid-cols-12 gap-4">
                         <div className="col-span-3">
-                            <img
-                                src={`https://bubblenfizz-store.com/images/static/image282.png`}
-                                height={300}
-                                width={300}
-                            />
+                            {cellValue.row.product_images == "" || cellValue.row.product_images == null ? (
+                                <img
+                                    src={`https://bubblenfizz-store.com/images/static/image282.png`}
+                                    height={300}
+                                    width={300}
+                                />
+                                ) : (
+                                <img
+                                    src={decodeURI(`https://bubblenfizz-store.com/BubbleNFizz-main/public/image/products/${cellValue.row.product_images}`)}
+                                    height={300}
+                                    width={300}
+                                />
+                            )}
                         </div>
                         <div className="col-span-6">
                             <Typography variant="h6">
@@ -529,6 +539,7 @@ const ProductsManagement = (props) => {
                                         setStock(e.target.value)
                                     }
                                 />
+                                <CustomFileUpload handleFile={setProductImages} />
                             </>
                         )}
                     </div>

@@ -110,4 +110,20 @@ class UserManagementController extends Controller
 
         return 'false';
     }
+
+    public function suspendUser(Request $request) 
+    {
+        return User::where('id', $request->id)
+            ->update([
+                'is_suspended' => true,
+            ]);
+    }
+
+    public function unsuspendUser(Request $request)
+    {
+        return User::where('id', $request->id)
+            ->update([
+                'is_suspended' => false,
+            ]);
+    }
 }

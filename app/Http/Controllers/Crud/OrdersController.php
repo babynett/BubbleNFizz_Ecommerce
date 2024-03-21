@@ -54,4 +54,11 @@ class OrdersController extends Controller
             $query->get();
         }])->where('user_id', $request->user_id)->where('order_status', $request->page)->get();
     }
+
+    public function refundItem(Request $request)
+    {
+        return Orders::where('id', $request->id)->update([
+            'order_status' => $request->order_status
+        ]);
+    }
 }
