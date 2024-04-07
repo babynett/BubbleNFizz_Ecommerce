@@ -5,12 +5,20 @@ import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CartCard from "../../../cards/CartCard";
 import { Button } from "@mui/material";
+import { useGeolocated } from "react-geolocated";
 
 const Cart = ({ user }) => {
     const userObject = JSON.parse(user);
     const [carts, setCarts] = useState([]);
     const [subTotal, setSubTotal] = useState(0);
     const [totalQuantity, setTotalQuantity] = useState(0);
+    const { coords, isGeolocationAvailable, isGeolocationEnabled } =
+        useGeolocated({
+            positionOptions: {
+                enableHighAccuracy: false,
+            },
+            userDecisionTimeout: 5000,
+        });
 
     useEffect(() => {
         api.get(`shopping/getusercart?user_id=${userObject.id}`)

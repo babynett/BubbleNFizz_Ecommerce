@@ -15,16 +15,16 @@ class CreateUserPollsTable extends Migration
     {
         Schema::create('user_polls', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id');
-            $table->string('gender');
-            $table->string('fragrance');
-            $table->string('location');
-            $table->string('ingredients');
-            $table->string('texture');
-            $table->string('design');
-            $table->string('age_bracket');
-            $table->string('frequency');
-            $table->string('bath_type');
+            $table->string('user_id')->nullable();
+            $table->string('gender')->nullable();
+            $table->string('fragrance')->nullable();
+            $table->string('location')->nullable();
+            $table->string('ingredients')->nullable();
+            $table->string('texture')->nullable();
+            $table->string('design')->nullable();
+            $table->string('age_bracket')->nullable();
+            $table->string('frequency')->nullable();
+            $table->string('bath_type')->nullable();
             $table->timestamps();
         });
     }

@@ -4,13 +4,34 @@ import CustomTextInput from "../../../components/CustomTextInput";
 import StoreIcon from "@mui/icons-material/Store";
 import moment from "moment";
 import CustomFileUpload from "../../../components/CustomFileUpload";
-import { Button } from "@mui/material";
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Typography,
+} from "@mui/material";
 import { api } from "../../../config/api";
 import CheckoutCard from "../../../cards/CheckoutCard";
 import swal from "sweetalert";
+import { useGeolocated } from "react-geolocated";
+import { ArrowRight } from "@mui/icons-material";
+import { HmacSHA256 } from "crypto-js";
 
 const Checkout = ({ user }) => {
     const userObject = JSON.parse(user);
+
+    const { coords, isGeolocationAvailable, isGeolocationEnabled } =
+        useGeolocated({
+            positionOptions: {
+                enableHighAccuracy: true,
+            },
+            userDecisionTimeout: 5000,
+        });
+    const [open, setOpen] = useState(false);
+    const [deliveryPrice, setDeliveryPrice] = useState(0);
 
     const [carts, setCarts] = useState([]);
     const [quantity, setQuantity] = useState(0);
@@ -74,12 +95,18 @@ const Checkout = ({ user }) => {
     }, [subTotalPrice, delivery]);
 
     const onSubmitOrder = () => {
-        if (apartmentError || addressError || phoneNumberError || apartment == "" || address == "" ) {
+        if (
+            apartmentError ||
+            addressError ||
+            phoneNumberError ||
+            apartment == "" ||
+            address == ""
+        ) {
             swal({
                 icon: "error",
                 title: "Oops...",
                 text: "Please fill in the form!",
-            })
+            });
         } else {
             const formdata = new FormData();
             formdata.append("user_id", userObject.id);
@@ -202,10 +229,95 @@ const Checkout = ({ user }) => {
                             className={`col-span-1 py-4 px-8 border-2 ${
                                 delivery == "Standard" ? "border-amber-500" : ""
                             } rounded-full`}
-                            onClick={() => {
+                            onClick={async () => {
                                 if (delivery !== "Standard") {
                                     setDelivery("Standard");
                                     setTotalPrice(Number(totalPrice) + 39);
+                                    console.log(coords);
+                                    const SECRET =
+                                        "sk_test_EO8bTWNXo86M0byh3gxDcXWFej9Q6Uu1h/idBaQnX+uS35q3LzOr9oVZSu/KvbmL";
+                                    const time = new Date()
+                                        .getTime()
+                                        .toString();
+                                    const method = "POST";
+                                    const path = "/v3/quotations";
+                                    const body = {
+                                        data: {
+                                            serviceType: "MOTORCYCLE",
+                                            language: "en_PH",
+                                            stops: [
+                                                {
+                                                    coordinates: {
+                                                        lat: `${coords.latitude}`,
+                                                        lng: `${coords.longitude}`,
+                                                    },
+                                                    address: `test location`,
+                                                },
+                                                {
+                                                    coordinates: {
+                                                        lat: "14.738250",
+                                                        lng: "121.040970",
+                                                    },
+                                                    address:
+                                                        "B13 L39 Neptune St, North Olympus Subdivision, Kaligayahan, Novaliches, Quezon City, 1124",
+                                                },
+                                            ],
+                                            item: {
+                                                // Recommended
+                                                quantity: "3",
+                                                weight: "LESS_THAN_3KG",
+                                                categories: ["FOOD_DELIVERY"],
+                                                handlingInstructions: [
+                                                    "KEEP_UPRIGHT",
+                                                ],
+                                            },
+                                            isRouteOptimized: true, // optional
+                                        },
+                                    };
+                                    const rawSignature = `${time}\r\n${method}\r\n${path}\r\n\r\n${JSON.stringify(
+                                        body
+                                    )}`;
+                                    // const SIGNATURE = await JSHmac(
+                                    //   rawSignature,
+                                    //   SECRET,
+                                    //   CONSTANTS.HmacAlgorithms.HmacSHA256,
+                                    // );
+                                    const SIGNATURE = HmacSHA256(
+                                        rawSignature,
+                                        SECRET
+                                    ).toString();
+
+                                    const API_KEY =
+                                        "pk_test_c8dffbde99c92c70f73f2f38ae3835ef";
+                                    const TOKEN = `${API_KEY}:${time}:${SIGNATURE}`;
+                                    console.log(TOKEN);
+
+                                    axios
+                                        .post(
+                                            "https://rest.sandbox.lalamove.com/v3/quotations",
+                                            body,
+                                            {
+                                                headers: {
+                                                    Authorization: `hmac ${TOKEN}`,
+                                                    Market: "PH",
+                                                },
+                                            }
+                                        )
+                                        .then((response) => {
+                                            console.log(response.data);
+                                            // setDeliveryTotal(response.data.data.priceBreakdown.total);
+                                            // setDeliveryAddress(res.data.display_name);
+                                            // setQuotationData(response.data);
+                                            // const distanceValue =
+                                            //   Number(response.data.data.distance.value) / 1000;
+                                            // setDistance(distanceValue.toFixed(2));
+                                            // setLoading(false);
+                                        })
+                                        .catch((err) => {
+                                            setLoading(false);
+                                            console.log(err.response.data);
+                                        });
+                                    setOpen(true);
                                 }
                             }}
                         >
@@ -228,12 +340,61 @@ const Checkout = ({ user }) => {
                                             .format("MMM DD")}
                                     </div>
                                 </div>
-                                <div className="text-xl">
-                                    P<span className="ml-5">39.00</span>
+                                <div className="text-sm">
+                                    <ArrowRight
+                                        sx={{ color: "#EDBF47", fontSize: 30 }}
+                                    />
                                 </div>
+                                <Dialog
+                                    open={open}
+                                    onClose={() => {
+                                        setOpen(false);
+                                    }}
+                                    aria-labelledby="alert-dialog-title"
+                                    aria-describedby="alert-dialog-description"
+                                >
+                                    <div className="w-full border-b-2 border-black">
+                                        <DialogTitle id="alert-dialog-title">
+                                            Lalamove Delivery Fee
+                                        </DialogTitle>
+                                    </div>
+                                    <DialogContent>
+                                        <div className="flex justify-center items-center w-full flex-col">
+                                            <Typography>Test</Typography>
+                                        </div>
+                                        <DialogContentText id="alert-dialog-description">
+                                            {/* Let Google help apps determine location. This
+                                means sending anonymous location data to Google,
+                            even when no apps are running. */}
+                                        </DialogContentText>
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button
+                                            onClick={() => {
+                                                setOpen(false);
+                                                setDeliveryPrice(0);
+                                            }}
+                                            variant="contained"
+                                            color="error"
+                                        >
+                                            Cancel
+                                        </Button>
+                                        <Button
+                                            onClick={() => {
+                                                setOpen(false);
+                                                setDeliveryPrice(0);
+                                            }}
+                                            autoFocus
+                                            variant="contained"
+                                            color="primary"
+                                        >
+                                            Agree
+                                        </Button>
+                                    </DialogActions>
+                                </Dialog>
                             </div>
                         </div>
-                        <div
+                        {/* <div
                             className={`col-span-1 py-4 px-8 border-2 ${
                                 delivery == "SameDay" ? "border-amber-500" : ""
                             } rounded-full`}
@@ -261,7 +422,7 @@ const Checkout = ({ user }) => {
                                     P<span className="ml-5">150.00</span>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="text-2xl font-bold mb-6">Payment</div>
                     <div className="grid grid-cols-1 gap-4 mb-6">

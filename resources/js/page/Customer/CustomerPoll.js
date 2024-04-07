@@ -15,7 +15,7 @@ const CustomerPoll = (props) => {
     const userObject = JSON.parse(props.user);
     const [page, setPage] = useState(1);
     const [gender, setGender] = useState("");
-    const [selectedScent, setSelectedScent] = useState("");
+    const [selectedScent, setSelectedScent] = useState([]);
     const [location, setLocation] = useState("");
     const [ingredients, setIngredients] = useState("");
     const [texture, setTexture] = useState("");
@@ -41,9 +41,14 @@ const CustomerPoll = (props) => {
     const nextPage = () => {
         if (page == 1 && gender == "")
             swal({
-                icon: "error",
-                title: "Oops...",
-                text: "You haven't picked a gender yet!",
+                icon: "warning",
+                title: "Skip Gender?",
+                text: "Skip picking gender?",
+                buttons: ["No", "Yes"],
+            }).then((response) => {
+                if (response == true) {
+                    setPage(2);
+                }
             });
         else if (page == 2 && selectedScent == "")
             swal({
@@ -51,53 +56,41 @@ const CustomerPoll = (props) => {
                 title: "Oops...",
                 text: "You haven't picked a scent yet!",
             });
-        else if (page == 3 && location == "")
-            swal({
-                icon: "error",
-                title: "Oops...",
-                text: "You haven't picked a location yet!",
-            });
-        else if (page == 4 && ingredients == "")
-            swal({
-                icon: "error",
-                title: "Oops...",
-                text: "You haven't picked an ingredient yet!",
-            });
-        else if (page == 5 && texture == "")
+        else if (page == 3 && texture == "")
             swal({
                 icon: "error",
                 title: "Oops...",
                 text: "You haven't picked a texture yet!",
             });
-        else if (page == 6 && design == "")
+        else if (page == 4 && design == "")
             swal({
                 icon: "error",
                 title: "Oops...",
                 text: "You haven't picked a design yet!",
             });
-        else if (page == 7 && ageBracket == "")
+        else if (page == 5 && ageBracket == "")
             swal({
                 icon: "error",
                 title: "Oops...",
                 text: "You haven't picked an age bracket yet!",
             });
-        else if (page == 8 && frequency == "")
+        else if (page == 6 && frequency == "")
             swal({
                 icon: "error",
                 title: "Oops...",
                 text: "You haven't picked a frequency yet!",
             });
-        else if (page == 9 && bathType == "")
+        else if (page == 7 && bathType == "")
             swal({
                 icon: "error",
                 title: "Oops...",
                 text: "You haven't picked a bath preference yet!",
             });
-        else if (page == 9 && bathType !== "")
+        else if (page == 7 && bathType !== "")
             api.post("usermanagement/adduserpoll", {
                 user_id: userObject.id,
                 gender: gender,
-                scent: selectedScent,
+                scent: JSON.stringify(selectedScent),
                 location: location,
                 ingredients: ingredients,
                 texture: texture,
@@ -114,7 +107,7 @@ const CustomerPoll = (props) => {
                     console.err(err.response);
                 });
         else if (
-            page == 10 &&
+            page == 8 &&
             (birthday == "" ||
                 address == "" ||
                 city == "" ||
@@ -127,7 +120,7 @@ const CustomerPoll = (props) => {
                 text: "Please complete the form to proceed!",
             });
         else if (
-            page == 10 &&
+            page == 8 &&
             (birthday !== "" ||
                 address !== "" ||
                 city !== "" ||
@@ -350,23 +343,31 @@ const CustomerPoll = (props) => {
                                 What is your fragrance type?
                             </Typography>
                         </div>
-                        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 py-10 w-full">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 py-10 w-full">
                             <div className="w-full flex justify-center items-center">
                                 <div
                                     className={`col-span-1 text-center flex justify-center items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        selectedScent == "Toasted Marshmallow"
-                                            ? "border-amber-600"
+                                        selectedScent.includes('Floral')
+                                        ? "border-amber-600"
                                             : ""
                                     }`}
-                                    onClick={() =>
-                                        setSelectedScent("Toasted Marshmallow")
-                                    }
+                                    onClick={() => {
+                                        let tempScent = selectedScent;
+                                        if (!tempScent.includes('Floral')) {
+                                            tempScent = [...selectedScent, 'Floral']
+                                            
+                                        } else {
+                                            const index = tempScent.indexOf("Floral")
+                                            tempScent = tempScent.filter(scent => scent !== 'Floral');
+                                        }
+                                        setSelectedScent(tempScent)
+                                    }}
                                 >
                                     <FragranceColor
-                                        title={`Toasted Marshmallow`}
+                                        title={`Floral`}
                                         color={"#33CC1A"}
                                         description={
-                                            "Comprise of citrus, water and green notes."
+                                            "These fragrance categories both evoke natural elements and botanical scents, with one focusing more on fresh, green, and herbal notes reminiscent of gardens and meadows."
                                         }
                                     />
                                 </div>
@@ -374,35 +375,27 @@ const CustomerPoll = (props) => {
                             <div className="w-full flex justify-center items-center">
                                 <div
                                     className={`col-span-1 text-center flex justify-center items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        selectedScent == "Lavender"
-                                            ? "border-amber-600"
+                                        selectedScent.includes('Earthy-Woody Vibes')
+                                        ? "border-amber-600"
                                             : ""
                                     }`}
-                                    onClick={() => setSelectedScent("Lavender")}
-                                >
-                                    <FragranceColor
-                                        title={`Lavender`}
-                                        color={"#F2C6E3"}
-                                        description={
-                                            "Sweet and flowery scent such as roses, jasmine, lilies and peonies."
+                                    onClick={() => {
+                                        let tempScent = selectedScent;
+                                        if (!tempScent.includes('Earthy-Woody Vibes')) {
+                                            tempScent = [...selectedScent, 'Earthy-Woody Vibes']
+                                            
+                                        } else {
+                                            const index = tempScent.indexOf("Earthy-Woody Vibes")
+                                            tempScent = tempScent.filter(scent => scent !== 'Earthy-Woody Vibes');
                                         }
-                                    />
-                                </div>
-                            </div>
-                            <div className="w-full flex justify-center items-center">
-                                <div
-                                    className={`col-span-1 text-center flex justify-center items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        selectedScent == "Rosewood"
-                                            ? "border-amber-600"
-                                            : ""
-                                    }`}
-                                    onClick={() => setSelectedScent("Rosewood")}
+                                        setSelectedScent(tempScent)
+                                    }}
                                 >
                                     <FragranceColor
-                                        title={`Rosewood`}
+                                        title={`Earthy-Woody Vibes`}
                                         color={"#493F07"}
                                         description={
-                                            "Mysterious and captivating scent favoured like cedarwood, sandalwood, vetiver and amber."
+                                            "Fragrances in this category often feature warm, earthy, or woody notes such as sandalwood, cedarwood, or patchouli. They evoke images of forests, trees, and the great outdoors."
                                         }
                                     />
                                 </div>
@@ -410,19 +403,139 @@ const CustomerPoll = (props) => {
                             <div className="w-full flex justify-center items-center">
                                 <div
                                     className={`col-span-1 text-center flex justify-center items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        selectedScent == "Peppermint"
-                                            ? "border-amber-600"
+                                        selectedScent.includes('Gourmand Sweet')
+                                        ? "border-amber-600"
                                             : ""
                                     }`}
-                                    onClick={() =>
-                                        setSelectedScent("Peppermint")
-                                    }
+                                    onClick={() => {
+                                        let tempScent = selectedScent;
+                                        if (!tempScent.includes('Gourmand Sweet')) {
+                                            tempScent = [...selectedScent, 'Gourmand Sweet']
+                                            
+                                        } else {
+                                            const index = tempScent.indexOf("Gourmand Sweet")
+                                            tempScent = tempScent.filter(scent => scent !== 'Gourmand Sweet');
+                                        }
+                                        setSelectedScent(tempScent)
+                                    }}
                                 >
                                     <FragranceColor
-                                        title={`Peppermint`}
+                                        title={`Gourmand Sweet`}
+                                        color={"#F2C6E3"}
+                                        description={
+                                            "These fragrances feature edible or dessert-like scents such as vanilla, caramel, chocolate, or pastry notes. They evoke feelings of comfort, indulgence, and sweetness."
+                                        }
+                                    />
+                                </div>
+                            </div>
+                            <div className="w-full flex justify-center items-center">
+                                <div
+                                    className={`col-span-1 text-center flex justify-center items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
+                                        selectedScent.includes('Tropically Fruity')
+                                        ? "border-amber-600"
+                                            : ""
+                                    }`}
+                                    onClick={() => {
+                                        let tempScent = selectedScent;
+                                        if (!tempScent.includes('Tropically Fruity')) {
+                                            tempScent = [...selectedScent, 'Tropically Fruity']
+                                            
+                                        } else {
+                                            const index = tempScent.indexOf("Tropically Fruity")
+                                            tempScent = tempScent.filter(scent => scent !== 'Tropically Fruity');
+                                        }
+                                        setSelectedScent(tempScent)
+                                    }}
+                                >
+                                    <FragranceColor
+                                        title={`Tropically Fruity`}
                                         color={"#FF0000"}
                                         description={
-                                            "Luxurious fragrance family, oriental from floral oriental, soft oriental and woody oriental."
+                                            "These fragrances feature fruity or tropical notes such as citrus, berries, or exotic fruits like mango or papaya. They evoke feelings of freshness, brightness, and tropical escapes."
+                                        }
+                                    />
+                                </div>
+                            </div>
+                            <div className="w-full flex justify-center items-center">
+                                <div
+                                    className={`col-span-1 text-center flex justify-center items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
+                                        selectedScent.includes('Fresh and Clean')
+                                        ? "border-amber-600"
+                                            : ""
+                                    }`}
+                                    onClick={() => {
+                                        let tempScent = selectedScent;
+                                        if (!tempScent.includes('Fresh and Clean')) {
+                                            tempScent = [...selectedScent, 'Fresh and Clean']
+                                            
+                                        } else {
+                                            const index = tempScent.indexOf("Fresh and Clean")
+                                            tempScent = tempScent.filter(scent => scent !== 'Fresh and Clean');
+                                        }
+                                        setSelectedScent(tempScent)
+                                    }}
+                                >
+                                    <FragranceColor
+                                        title={`Fresh and Clean`}
+                                        color={"#B2DFDB"}
+                                        description={
+                                            "Fragrances in this category feature crisp, clean, or aquatic notes such as sea breeze, rain, or laundry-fresh scents. They evoke feelings of cleanliness, purity, and revitalization."
+                                        }
+                                    />
+                                </div>
+                            </div>
+                            <div className="w-full flex justify-center items-center">
+                                <div
+                                    className={`col-span-1 text-center flex justify-center items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
+                                        selectedScent.includes('Aquatic or Oceanic')
+                                        ? "border-amber-600"
+                                            : ""
+                                    }`}
+                                    onClick={() => {
+                                        let tempScent = selectedScent;
+                                        if (!tempScent.includes('Aquatic or Oceanic')) {
+                                            tempScent = [...selectedScent, 'Aquatic or Oceanic']
+                                            
+                                        } else {
+                                            const index = tempScent.indexOf("Aquatic or Oceanic")
+                                            tempScent = tempScent.filter(scent => scent !== 'Aquatic or Oceanic');
+                                        }
+                                        setSelectedScent(tempScent)
+                                    }}
+                                >
+                                    <FragranceColor
+                                        title={`Aquatic or Oceanic`}
+                                        color={"#007EA7"}
+                                        description={
+                                            "These fragrances capture the essence of the sea with notes that evoke the ocean breeze, saltwater, or marine accords. They evoke images of coastal landscapes, beach vacations, and aquatic adventures."
+                                        }
+                                    />
+                                </div>
+                            </div>
+                            <div className="w-full flex justify-center items-center">
+                                <div
+                                    className={`col-span-1 text-center flex justify-center items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
+                                        selectedScent.includes('Oriental Spice')
+                                        ? "border-amber-600"
+                                            : ""
+                                    }`}
+                                    onClick={() => {
+                                        let tempScent = selectedScent;
+                                        if (!tempScent.includes('Oriental Spice')) {
+                                            tempScent = [...selectedScent, 'Oriental Spice']
+                                            
+                                        } else {
+                                            const index = tempScent.indexOf("Oriental Spice")
+                                            tempScent = tempScent.filter(scent => scent !== 'Oriental Spice');
+                                        }
+                                        setSelectedScent(tempScent)
+                                    }}
+                                >
+                                    <FragranceColor
+                                        title={`Oriental Spice`}
+                                        color={"#9C640C"}
+                                        description={
+                                            "These fragrances feature warm, exotic, or spicy notes such as cinnamon, cloves, or amber. They evoke images of bazaars, spices, and mysterious oriental landscapes, adding depth and richness to the scent."
                                         }
                                     />
                                 </div>
@@ -433,238 +546,73 @@ const CustomerPoll = (props) => {
                     <div className="w-2/3">
                         <div className="text-center">
                             <Typography variant="h4" fontWeight={700}>
-                                Where do you live?
+                                What texture do you prefer?
                             </Typography>
                         </div>
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 py-10 w-full">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 py-10 w-full">
                             <div className="w-full flex justify-center items-center">
                                 <div
                                     className={`col-span-1 text-center h-full flex justify-between items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        location == "Desert"
+                                        texture == "Foamy"
                                             ? "border-amber-600"
                                             : ""
                                     }`}
-                                    onClick={() => setLocation("Desert")}
+                                    onClick={() => setTexture("Foamy")}
                                 >
                                     <AreaCard
                                         image={``}
-                                        description={`Dry or desert climate`}
+                                        description={`Light and airy textures that create a rich lather for cleansing and refreshing the skin.`}
                                     />
                                 </div>
                             </div>
                             <div className="w-full flex justify-center items-center">
                                 <div
                                     className={`col-span-1 text-center h-full flex justify-between items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        location == "Humid"
+                                        texture == "Exfoliating"
                                             ? "border-amber-600"
                                             : ""
                                     }`}
-                                    onClick={() => setLocation("Humid")}
+                                    onClick={() => setTexture("Exfoliating")}
                                 >
                                     <AreaCard
                                         image={``}
-                                        description={`Hot/humid in the summer, moderate to severely cold winters.`}
+                                        description={`Gritty or granular textures that help slough away dead skin cells, leaving the skin smooth and revitalized.`}
                                     />
                                 </div>
                             </div>
                             <div className="w-full flex justify-center items-center">
                                 <div
                                     className={`col-span-1 text-center h-full flex justify-between items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        location == "City"
+                                        texture == "Bubbly"
                                             ? "border-amber-600"
                                             : ""
                                     }`}
-                                    onClick={() => setLocation("City")}
+                                    onClick={() => setTexture("Bubbly")}
                                 >
                                     <AreaCard
                                         image={``}
-                                        description={`City/Urban Area`}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 py-10 w-full">
-                            <div className="w-full flex justify-center items-center">
-                                <div
-                                    className={`col-span-1 text-center h-full flex justify-between items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        location == "Mountain"
-                                            ? "border-amber-600"
-                                            : ""
-                                    }`}
-                                    onClick={() => setLocation("Mountain")}
-                                >
-                                    <AreaCard
-                                        image={``}
-                                        description={`Mountain/high altitude environment.`}
+                                        description={`Textures that produce abundant bubbles or fizz when agitated, adding a fun and playful element to bath time.`}
                                     />
                                 </div>
                             </div>
                             <div className="w-full flex justify-center items-center">
                                 <div
                                     className={`col-span-1 text-center h-full flex justify-between items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        location == "Beach"
+                                        texture == "Grainy"
                                             ? "border-amber-600"
                                             : ""
                                     }`}
-                                    onClick={() => setLocation("Beach")}
+                                    onClick={() => setTexture("Grainy")}
                                 >
                                     <AreaCard
                                         image={``}
-                                        description={`Coastal/beach area`}
+                                        description={`Coarse or grainy textures that offer gentle exfoliation and may contain natural exfoliating particles like sugar or salt.`}
                                     />
                                 </div>
                             </div>
                         </div>
                     </div>
                 ) : page == 4 ? (
-                    <div className="w-2/3">
-                        <div className="text-center">
-                            <Typography variant="h4" fontWeight={700}>
-                                What ingredients do you prefer?
-                            </Typography>
-                        </div>
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 py-10 w-full">
-                            <div className="w-full flex justify-center items-center">
-                                <div
-                                    className={`col-span-1 text-center h-full flex justify-between items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        ingredients == "Organic"
-                                            ? "border-amber-600"
-                                            : ""
-                                    }`}
-                                    onClick={() => setIngredients("Organic")}
-                                >
-                                    <AreaCard
-                                        image={``}
-                                        description={`Grown without the use of synthetic chemicals`}
-                                    />
-                                </div>
-                            </div>
-                            <div className="w-full flex justify-center items-center">
-                                <div
-                                    className={`col-span-1 text-center h-full flex justify-between items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        ingredients == "Non-organic"
-                                            ? "border-amber-600"
-                                            : ""
-                                    }`}
-                                    onClick={() =>
-                                        setIngredients("Non-organic")
-                                    }
-                                >
-                                    <AreaCard
-                                        image={``}
-                                        description={`Often produced using artificial chemicals`}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="grid grid-cols-1 gap-4 py-10 w-full">
-                            <div className="w-full flex justify-center items-center">
-                                <div
-                                    className={`col-span-1 text-center h-full flex justify-between items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        ingredients == "All-natural"
-                                            ? "border-amber-600"
-                                            : ""
-                                    }`}
-                                    onClick={() =>
-                                        setIngredients("All-natural")
-                                    }
-                                >
-                                    <AreaCard
-                                        image={``}
-                                        description={`composed of ingredients that are from nature and not artificial.`}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ) : page == 5 ? (
-                    <div className="w-2/3">
-                        <div className="text-center">
-                            <Typography variant="h4" fontWeight={700}>
-                                What texture do you prefer?
-                            </Typography>
-                        </div>
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 py-10 w-full">
-                            <div className="w-full flex justify-center items-center">
-                                <div
-                                    className={`col-span-1 text-center h-full flex justify-between items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        texture == "Concentrate"
-                                            ? "border-amber-600"
-                                            : ""
-                                    }`}
-                                    onClick={() => setTexture("Concentrate")}
-                                >
-                                    <AreaCard
-                                        image={``}
-                                        description={`Lightweight skin care product with a high concentration of active ingredients`}
-                                    />
-                                </div>
-                            </div>
-                            <div className="w-full flex justify-center items-center">
-                                <div
-                                    className={`col-span-1 text-center h-full flex justify-between items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        texture == "Serum"
-                                            ? "border-amber-600"
-                                            : ""
-                                    }`}
-                                    onClick={() => setTexture("Serum")}
-                                >
-                                    <AreaCard
-                                        image={``}
-                                        description={`A care that acts in depth despite its application on the surface`}
-                                    />
-                                </div>
-                            </div>
-                            <div className="w-full flex justify-center items-center">
-                                <div
-                                    className={`col-span-1 text-center h-full flex justify-between items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        texture == "Lotion"
-                                            ? "border-amber-600"
-                                            : ""
-                                    }`}
-                                    onClick={() => setTexture("Lotion")}
-                                >
-                                    <AreaCard
-                                        image={``}
-                                        description={`The perfect consistency if you like layered products`}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 py-10 w-full">
-                            <div className="w-full flex justify-center items-center">
-                                <div
-                                    className={`col-span-1 text-center h-full flex justify-between items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        texture == "Oily"
-                                            ? "border-amber-600"
-                                            : ""
-                                    }`}
-                                    onClick={() => setTexture("Oily")}
-                                >
-                                    <AreaCard
-                                        image={``}
-                                        description={`*INSERT DESCRIPTION HERE*`}
-                                    />
-                                </div>
-                            </div>
-                            <div className="w-full flex justify-center items-center">
-                                <div
-                                    className={`col-span-1 text-center h-full flex justify-between items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        texture == "Solid"
-                                            ? "border-amber-600"
-                                            : ""
-                                    }`}
-                                    onClick={() => setTexture("Solid")}
-                                >
-                                    <AreaCard
-                                        image={``}
-                                        description={`*INSERT DESCRIPTION HERE*`}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ) : page == 6 ? (
                     <div className="w-2/3">
                         <div className="text-center">
                             <Typography variant="h4" fontWeight={700}>
@@ -675,30 +623,30 @@ const CustomerPoll = (props) => {
                             <div className="w-full flex justify-center items-center">
                                 <div
                                     className={`col-span-1 text-center h-full flex justify-between items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        design == "Bright"
+                                        design == "Minimalist"
                                             ? "border-amber-600"
                                             : ""
                                     }`}
-                                    onClick={() => setDesign("Bright")}
+                                    onClick={() => setDesign("Minimalist")}
                                 >
                                     <AreaCard
                                         image={``}
-                                        description={`Vibrant colors are present in the product`}
+                                        description={`Clean, simple, and understated designs with sleek lines and neutral colors, often focusing on functionality and clarity.`}
                                     />
                                 </div>
                             </div>
                             <div className="w-full flex justify-center items-center">
                                 <div
                                     className={`col-span-1 text-center h-full flex justify-between items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        design == "Neutral"
+                                        design == "Bohemian"
                                             ? "border-amber-600"
                                             : ""
                                     }`}
-                                    onClick={() => setDesign("Neutral")}
+                                    onClick={() => setDesign("Bohemian")}
                                 >
                                     <AreaCard
                                         image={``}
-                                        description={`Colors present in the product are nonchalant`}
+                                        description={`Free-spirited and eclectic designs that incorporate vibrant colors, eclectic patterns, and artisanal elements like handcrafted pottery or woven textures.`}
                                     />
                                 </div>
                             </div>
@@ -707,36 +655,36 @@ const CustomerPoll = (props) => {
                             <div className="w-full flex justify-center items-center">
                                 <div
                                     className={`col-span-1 text-center h-full flex justify-between items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        design == "Warm"
+                                        design == "Elegant"
                                             ? "border-amber-600"
                                             : ""
                                     }`}
-                                    onClick={() => setDesign("Warm")}
+                                    onClick={() => setDesign("Elegant")}
                                 >
                                     <AreaCard
                                         image={``}
-                                        description={`Vivid and bold colors are present in the product`}
+                                        description={`Sophisticated and refined designs that exude luxury and opulence, featuring sleek packaging, metallic accents, and understated embellishments.`}
                                     />
                                 </div>
                             </div>
                             <div className="w-full flex justify-center items-center">
                                 <div
                                     className={`col-span-1 text-center h-full flex justify-between items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        design == "Monotone"
+                                        design == "Elegant"
                                             ? "border-amber-600"
                                             : ""
                                     }`}
-                                    onClick={() => setDesign("Monotone")}
+                                    onClick={() => setDesign("Elegant")}
                                 >
                                     <AreaCard
                                         image={``}
-                                        description={`Product only has a single tone of color`}
+                                        description={`Whimsical and imaginative designs that spark joy and creativity, often featuring whimsical illustrations, quirky shapes, and bright colors.`}
                                     />
                                 </div>
                             </div>
                         </div>
                     </div>
-                ) : page == 7 ? (
+                ) : page == 5 ? (
                     <div className="w-2/3">
                         <div className="text-center">
                             <Typography variant="h4" fontWeight={700}>
@@ -782,7 +730,7 @@ const CustomerPoll = (props) => {
                             />
                         </div>
                     </div>
-                ) : page == 8 ? (
+                ) : page == 6 ? (
                     <div className="w-2/3">
                         <div className="text-center">
                             <Typography variant="h4" fontWeight={700}>
@@ -810,7 +758,7 @@ const CustomerPoll = (props) => {
                             />
                         </div>
                     </div>
-                ) : page == 9 ? (
+                ) : page == 7 ? (
                     <div className="w-2/3">
                         <div className="text-center">
                             <Typography variant="h4" fontWeight={700}>
@@ -865,7 +813,7 @@ const CustomerPoll = (props) => {
                             </div>
                         </div>
                     </div>
-                ) : page == 10 ? (
+                ) : page == 8 ? (
                     <div className="w-2/3">
                         <div className="text-center">
                             <Typography
@@ -907,7 +855,7 @@ const CustomerPoll = (props) => {
                             value={contactNo}
                         />
                     </div>
-                ) : page == 11 ? (
+                ) : page == 9 ? (
                     <>
                         <div className="text-center w-2/3">
                             <div className="px-10 py-12">
@@ -936,6 +884,7 @@ const CustomerPoll = (props) => {
                                             product_scent: selectedScent,
                                         })
                                             .then((response) => {
+                                                console.log(response.data)
                                                 setPage(page + 1);
                                                 setPollResults(response.data);
                                             })
@@ -998,7 +947,7 @@ const CustomerPoll = (props) => {
                     ) : (
                         <div></div>
                     )}
-                    {page < 12 ? (
+                    {page < 10 ? (
                         <Button
                             onClick={nextPage}
                             variant="contained"
@@ -1007,7 +956,7 @@ const CustomerPoll = (props) => {
                                 "&:hover": { backgroundColor: "#EDBF47" },
                             }}
                         >
-                            {page == 10 ? "Submit" : "Next"}
+                            {page == 8 ? "Submit" : "Next"}
                         </Button>
                     ) : (
                         <div></div>

@@ -45,7 +45,7 @@ class RecommendationController extends Controller
         $prodItems = [];
 
         foreach ($recommendedItems as $ids) {
-            $prodItems[] = Products::where('id', $ids)->first();
+            $prodItems[] = Products::where('id', $ids)->with('category')->first();
         }
 
         return $prodItems;
@@ -82,6 +82,7 @@ class RecommendationController extends Controller
 
             // Fetch additional random products to meet the required count
             $additionalRandomProducts = Products::whereNotIn('id', $randomProducts->pluck('id')->toArray())
+                ->with('category')
                 ->inRandomOrder()
                 ->take($remainingProductsCount)
                 ->get();
@@ -94,32 +95,66 @@ class RecommendationController extends Controller
 
     public function pollResult(Request $request)
     {
-        $pollRes = Products::where('product_scent_name', $request->product_scent)
-            ->with('category')
-            ->get();
-
+        $scents = $request->product_scent;
+        $pollRes = [];
         $allProducts = collect();
-
-        // If products are found
-        if ($pollRes->isNotEmpty()) {
-            // Select a random category from the retrieved products
-            $randomCategory = $pollRes->random()->category;
-
-            // Retrieve products with the same random category
-            $randomCategoryProducts = Products::whereHas('category', function ($query) use ($randomCategory) {
-                $query->where('product_category', $randomCategory->product_category);
-            })->inRandomOrder()->limit(5)->get();
-
-            // Merge the random category products with the initially retrieved products
-            $allProducts = $allProducts->merge($pollRes)->merge($randomCategoryProducts);
-
-            // Remove duplicates
-            $allProducts = $allProducts->unique('id')->values();
-
-            return $allProducts;
+        foreach($scents as $key => $scent) {
+            if ($scent == "Floral") {
+                $florals = ['Rosewood', "Lavander", 'Rosemary Tea', 'Rose Valentine', "Sweet Berry"];
+                $pollRes[$key] = Products::whereIn('product_scent_name', $florals)
+                ->with('category')
+                ->get();
+            } else if ($scent == "Gourmand Sweet") {
+                $gourmand = ['Vanilla Latte', 'Toasted Marshmallow', 'Coco Gugo', 'Bubblegum'];
+                $pollRes[$key] = Products::whereIn('product_scent_name', $gourmand)
+                ->with('category')
+                ->get();
+            } else if ($scent == 'Earthy-Woody Vibes') {
+                $earthy = ['Activated Charcoal', 'Coal Black'];
+                $pollRes[$key] = Products::whereIn('product_scent_name', $earthy)
+                ->with('category')
+                ->get();
+            } else if ($scent == 'Tropically Fruity') {
+                $tropical = ['Papaya', 'Green Apple', 'Energize Lemon'];
+                $pollRes[$key] = Products::whereIn('product_scent_name', $tropical)
+                ->with('category')
+                ->get();
+            } else if ($scent == 'Fresh and Clean') {
+                $fresh = ['Oatmeal', 'Aloe Berry', 'Surprise Toy for Boy', 'Cucumber'];
+                $pollRes[$key] = Products::whereIn('product_scent_name', $fresh)
+                ->with('category')
+                ->get();
+            } else if ($scent == 'Aquatic or Oceanic') {
+                $oceanic = ['Sea Shine', 'Ocean Galaxy'];
+                $pollRes[$key] = Products::whereIn('product_scent_name', $oceanic)
+                ->with('category')
+                ->get();
+            } else if ($scent == "Oriental Spice") {
+                $oriental = ['Royal Goddess', 'Peppermint'];
+                $pollRes[$key] = Products::whereIn('product_scent_name', $oriental)
+                ->with('category')
+                ->get();
+            }
+            if ($pollRes[$key]->isNotEmpty()) {
+                // Select a random category from the retrieved products
+                $randomCategory = $pollRes[$key]->random()->category;
+    
+                // Retrieve products with the same random category
+                $randomCategoryProducts = Products::with('category')->whereHas('category', function ($query) use ($randomCategory) {
+                    $query->where('product_category', $randomCategory->product_category);
+                })->inRandomOrder()->limit(5)->get();
+    
+                // Merge the random category products with the initially retrieved products
+                $allProducts = $allProducts->merge($pollRes[$key])->merge($randomCategoryProducts);
+    
+                // Remove duplicates
+                $allProducts = $allProducts->unique('id')->values();
+    
+            }
         }
-
-        // Handle case when no products are found
+        // Shuffle the collection
+        $allProducts = $allProducts->shuffle();
+        return $allProducts;
     }
 
     public function calculateSimilarity($user1, $user2)

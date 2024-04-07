@@ -47,6 +47,7 @@ Route::prefix('usermanagement')->group(function () {
     Route::post('/suspenduser', [UserManagementController::class, 'suspendUser']);
     Route::post('/unsuspenduser', [UserManagementController::class, 'unsuspendUser']);
     Route::post('/checksuspension', [LoginController::class, 'checkSuspension']);
+    Route::post('/getuserpoll', [UserManagementController::class, 'getUserPoll']);
 });
 
 Route::prefix('products')->group(function () {

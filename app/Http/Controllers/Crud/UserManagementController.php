@@ -126,4 +126,9 @@ class UserManagementController extends Controller
                 'is_suspended' => false,
             ]);
     }
+
+    public function getUserPoll(Request $request)
+    {
+        return UserPolls::where('user_id', $request->user_id)->first();
+    }
 }

@@ -1,7 +1,7 @@
 import { Rating, Typography } from "@mui/material";
 import React from "react";
 
-const CustomShoppingCard = ({ title, scentName, rating, price, onClick }) => {
+const CustomShoppingCard = ({ title, scentName, rating, price, onClick, sales }) => {
     return (
         <div className="border-2 flex justify-center items-center flex-col hover:border-amber-500" onClick={onClick}>
             <img
@@ -16,6 +16,7 @@ const CustomShoppingCard = ({ title, scentName, rating, price, onClick }) => {
             </div>
             <Typography>{scentName}</Typography>
             <Rating name="read-only" value={Number(rating)} precision={0.1} readOnly />
+            <Typography variant="caption">Sold: {sales}</Typography>
             <div className="my-8 w-1/2 text-center underline">₱{price}</div>
         </div>
     );
