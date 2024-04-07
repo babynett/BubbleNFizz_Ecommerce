@@ -50,11 +50,24 @@ const Checkout = ({ user }) => {
 
     // PAYMENT
     const [mop, setMop] = useState("GCash");
-    const [gcashFile, setGcashFile] = useState({}); // IF GCASH
+    const [gcashFile, setGcashFile] = useState(null); // IF GCASH
+    const [filePrev, setFilePrev] = useState(null)
 
     const [addressError, setAddressError] = useState(false);
     const [apartmentError, setApartmentError] = useState(false);
     const [phoneNumberError, setPhoneNumberError] = useState(false);
+
+    useEffect(() => {
+        if (gcashFile == null) {
+            setFilePrev(null)
+            return
+        } 
+
+        const objectUrl = URL.createObjectURL(gcashFile)
+        setFilePrev(objectUrl)
+
+        return () => URL.revokeObjectURL(objectUrl)
+    }, [gcashFile])
 
     useEffect(() => {
         api.get(`shopping/getusercart?user_id=${userObject.id}`)
@@ -88,11 +101,11 @@ const Checkout = ({ user }) => {
         if (delivery == "PickUp") {
             setTotalPrice(subTotalPrice);
         } else if (delivery == "Standard") {
-            setTotalPrice(subTotalPrice + 39);
+            setTotalPrice(subTotalPrice + Number(deliveryPrice));
         } else {
             setTotalPrice(subTotalPrice + 150);
         }
-    }, [subTotalPrice, delivery]);
+    }, [subTotalPrice, delivery, deliveryPrice]);
 
     const onSubmitOrder = () => {
         if (
@@ -248,18 +261,18 @@ const Checkout = ({ user }) => {
                                             stops: [
                                                 {
                                                     coordinates: {
-                                                        lat: `${coords.latitude}`,
-                                                        lng: `${coords.longitude}`,
-                                                    },
-                                                    address: `test location`,
-                                                },
-                                                {
-                                                    coordinates: {
                                                         lat: "14.738250",
                                                         lng: "121.040970",
                                                     },
                                                     address:
-                                                        "B13 L39 Neptune St, North Olympus Subdivision, Kaligayahan, Novaliches, Quezon City, 1124",
+                                                    "B13 L39 Neptune St, North Olympus Subdivision, Kaligayahan, Novaliches, Quezon City, 1124",
+                                                },
+                                                {
+                                                    coordinates: {
+                                                        lat: `${coords.latitude}`,
+                                                        lng: `${coords.longitude}`,
+                                                    },
+                                                    address: `test location`,
                                                 },
                                             ],
                                             item: {
@@ -290,7 +303,7 @@ const Checkout = ({ user }) => {
                                     const API_KEY =
                                         "pk_test_c8dffbde99c92c70f73f2f38ae3835ef";
                                     const TOKEN = `${API_KEY}:${time}:${SIGNATURE}`;
-                                    console.log(TOKEN);
+                                    console.log(body);
 
                                     axios
                                         .post(
@@ -299,25 +312,18 @@ const Checkout = ({ user }) => {
                                             {
                                                 headers: {
                                                     Authorization: `hmac ${TOKEN}`,
-                                                    Market: "PH",
+                                                    Market: "PH"
                                                 },
                                             }
                                         )
                                         .then((response) => {
-                                            console.log(response.data);
-                                            // setDeliveryTotal(response.data.data.priceBreakdown.total);
-                                            // setDeliveryAddress(res.data.display_name);
-                                            // setQuotationData(response.data);
-                                            // const distanceValue =
-                                            //   Number(response.data.data.distance.value) / 1000;
-                                            // setDistance(distanceValue.toFixed(2));
-                                            // setLoading(false);
+                                            console.log(response.data.data.priceBreakdown.total);
+                                            setDeliveryPrice(response.data.data.priceBreakdown.total)
+                                            setOpen(true);
                                         })
                                         .catch((err) => {
-                                            setLoading(false);
-                                            console.log(err.response.data);
+                                            console.log(err);
                                         });
-                                    setOpen(true);
                                 }
                             }}
                         >
@@ -360,7 +366,8 @@ const Checkout = ({ user }) => {
                                     </div>
                                     <DialogContent>
                                         <div className="flex justify-center items-center w-full flex-col">
-                                            <Typography>Test</Typography>
+                                            <img src="https://scontent.fmnl4-5.fna.fbcdn.net/v/t39.30808-6/355834914_564132642573056_8395635760706896362_n.png?_nc_cat=1&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeFTABb2V0ntlYZ60_YtNxn5XvopGX_lLLBe-ikZf-UssLCHfyF8pGXk22E2xKlRBKZ5DFS5Grt_PQ5fvoaegTEi&_nc_ohc=Kedsn8g3u58Ab7uWGmw&_nc_ht=scontent.fmnl4-5.fna&oh=00_AfAS_1bWAJw47WUsSjkxAU4q3NjYspwMukEU_zaGi1zbdA&oe=66185E99" width={250} height={250} />
+                                            <Typography variant="h6">Total Delivery Price: P{deliveryPrice}</Typography>
                                         </div>
                                         <DialogContentText id="alert-dialog-description">
                                             {/* Let Google help apps determine location. This
@@ -372,7 +379,6 @@ const Checkout = ({ user }) => {
                                         <Button
                                             onClick={() => {
                                                 setOpen(false);
-                                                setDeliveryPrice(0);
                                             }}
                                             variant="contained"
                                             color="error"
@@ -382,7 +388,6 @@ const Checkout = ({ user }) => {
                                         <Button
                                             onClick={() => {
                                                 setOpen(false);
-                                                setDeliveryPrice(0);
                                             }}
                                             autoFocus
                                             variant="contained"
@@ -452,7 +457,7 @@ const Checkout = ({ user }) => {
                                 <div className="col-span-1">
                                     <div className="flex justify-between items-center">
                                         <img
-                                            src={`https://bubblenfizz-store.com/images/static/image282.png`}
+                                            src={gcashFile == null ? `https://bubblenfizz-store.com/images/static/image282.png` : filePrev}
                                             height={500}
                                             width={500}
                                         />
@@ -513,7 +518,7 @@ const Checkout = ({ user }) => {
                                         Delivery Fee
                                     </div>
                                     <div className="text-lg text-white">
-                                        Php 39
+                                        Php {deliveryPrice}
                                     </div>
                                 </div>
                             )}
