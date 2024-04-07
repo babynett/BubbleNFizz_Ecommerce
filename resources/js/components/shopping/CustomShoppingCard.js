@@ -1,11 +1,11 @@
 import { Rating, Typography } from "@mui/material";
 import React from "react";
 
-const CustomShoppingCard = ({ title, scentName, rating, price, onClick, sales }) => {
+const CustomShoppingCard = ({ title, scentName, rating, price, onClick, sales, image }) => {
     return (
         <div className="border-2 flex justify-center items-center flex-col hover:border-amber-500" onClick={onClick}>
             <img
-                src={`https://bubblenfizz-store.com/images/static/image282.png`}
+                src={`https://bubblenfizz-store.com/images/static/${image}`}
                 height={150}
                 width={250}
             />

@@ -14,7 +14,7 @@ class ProductsController extends Controller
 {
     public function getThreeProducts()
     {
-        return Products::limit(6)->get();
+        return Products::limit(6)->with('category')->get();
     }
 
     public function getBestSellers()

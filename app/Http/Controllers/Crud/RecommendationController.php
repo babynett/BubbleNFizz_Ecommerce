@@ -63,7 +63,7 @@ class RecommendationController extends Controller
         $scentIds = $products->pluck('product.scent.id')->unique()->toArray();
 
         // Fetch products that match the category and scent of recent views
-        $filteredProducts = Products::whereHas('category', function ($query) use ($categoryIds) {
+        $filteredProducts = Products::with('category')->whereHas('category', function ($query) use ($categoryIds) {
             $query->whereIn('id', $categoryIds);
         })->whereHas('scent', function ($query) use ($scentIds) {
             $query->whereIn('id', $scentIds);

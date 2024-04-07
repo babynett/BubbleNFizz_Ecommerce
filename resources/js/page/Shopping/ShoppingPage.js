@@ -5,7 +5,10 @@ import CustomShoppingCard from "../../components/shopping/CustomShoppingCard";
 import { api } from "../../config/api";
 
 const ShoppingPage = (props) => {
-    const userObject = props.user == undefined ? null : JSON.parse(props.user);
+    const userObject =
+        props.user == undefined || props.user == null
+            ? null
+            : JSON.parse(props.user);
     const [products, setProducts] = useState([]);
     const [bestProducts, setBestProducts] = useState([]);
     const [similarProducts, setSimilarProducts] = useState([]);
@@ -35,6 +38,16 @@ const ShoppingPage = (props) => {
                 .catch((err) => {
                     console.log(err.response);
                 });
+            api.post("usermanagement/getuserpoll", {
+                user_id: userObject.id,
+            }).then((response) => {
+                const fragrance = response.data.fragrance;
+                api.post("customerpollresult", {
+                    product_scent: JSON.parse(fragrance),
+                }).then((response) => {
+                    setPollProducts(response.data);
+                });
+            });
         }
 
         api.get("shopping/getbestsellers")
@@ -53,17 +66,6 @@ const ShoppingPage = (props) => {
             .catch((err) => {
                 console.log(err.response);
             });
-
-        api.post('usermanagement/getuserpoll', {
-            user_id: userObject.id
-        }).then((response) => {
-            const fragrance = response.data.fragrance
-            api.post('customerpollresult', {
-                product_scent: JSON.parse(fragrance)
-            }).then((response) => {
-                setPollProducts(response.data)
-            })
-        })
     }, []);
     return (
         <div className="w-full">
@@ -99,7 +101,9 @@ const ShoppingPage = (props) => {
                 <Typography variant="h4" fontWeight={700}>
                     RECOMMENDED
                 </Typography>
-                <Typography variant="subtitle1" color={'GrayText'}>Here are the products that other users are buying!</Typography>
+                <Typography variant="subtitle1" color={"GrayText"}>
+                    Here are the products that other users are buying!
+                </Typography>
             </div>
 
             <div className="mx-10">
@@ -109,7 +113,9 @@ const ShoppingPage = (props) => {
                             return (
                                 <div className="col-span-1">
                                     <CustomShoppingCard
-                                        title={String(item.product_name).replace('Bubble N Fizz', '')}
+                                        title={String(
+                                            item.product_name
+                                        ).replace("Bubble N Fizz", "")}
                                         price={item.product_price}
                                         rating={item.product_rating}
                                         scentName={item.product_scent_name}
@@ -117,6 +123,7 @@ const ShoppingPage = (props) => {
                                             (window.location.href = `/shopping/${item.id}`)
                                         }
                                         sales={item.category.product_sales}
+                                        image={item.product_images}
                                     />
                                 </div>
                             );
@@ -124,40 +131,56 @@ const ShoppingPage = (props) => {
                     })}
                 </div>
             </div>
-            <div className="mx-10 my-12">
-                <Typography variant="h4" fontWeight={700}>
-                    POLL RESULTS
-                </Typography>
-                <Typography variant="subtitle1" color={'GrayText'}>Here are the products that your poll result have generated!</Typography>
-            </div>
+            {userObject !== null && (
+                <>
+                    <div className="mx-10 my-12">
+                        <Typography variant="h4" fontWeight={700}>
+                            POLL RESULTS
+                        </Typography>
+                        <Typography variant="subtitle1" color={"GrayText"}>
+                            Here are the products that your poll result have
+                            generated!
+                        </Typography>
+                    </div>
 
-            <div className="mx-10">
-                <div className="grid grid-cols-1 lg:grid-cols-6 gap-5">
-                    {pollProducts.map((item, index) => {
-                        if (index < 6) {
-                            return (
-                                <div className="col-span-1">
-                                    <CustomShoppingCard
-                                        title={String(item.product_name).replace('Bubble N Fizz', '')}
-                                        price={item.product_price}
-                                        rating={item.product_rating}
-                                        scentName={item.product_scent_name}
-                                        onClick={() =>
-                                            (window.location.href = `/shopping/${item.id}`)
-                                        }
-                                        sales={item.category.product_sales}
-                                    />
-                                </div>
-                            );
-                        }
-                    })}
-                </div>
-            </div>
+                    <div className="mx-10">
+                        <div className="grid grid-cols-1 lg:grid-cols-6 gap-5">
+                            {pollProducts.map((item, index) => {
+                                if (index < 6) {
+                                    return (
+                                        <div className="col-span-1">
+                                            <CustomShoppingCard
+                                                title={String(
+                                                    item.product_name
+                                                ).replace("Bubble N Fizz", "")}
+                                                price={item.product_price}
+                                                rating={item.product_rating}
+                                                scentName={
+                                                    item.product_scent_name
+                                                }
+                                                onClick={() =>
+                                                    (window.location.href = `/shopping/${item.id}`)
+                                                }
+                                                sales={
+                                                    item.category.product_sales
+                                                }
+                                                image={item.product_images}
+                                            />
+                                        </div>
+                                    );
+                                }
+                            })}
+                        </div>
+                    </div>
+                </>
+            )}
             <div className="mx-10 my-12">
                 <Typography variant="h4" fontWeight={700}>
                     SIMILAR PRODUCTS YOU LIKE
                 </Typography>
-                <Typography variant="subtitle1" color={'GrayText'}>Here are the products that other users are checking out!</Typography>
+                <Typography variant="subtitle1" color={"GrayText"}>
+                    Here are the products that other users are checking out!
+                </Typography>
             </div>
 
             <div className="mx-10">
@@ -166,7 +189,10 @@ const ShoppingPage = (props) => {
                         return (
                             <div className="col-span-1">
                                 <CustomShoppingCard
-                                    title={String(item.product_name).replace('Bubble N Fizz', '')}
+                                    title={String(item.product_name).replace(
+                                        "Bubble N Fizz",
+                                        ""
+                                    )}
                                     price={item.product_price}
                                     rating={item.product_rating}
                                     scentName={item.product_scent_name}
@@ -174,6 +200,7 @@ const ShoppingPage = (props) => {
                                         (window.location.href = `/shopping/${item.id}`)
                                     }
                                     sales={item.category.product_sales}
+                                    image={item.product_images}
                                 />
                             </div>
                         );
@@ -241,7 +268,9 @@ const ShoppingPage = (props) => {
                 <Typography variant="h4" fontWeight={700}>
                     BEST SELLERS
                 </Typography>
-                <Typography variant="subtitle1" color={'GrayText'}>Here are the products the best selling products!</Typography>
+                <Typography variant="subtitle1" color={"GrayText"}>
+                    Here are the products the best selling products!
+                </Typography>
             </div>
 
             <div className="mx-10">
@@ -250,7 +279,9 @@ const ShoppingPage = (props) => {
                         return (
                             <div className="col-span-1">
                                 <CustomShoppingCard
-                                    title={String(item.product_details.product_name).replace('Bubble N Fizz', '')}
+                                    title={String(
+                                        item.product_details.product_name
+                                    ).replace("Bubble N Fizz", "")}
                                     price={item.product_details.product_price}
                                     rating={item.product_details.product_rating}
                                     scentName={
@@ -260,6 +291,7 @@ const ShoppingPage = (props) => {
                                         (window.location.href = `/shopping/${item.id}`)
                                     }
                                     sales={item.product_sales}
+                                    image={item.product_details.product_images}
                                 />
                             </div>
                         );

@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
             Each bar represents hours of dedication, expertise, and a commitment to creating a product that brings joy and indulgence to your everyday life. ~
             So why settle for the ordinary when you can experience the extraordinary? Explore the world of handcrafted artisan soaps and unlock a whole new level 
             of bathing luxury and self-care bliss. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 16.jpg',
             'product_price' => '95',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -64,7 +64,7 @@ class DatabaseSeeder extends Seeder
             Each bar represents hours of dedication, expertise, and a commitment to creating a product that brings joy and indulgence to your everyday life. ~
             So why settle for the ordinary when you can experience the extraordinary? Explore the world of handcrafted artisan soaps and unlock a whole new level 
             of bathing luxury and self-care bliss. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 18.jpg',
             'product_price' => '95',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -91,7 +91,7 @@ class DatabaseSeeder extends Seeder
             Each bar represents hours of dedication, expertise, and a commitment to creating a product that brings joy and indulgence to your everyday life. ~
             So why settle for the ordinary when you can experience the extraordinary? Explore the world of handcrafted artisan soaps and unlock a whole new level 
             of bathing luxury and self-care bliss. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 20.jpg',
             'product_price' => '95',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -118,7 +118,7 @@ class DatabaseSeeder extends Seeder
             Each bar represents hours of dedication, expertise, and a commitment to creating a product that brings joy and indulgence to your everyday life. ~
             So why settle for the ordinary when you can experience the extraordinary? Explore the world of handcrafted artisan soaps and unlock a whole new level 
             of bathing luxury and self-care bliss. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 22.jpg',
             'product_price' => '95',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -145,7 +145,7 @@ class DatabaseSeeder extends Seeder
             Each bar represents hours of dedication, expertise, and a commitment to creating a product that brings joy and indulgence to your everyday life. ~
             So why settle for the ordinary when you can experience the extraordinary? Explore the world of handcrafted artisan soaps and unlock a whole new level 
             of bathing luxury and self-care bliss. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 24.jpg',
             'product_price' => '95',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -172,7 +172,7 @@ class DatabaseSeeder extends Seeder
             Each bar represents hours of dedication, expertise, and a commitment to creating a product that brings joy and indulgence to your everyday life. ~
             So why settle for the ordinary when you can experience the extraordinary? Explore the world of handcrafted artisan soaps and unlock a whole new level 
             of bathing luxury and self-care bliss. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 26.jpg',
             'product_price' => '95',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -199,7 +199,7 @@ class DatabaseSeeder extends Seeder
             Each bar represents hours of dedication, expertise, and a commitment to creating a product that brings joy and indulgence to your everyday life. ~
             So why settle for the ordinary when you can experience the extraordinary? Explore the world of handcrafted artisan soaps and unlock a whole new level 
             of bathing luxury and self-care bliss. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 28.jpg',
             'product_price' => '60',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -224,7 +224,7 @@ class DatabaseSeeder extends Seeder
             Directly apply the soap to your hair under running water. As it starts to lather, massage your hair gently up your scalp. Rinse well and pat dry. ~            
             These shampoo bar is compact in size and can last for about 70 to 80 washes depending on your hair length. We package your shampoo bar with paper and an 
             option of a tin can for travel. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 1.jpg',
             'product_price' => '90',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -248,7 +248,7 @@ class DatabaseSeeder extends Seeder
             Directly apply the soap to your hair under running water. As it starts to lather, massage your hair gently up your scalp. Rinse well and pat dry. ~            
             These shampoo bar is compact in size and can last for about 70 to 80 washes depending on your hair length. We package your shampoo bar with paper and an 
             option of a tin can for travel. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 4.jpg',
             'product_price' => '90',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -272,7 +272,7 @@ class DatabaseSeeder extends Seeder
             Directly apply the soap to your hair under running water. As it starts to lather, massage your hair gently up your scalp. Rinse well and pat dry. ~            
             These shampoo bar is compact in size and can last for about 70 to 80 washes depending on your hair length. We package your shampoo bar with paper and an 
             option of a tin can for travel. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 7.jpg',
             'product_price' => '90',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -296,7 +296,7 @@ class DatabaseSeeder extends Seeder
             Directly apply the soap to your hair under running water. As it starts to lather, massage your hair gently up your scalp. Rinse well and pat dry. ~            
             These shampoo bar is compact in size and can last for about 70 to 80 washes depending on your hair length. We package your shampoo bar with paper and an 
             option of a tin can for travel. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 13.jpg',
             'product_price' => '90',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -321,7 +321,7 @@ class DatabaseSeeder extends Seeder
             Directly apply the soap to your hair under running water. As it starts to lather, massage your hair gently up your scalp. Rinse well and pat dry. ~            
             These shampoo bar is compact in size and can last for about 70 to 80 washes depending on your hair length. We package your shampoo bar with paper and an 
             option of a tin can for travel. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 10.jpg',
             'product_price' => '90',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -349,7 +349,7 @@ class DatabaseSeeder extends Seeder
             - Bath bombs do not produce bubbles when mixed with water; instead, they fizz. ~
             - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub. ~
             - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 17.png',
             'product_price' => '125',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -376,7 +376,7 @@ class DatabaseSeeder extends Seeder
             - Bath bombs do not produce bubbles when mixed with water; instead, they fizz. ~
             - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub. ~
             - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 17.png',
             'product_price' => '149',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -404,7 +404,7 @@ class DatabaseSeeder extends Seeder
             - Bath bombs do not produce bubbles when mixed with water; instead, they fizz. ~
             - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub. ~
             - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation. ~",
-            'product_images' => '',
+            'product_images' => '9.png',
             'product_price' => '125',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -431,7 +431,7 @@ class DatabaseSeeder extends Seeder
             - Bath bombs do not produce bubbles when mixed with water; instead, they fizz. ~
             - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub. ~
             - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation. ~",
-            'product_images' => '',
+            'product_images' => '39-min_optimized (1).png',
             'product_price' => '149',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -459,7 +459,7 @@ class DatabaseSeeder extends Seeder
             - Bath bombs do not produce bubbles when mixed with water; instead, they fizz. ~
             - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub. ~
             - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation. ~",
-            'product_images' => '',
+            'product_images' => 'pepp (2).jpg',
             'product_price' => '125',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -486,7 +486,7 @@ class DatabaseSeeder extends Seeder
             - Bath bombs do not produce bubbles when mixed with water; instead, they fizz. ~
             - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub. ~
             - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation. ~",
-            'product_images' => '',
+            'product_images' => '6.png',
             'product_price' => '149',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -514,7 +514,7 @@ class DatabaseSeeder extends Seeder
             - Bath bombs do not produce bubbles when mixed with water; instead, they fizz. ~
             - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub. ~
             - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 19.png',
             'product_price' => '125',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -542,7 +542,7 @@ class DatabaseSeeder extends Seeder
             - Bath bombs do not produce bubbles when mixed with water; instead, they fizz. ~
             - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub. ~
             - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation. ~",
-            'product_images' => '',
+            'product_images' => '2.png',
             'product_price' => '149',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -570,7 +570,7 @@ class DatabaseSeeder extends Seeder
             - Bath bombs do not produce bubbles when mixed with water; instead, they fizz. ~
             - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub. ~
             - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation. ~",
-            'product_images' => '',
+            'product_images' => '1.png',
             'product_price' => '125',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -597,7 +597,7 @@ class DatabaseSeeder extends Seeder
             - Bath bombs do not produce bubbles when mixed with water; instead, they fizz. ~
             - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub. ~
             - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation. ~",
-            'product_images' => '',
+            'product_images' => '8.png',
             'product_price' => '149',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -625,7 +625,7 @@ class DatabaseSeeder extends Seeder
             - Bath bombs do not produce bubbles when mixed with water; instead, they fizz. ~
             - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub. ~
             - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation. ~",
-            'product_images' => '',
+            'product_images' => '8.png',
             'product_price' => '125',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -652,7 +652,7 @@ class DatabaseSeeder extends Seeder
             - Bath bombs do not produce bubbles when mixed with water; instead, they fizz. ~
             - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub. ~
             - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation. ~",
-            'product_images' => '',
+            'product_images' => '8.png',
             'product_price' => '149',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -680,7 +680,7 @@ class DatabaseSeeder extends Seeder
             - Bath bombs do not produce bubbles when mixed with water; instead, they fizz. ~
             - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub. ~
             - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation. ~",
-            'product_images' => '',
+            'product_images' => '10.png',
             'product_price' => '125',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -707,7 +707,7 @@ class DatabaseSeeder extends Seeder
             - Bath bombs do not produce bubbles when mixed with water; instead, they fizz. ~
             - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub. ~
             - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation. ~",
-            'product_images' => '',
+            'product_images' => '10.png',
             'product_price' => '149',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -735,7 +735,7 @@ class DatabaseSeeder extends Seeder
             - Bath bombs do not produce bubbles when mixed with water; instead, they fizz. ~
             - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub. ~
             - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation. ~",
-            'product_images' => '',
+            'product_images' => '7.png',
             'product_price' => '125',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -762,7 +762,7 @@ class DatabaseSeeder extends Seeder
             - Bath bombs do not produce bubbles when mixed with water; instead, they fizz. ~
             - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub. ~
             - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation. ~",
-            'product_images' => '',
+            'product_images' => '7.png',
             'product_price' => '149',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -790,7 +790,7 @@ class DatabaseSeeder extends Seeder
             - Bath bombs do not produce bubbles when mixed with water; instead, they fizz. ~
             - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub. ~
             - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation. ~",
-            'product_images' => '',
+            'product_images' => '33-min_optimized (1).png',
             'product_price' => '125',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -817,7 +817,7 @@ class DatabaseSeeder extends Seeder
             - Bath bombs do not produce bubbles when mixed with water; instead, they fizz. ~
             - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub. ~
             - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation. ~",
-            'product_images' => '',
+            'product_images' => '3.png',
             'product_price' => '149',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -845,7 +845,7 @@ class DatabaseSeeder extends Seeder
             - Bath bombs do not produce bubbles when mixed with water; instead, they fizz. ~
             - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub. ~
             - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation. ~",
-            'product_images' => '',
+            'product_images' => 'SHOPPE CREATIVE 1 (1).png',
             'product_price' => '125',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -872,7 +872,7 @@ class DatabaseSeeder extends Seeder
             - Bath bombs do not produce bubbles when mixed with water; instead, they fizz. ~
             - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub. ~
             - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation. ~",
-            'product_images' => '',
+            'product_images' => 'SHOPPE CREATIVE 1 (1).png',
             'product_price' => '149',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -900,7 +900,7 @@ class DatabaseSeeder extends Seeder
             - Bath bombs do not produce bubbles when mixed with water; instead, they fizz. ~
             - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub. ~
             - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation. ~",
-            'product_images' => '',
+            'product_images' => '5.png',
             'product_price' => '125',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -927,7 +927,7 @@ class DatabaseSeeder extends Seeder
             - Bath bombs do not produce bubbles when mixed with water; instead, they fizz. ~
             - Our bath bombs are made from water-soluble colorants for easy cleaning, and they do not stain your tub. ~
             - We do advise doing a patch test by rubbing the bath bomb on an area of the skin to see if it causes any skin irritation. ~",
-            'product_images' => '',
+            'product_images' => '5.png',
             'product_price' => '149',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -955,7 +955,7 @@ class DatabaseSeeder extends Seeder
             Handmade soaps! ~
             Discontinue use if irritation occurs. ~
             For external use only. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 20.png',
             'product_price' => '125',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -981,7 +981,7 @@ class DatabaseSeeder extends Seeder
             Handmade soaps! ~
             Discontinue use if irritation occurs. ~
             For external use only. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 16.png',
             'product_price' => '400',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -1008,7 +1008,7 @@ class DatabaseSeeder extends Seeder
             Handmade soaps! ~
             Discontinue use if irritation occurs. ~
             For external use only. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 47.png',
             'product_price' => '125',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -1034,7 +1034,7 @@ class DatabaseSeeder extends Seeder
             Handmade soaps! ~
             Discontinue use if irritation occurs. ~
             For external use only. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 17.png',
             'product_price' => '400',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -1061,7 +1061,7 @@ class DatabaseSeeder extends Seeder
             Handmade soaps! ~
             Discontinue use if irritation occurs. ~
             For external use only. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 19.png',
             'product_price' => '125',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -1087,7 +1087,7 @@ class DatabaseSeeder extends Seeder
             Handmade soaps! ~
             Discontinue use if irritation occurs. ~
             For external use only. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 15.png',
             'product_price' => '400',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -1114,7 +1114,7 @@ class DatabaseSeeder extends Seeder
             Handmade soaps! ~
             Discontinue use if irritation occurs. ~
             For external use only. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 21.png',
             'product_price' => '125',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -1140,7 +1140,7 @@ class DatabaseSeeder extends Seeder
             Handmade soaps! ~
             Discontinue use if irritation occurs. ~
             For external use only. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 18.png',
             'product_price' => '400',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -1167,7 +1167,7 @@ class DatabaseSeeder extends Seeder
             Handmade soaps! ~
             Discontinue use if irritation occurs. ~
             For external use only. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 53.png',
             'product_price' => '125',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -1193,7 +1193,7 @@ class DatabaseSeeder extends Seeder
             Handmade soaps! ~
             Discontinue use if irritation occurs. ~
             For external use only. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 23.png',
             'product_price' => '400',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -1220,7 +1220,7 @@ class DatabaseSeeder extends Seeder
             Handmade soaps! ~
             Discontinue use if irritation occurs. ~
             For external use only. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 23.png',
             'product_price' => '125',
             'product_stock' => '100',
             'product_rating' => '0',
@@ -1246,7 +1246,7 @@ class DatabaseSeeder extends Seeder
             Handmade soaps! ~
             Discontinue use if irritation occurs. ~
             For external use only. ~",
-            'product_images' => '',
+            'product_images' => 'Copy of 23.png',
             'product_price' => '400',
             'product_stock' => '100',
             'product_rating' => '0',

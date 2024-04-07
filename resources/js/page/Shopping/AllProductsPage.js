@@ -54,6 +54,8 @@ const AllProductsPage = () => {
                                             onClick={() =>
                                                 (location.href = `/shopping/${item.product_details.id}`)
                                             }
+                                            sales={item.product_sales}
+                                    image={item.product_details.product_images}
                                         />
                                     </div>
                                 );

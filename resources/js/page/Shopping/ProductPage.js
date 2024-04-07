@@ -128,31 +128,11 @@ const ProductPage = ({ id, user, guest }) => {
                     <div className="grid grid-cols-10">
                         {/* smaller images */}
                         <div className="col-span-2">
-                            <img
-                                src={`https://bubblenfizz-store.com/images/static/image282.png`}
-                                height={125}
-                                width={125}
-                            />
-                            <img
-                                src={`https://bubblenfizz-store.com/images/static/image282.png`}
-                                height={125}
-                                width={125}
-                            />
-                            <img
-                                src={`https://bubblenfizz-store.com/images/static/image282.png`}
-                                height={125}
-                                width={125}
-                            />
-                            <img
-                                src={`https://bubblenfizz-store.com/images/static/image282.png`}
-                                height={125}
-                                width={125}
-                            />
                         </div>
                         {/* large, single image */}
                         <div className="col-span-8">
                             <img
-                                src={`https://bubblenfizz-store.com/images/static/image282.png`}
+                                src={`https://bubblenfizz-store.com/images/static/${product.product_images}`}
                                 height={500}
                                 width={500}
                             />
