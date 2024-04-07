@@ -68,25 +68,19 @@ const CustomerPoll = (props) => {
                 title: "Oops...",
                 text: "You haven't picked a design yet!",
             });
-        else if (page == 5 && ageBracket == "")
-            swal({
-                icon: "error",
-                title: "Oops...",
-                text: "You haven't picked an age bracket yet!",
-            });
-        else if (page == 6 && frequency == "")
+        else if (page == 5 && frequency == "")
             swal({
                 icon: "error",
                 title: "Oops...",
                 text: "You haven't picked a frequency yet!",
             });
-        else if (page == 7 && bathType == "")
+        else if (page == 6 && bathType == "")
             swal({
                 icon: "error",
                 title: "Oops...",
                 text: "You haven't picked a bath preference yet!",
             });
-        else if (page == 7 && bathType !== "")
+        else if (page == 6 && bathType !== "")
             api.post("usermanagement/adduserpoll", {
                 user_id: userObject.id,
                 gender: gender,
@@ -107,7 +101,7 @@ const CustomerPoll = (props) => {
                     console.err(err.response);
                 });
         else if (
-            page == 8 &&
+            page == 7 &&
             (birthday == "" ||
                 address == "" ||
                 city == "" ||
@@ -120,7 +114,7 @@ const CustomerPoll = (props) => {
                 text: "Please complete the form to proceed!",
             });
         else if (
-            page == 8 &&
+            page == 7 &&
             (birthday !== "" ||
                 address !== "" ||
                 city !== "" ||
@@ -559,9 +553,11 @@ const CustomerPoll = (props) => {
                                     }`}
                                     onClick={() => setTexture("Foamy")}
                                 >
-                                    <AreaCard
-                                        image={``}
-                                        description={`Light and airy textures that create a rich lather for cleansing and refreshing the skin.`}
+                                    <FragranceColor
+                                        color={"#B4D7ED"}
+                                        description={
+                                            `Light and airy textures that create a rich lather for cleansing and refreshing the skin.`
+                                        }
                                     />
                                 </div>
                             </div>
@@ -574,9 +570,11 @@ const CustomerPoll = (props) => {
                                     }`}
                                     onClick={() => setTexture("Exfoliating")}
                                 >
-                                    <AreaCard
-                                        image={``}
-                                        description={`Gritty or granular textures that help slough away dead skin cells, leaving the skin smooth and revitalized.`}
+                                    <FragranceColor
+                                        color={"#79645A"}
+                                        description={
+                                            `Gritty or granular textures that help slough away dead skin cells, leaving the skin smooth and revitalized.`
+                                        }
                                     />
                                 </div>
                             </div>
@@ -589,9 +587,11 @@ const CustomerPoll = (props) => {
                                     }`}
                                     onClick={() => setTexture("Bubbly")}
                                 >
-                                    <AreaCard
-                                        image={``}
-                                        description={`Textures that produce abundant bubbles or fizz when agitated, adding a fun and playful element to bath time.`}
+                                    <FragranceColor
+                                        color={"#00FFFF"}
+                                        description={
+                                            `Textures that produce abundant bubbles or fizz when agitated, adding a fun and playful element to bath time.`
+                                        }
                                     />
                                 </div>
                             </div>
@@ -604,9 +604,11 @@ const CustomerPoll = (props) => {
                                     }`}
                                     onClick={() => setTexture("Grainy")}
                                 >
-                                    <AreaCard
-                                        image={``}
-                                        description={`Coarse or grainy textures that offer gentle exfoliation and may contain natural exfoliating particles like sugar or salt.`}
+                                    <FragranceColor
+                                        color={"#CAB08E"}
+                                        description={
+                                            `Coarse or grainy textures that offer gentle exfoliation and may contain natural exfoliating particles like sugar or salt.`
+                                        }
                                     />
                                 </div>
                             </div>
@@ -629,9 +631,11 @@ const CustomerPoll = (props) => {
                                     }`}
                                     onClick={() => setDesign("Minimalist")}
                                 >
-                                    <AreaCard
-                                        image={``}
-                                        description={`Clean, simple, and understated designs with sleek lines and neutral colors, often focusing on functionality and clarity.`}
+                                    <FragranceColor
+                                        color={"#D2B48C"}
+                                        description={
+                                            `Clean, simple, and understated designs with sleek lines and neutral colors, often focusing on functionality and clarity.`
+                                        }
                                     />
                                 </div>
                             </div>
@@ -644,9 +648,11 @@ const CustomerPoll = (props) => {
                                     }`}
                                     onClick={() => setDesign("Bohemian")}
                                 >
-                                    <AreaCard
-                                        image={``}
-                                        description={`Free-spirited and eclectic designs that incorporate vibrant colors, eclectic patterns, and artisanal elements like handcrafted pottery or woven textures.`}
+                                    <FragranceColor
+                                        color={"#FFD700"}
+                                        description={
+                                            `Free-spirited and eclectic designs that incorporate vibrant colors, eclectic patterns, and artisanal elements like handcrafted pottery or woven textures.`
+                                        }
                                     />
                                 </div>
                             </div>
@@ -661,76 +667,34 @@ const CustomerPoll = (props) => {
                                     }`}
                                     onClick={() => setDesign("Elegant")}
                                 >
-                                    <AreaCard
-                                        image={``}
-                                        description={`Sophisticated and refined designs that exude luxury and opulence, featuring sleek packaging, metallic accents, and understated embellishments.`}
+                                    <FragranceColor
+                                        color={"#6A0DAD"}
+                                        description={
+                                            `Sophisticated and refined designs that exude luxury and opulence, featuring sleek packaging, metallic accents, and understated embellishments.`
+                                        }
                                     />
                                 </div>
                             </div>
                             <div className="w-full flex justify-center items-center">
                                 <div
                                     className={`col-span-1 text-center h-full flex justify-between items-center flex-col border-2 rounded-2xl w-64 py-4 bg-slate-100 hover:scale-110 duration-100 ${
-                                        design == "Elegant"
+                                        design == "Playful"
                                             ? "border-amber-600"
                                             : ""
                                     }`}
-                                    onClick={() => setDesign("Elegant")}
+                                    onClick={() => setDesign("Playful")}
                                 >
-                                    <AreaCard
-                                        image={``}
-                                        description={`Whimsical and imaginative designs that spark joy and creativity, often featuring whimsical illustrations, quirky shapes, and bright colors.`}
+                                    <FragranceColor
+                                        color={"#AEC6CF"}
+                                        description={
+                                            `Whimsical and imaginative designs that spark joy and creativity, often featuring whimsical illustrations, quirky shapes, and bright colors.`
+                                        }
                                     />
                                 </div>
                             </div>
                         </div>
                     </div>
                 ) : page == 5 ? (
-                    <div className="w-2/3">
-                        <div className="text-center">
-                            <Typography variant="h4" fontWeight={700}>
-                                How old are you?
-                            </Typography>
-                        </div>
-                        <div className="flex justify-between items-center w-full flex-col">
-                            <CustomPollButton
-                                value={ageBracket}
-                                onClick={() => setAgeBracket("Under 18")}
-                                title={`Under 18`}
-                                my={2}
-                            />
-                            <CustomPollButton
-                                value={ageBracket}
-                                onClick={() => setAgeBracket("18-24")}
-                                title={`18-24`}
-                                my={2}
-                            />
-                            <CustomPollButton
-                                value={ageBracket}
-                                onClick={() => setAgeBracket("25-34")}
-                                title={`25-34`}
-                                my={2}
-                            />
-                            <CustomPollButton
-                                value={ageBracket}
-                                onClick={() => setAgeBracket("35-44")}
-                                title={`35-44`}
-                                my={2}
-                            />
-                            <CustomPollButton
-                                value={ageBracket}
-                                onClick={() => setAgeBracket("45-55")}
-                                title={`45-55`}
-                                my={2}
-                            />
-                            <CustomPollButton
-                                value={ageBracket}
-                                onClick={() => setAgeBracket("56+")}
-                                title={`56+`}
-                                my={2}
-                            />
-                        </div>
-                    </div>
-                ) : page == 6 ? (
                     <div className="w-2/3">
                         <div className="text-center">
                             <Typography variant="h4" fontWeight={700}>
@@ -758,7 +722,7 @@ const CustomerPoll = (props) => {
                             />
                         </div>
                     </div>
-                ) : page == 7 ? (
+                ) : page == 6 ? (
                     <div className="w-2/3">
                         <div className="text-center">
                             <Typography variant="h4" fontWeight={700}>
@@ -775,9 +739,11 @@ const CustomerPoll = (props) => {
                                     }`}
                                     onClick={() => setBathType("Hot")}
                                 >
-                                    <AreaCard
-                                        image={``}
-                                        description={`Hot Shower`}
+                                    <FragranceColor
+                                        color={"#FF4500"}
+                                        description={
+                                            `Hot Shower`
+                                        }
                                     />
                                 </div>
                             </div>
@@ -790,9 +756,11 @@ const CustomerPoll = (props) => {
                                     }`}
                                     onClick={() => setBathType("Cold")}
                                 >
-                                    <AreaCard
-                                        image={``}
-                                        description={`Cold Shower`}
+                                    <FragranceColor
+                                        color={"#B0E0E6"}
+                                        description={
+                                            `Cold Shower`
+                                        }
                                     />
                                 </div>
                             </div>
@@ -805,15 +773,17 @@ const CustomerPoll = (props) => {
                                     }`}
                                     onClick={() => setBathType("Warm")}
                                 >
-                                    <AreaCard
-                                        image={``}
-                                        description={`Warm Shower`}
+                                    <FragranceColor
+                                        color={"#FFBF00"}
+                                        description={
+                                            `Warm Shower`
+                                        }
                                     />
                                 </div>
                             </div>
                         </div>
                     </div>
-                ) : page == 8 ? (
+                ) : page == 7 ? (
                     <div className="w-2/3">
                         <div className="text-center">
                             <Typography
@@ -855,7 +825,7 @@ const CustomerPoll = (props) => {
                             value={contactNo}
                         />
                     </div>
-                ) : page == 9 ? (
+                ) : page == 8 ? (
                     <>
                         <div className="text-center w-2/3">
                             <div className="px-10 py-12">
@@ -947,7 +917,7 @@ const CustomerPoll = (props) => {
                     ) : (
                         <div></div>
                     )}
-                    {page < 10 ? (
+                    {page < 9 ? (
                         <Button
                             onClick={nextPage}
                             variant="contained"
