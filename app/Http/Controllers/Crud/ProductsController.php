@@ -40,7 +40,7 @@ class ProductsController extends Controller
     {
         return ProductCategory::with(['product_details' => function($query) use ($request) {
             $query->where('is_deleted', false);
-        }])->where('product_category', $request->category)->get();
+        }])->where('product_category', "LIKE", $request->category)->get();
         // return $category;
     }
 

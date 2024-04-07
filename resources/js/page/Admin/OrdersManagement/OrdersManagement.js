@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import CustomTitle from "../../../texts/CustomTitle";
 import swal from "sweetalert";
-import { Button, IconButton, Menu, MenuItem, Typography } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import { api } from "../../../config/api";
 import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
@@ -14,6 +14,7 @@ const OrdersManagement = (props) => {
     const [refresher, setRefresher] = useState(0);
     // const [anchorEl, setAnchorEl] = React.useState(null);
     // const open = Boolean(anchorEl);
+    const [openDialog, setOpenDialog] = useState(false)
 
     useEffect(() => {
         if (type == "Orders") {
@@ -48,7 +49,7 @@ const OrdersManagement = (props) => {
             icon: "warning",
             title: "Cancel Order??",
             text: "Are you sure you want to cancel the order?",
-            buttons: ['No', "Yes"]
+            buttons: ["No", "Yes"],
         }).then((response) => {
             if (response) {
                 api.post("ordersmanagement/cancelorder", {
@@ -63,7 +64,7 @@ const OrdersManagement = (props) => {
                     });
                 });
             }
-        })
+        });
     };
 
     const confirmOrder = (id, status) => {
@@ -72,9 +73,9 @@ const OrdersManagement = (props) => {
                 icon: "warning",
                 title: "Confirm Order?",
                 text: "Are you sure you want to confirm the order?",
-                buttons: ["No", "Yes"]
+                buttons: ["No", "Yes"],
             }).then((response) => {
-                if(response) {
+                if (response) {
                     api.post("ordersmanagement/confirmpayment", {
                         id: id,
                     }).then((response) => {
@@ -87,15 +88,15 @@ const OrdersManagement = (props) => {
                         });
                     });
                 }
-            })
+            });
         } else if (status == "To Ship") {
             swal({
                 icon: "warning",
                 title: "To Receive Order?",
                 text: "Are you sure you want to confirm the order?",
-                buttons: ["No", "Yes"]
+                buttons: ["No", "Yes"],
             }).then((response) => {
-                if(response) {
+                if (response) {
                     api.post("ordersmanagement/toreceive", {
                         id: id,
                     }).then((response) => {
@@ -108,15 +109,15 @@ const OrdersManagement = (props) => {
                         });
                     });
                 }
-            })
+            });
         } else if (status == "To Receive") {
             swal({
                 icon: "warning",
                 title: "Complete Order?",
                 text: "Are you sure you want to complete the order?",
-                buttons: ["No", "Yes"]
+                buttons: ["No", "Yes"],
             }).then((response) => {
-                if(response) {
+                if (response) {
                     api.post("ordersmanagement/complete", {
                         id: id,
                     }).then((response) => {
@@ -129,8 +130,8 @@ const OrdersManagement = (props) => {
                         });
                     });
                 }
-            })
-        } 
+            });
+        }
     };
 
     const columns = [
@@ -233,7 +234,9 @@ const OrdersManagement = (props) => {
                             }
                             aria-expanded={open ? "true" : undefined}
                             aria-haspopup="true"
-                            onClick={(event) => setAnchorEl(event.currentTarget)}
+                            onClick={(event) =>
+                                setAnchorEl(event.currentTarget)
+                            }
                         >
                             <MoreVert />
                         </IconButton>
@@ -250,7 +253,10 @@ const OrdersManagement = (props) => {
                             {cellValue.row.order_status == "Pending" && (
                                 <MenuItem
                                     onClick={() =>
-                                        confirmOrder(cellValue.row.id, cellValue.row.order_status)
+                                        confirmOrder(
+                                            cellValue.row.id,
+                                            cellValue.row.order_status
+                                        )
                                     }
                                 >
                                     Confirm Payment
@@ -260,7 +266,10 @@ const OrdersManagement = (props) => {
                             {cellValue.row.order_status == "To Ship" && (
                                 <MenuItem
                                     onClick={() =>
-                                        confirmOrder(cellValue.row.id, cellValue.row.order_status)
+                                        confirmOrder(
+                                            cellValue.row.id,
+                                            cellValue.row.order_status
+                                        )
                                     }
                                 >
                                     To Receive
@@ -269,25 +278,89 @@ const OrdersManagement = (props) => {
                             {cellValue.row.order_status == "To Receive" && (
                                 <MenuItem
                                     onClick={() =>
-                                        confirmOrder(cellValue.row.id, cellValue.row.order_status)
+                                        confirmOrder(
+                                            cellValue.row.id,
+                                            cellValue.row.order_status
+                                        )
                                     }
                                 >
                                     Complete
                                 </MenuItem>
                             )}
                             {cellValue.row.payment != "COD" && (
-                                <MenuItem onClick={handleClose}>
+                                <MenuItem onClick={() => {
+                                    setAnchorEl(null);
+                                    setOpenDialog(true)
+                                }}>
                                     Display Payment
                                 </MenuItem>
                             )}
                             {cellValue.row.order_status != "Complete" && (
-                            <MenuItem
-                                onClick={() => cancelOrder(cellValue.row.id)}
-                            >
-                                Cancel Order
-                            </MenuItem>
+                                <MenuItem
+                                    onClick={() =>
+                                        cancelOrder(cellValue.row.id)
+                                    }
+                                >
+                                    Cancel Order
+                                </MenuItem>
                             )}
                         </Menu>
+                        <Dialog
+                            open={openDialog}
+                            onClose={() => {
+                                setOpenDialog(false);
+                            }}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                        >
+                            <div className="w-full border-b-2 border-black">
+                                <DialogTitle id="alert-dialog-title">
+                                    Payment Receipt
+                                </DialogTitle>
+                            </div>
+                            <DialogContent>
+                                <div className="flex justify-center items-center w-full flex-col">
+                                    {/* <CustomTextInput
+                                        label={`Review Description`}
+                                        multiline
+                                        value={review}
+                                        onChangeValue={(e) =>
+                                            setReview(e.target.value)
+                                        }
+                                    /> */}
+                                    <img src="https://brgyugongpasigcity.com/image/news/newsimage.jpg" height={500} width={500} />
+                                </div>
+                                <DialogContentText id="alert-dialog-description">
+                                    {/* Let Google help apps determine location. This
+                                means sending anonymous location data to Google,
+                            even when no apps are running. */}
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button
+                                    onClick={() => {
+                                        setOpenDialog(false);
+                                    }}
+                                    variant="contained"
+                                    color="error"
+                                >
+                                    Close
+                                </Button>
+                                {/* <Button
+                                    onClick={() => {
+                                        handleSubmitReview();
+                                        setOpen(false);
+                                        setRating(0);
+                                        setReview("");
+                                    }}
+                                    autoFocus
+                                    variant="contained"
+                                    color="primary"
+                                >
+                                    Agree
+                                </Button> */}
+                            </DialogActions>
+                        </Dialog>
                     </div>
                 );
             },

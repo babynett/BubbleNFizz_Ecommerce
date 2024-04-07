@@ -87,6 +87,7 @@ const ShoppingPage = (props) => {
                 <Typography variant="h4" fontWeight={700}>
                     RECOMMENDED
                 </Typography>
+                <Typography variant="subtitle1" color={'GrayText'}>Here are the products that other users are buying!</Typography>
             </div>
 
             <div className="mx-10">
@@ -114,6 +115,7 @@ const ShoppingPage = (props) => {
                 <Typography variant="h4" fontWeight={700}>
                     SIMILAR PRODUCTS YOU LIKE
                 </Typography>
+                <Typography variant="subtitle1" color={'GrayText'}>Here are the products that other users are checking out!</Typography>
             </div>
 
             <div className="mx-10">
@@ -196,6 +198,7 @@ const ShoppingPage = (props) => {
                 <Typography variant="h4" fontWeight={700}>
                     BEST SELLERS
                 </Typography>
+                <Typography variant="subtitle1" color={'GrayText'}>Here are the products the best selling products!</Typography>
             </div>
 
             <div className="mx-10">

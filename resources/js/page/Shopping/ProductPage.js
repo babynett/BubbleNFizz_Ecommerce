@@ -57,9 +57,17 @@ const ProductPage = ({ id, user, guest }) => {
         }
     };
 
-    const addQuantity = () => {
-        setQuantity(quantity + 1);
-        setTotalPrice(Number(totalPrice) + Number(product.product_price));
+    const addQuantity = (stock) => {
+        if (quantity >= stock) {
+            swal({
+                icon: 'error',
+                title: 'Oops...',
+                text: "Quantity should not exceed the stock amount!"
+            })
+        } else {
+            setQuantity(quantity + 1);
+            setTotalPrice(Number(totalPrice) + Number(product.product_price));
+        }
     };
 
     const submitReview = () => {
@@ -153,8 +161,7 @@ const ProductPage = ({ id, user, guest }) => {
                 </div>
                 <div className="col-span-1">
                     <div className="text-2xl font-bold">
-                        Bubble N Fizz Bath Bomb With Surprise Toy Inside Squishy
-                        Single Item 130G
+                        {product.product_name}
                     </div>
                     <div className="border-2 border-black my-8"></div>
                     <div className="mx-8">
@@ -176,7 +183,7 @@ const ProductPage = ({ id, user, guest }) => {
                                 />
                             </button>{" "}
                             {quantity}{" "}
-                            <button onClick={addQuantity}>
+                            <button onClick={() => addQuantity(product.product_stock)}>
                                 <AddCircleIcon
                                     sx={{ color: "#EDBF47" }}
                                     className="cursor-pointer"
