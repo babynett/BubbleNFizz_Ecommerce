@@ -333,7 +333,7 @@ const PaymentRegister = () => {
                                     >
                                         <div className="flex p-5 flex-col justify-center items-center space-y-4">
                                             <img
-                                                src={`https://bubblenfizz-store.com/images/static/image282.png`}
+                                                src={decodeURI(`https://bubblenfizz-store.com/BubbleNFizz-main/public/image/products/${item.product_details.product_images}`)}
                                                 height={200}
                                                 width={200}
                                             />

@@ -13,7 +13,7 @@ import CustomTextInput from "../components/CustomTextInput";
 import { api } from "../config/api";
 import swal from "sweetalert";
 
-const NotificationCard = ({ order, setRefresher, user, refresher }) => {
+const NotificationCard = ({ order, setRefresher, user, refresher, image }) => {
     const [open, setOpen] = useState(false);
     const [rating, setRating] = useState(0);
     const [review, setReview] = useState("");
@@ -40,7 +40,7 @@ const NotificationCard = ({ order, setRefresher, user, refresher }) => {
         <>
             <div className="col-span-3 bg-blue-500">
                 <img
-                    src={`https://bubblenfizz-store.com/images/static/image282.png`}
+                    src={decodeURI(`https://bubblenfizz-store.com/BubbleNFizz-main/public/image/products/${order.product_image}`)}
                     height={300}
                     width={500}
                 />

@@ -5,7 +5,7 @@ const CustomShoppingCard = ({ title, scentName, rating, price, onClick, sales, i
     return (
         <div className="border-2 flex justify-center items-center flex-col hover:border-amber-500" onClick={onClick}>
             <img
-                src={`https://bubblenfizz-store.com/images/static/${image}`}
+                src={decodeURI(`https://bubblenfizz-store.com/BubbleNFizz-main/public/image/products/${image}`)}
                 height={150}
                 width={250}
             />

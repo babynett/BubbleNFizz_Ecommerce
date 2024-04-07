@@ -29,6 +29,7 @@ const MyRecentProducts = ({ user }) => {
                                 <RecentProductCard
                                     product_id={item.product.id}
                                     product_name={item.product.product_name}
+                                    product_image={item.product.product_image}
                                     product_price={item.product.product_price}
                                     product_scent={
                                         item.product.product_scent_name

@@ -132,7 +132,7 @@ const ProductPage = ({ id, user, guest }) => {
                         {/* large, single image */}
                         <div className="col-span-8">
                             <img
-                                src={`https://bubblenfizz-store.com/images/static/${product.product_images}`}
+                                src={decodeURI(`https://bubblenfizz-store.com/BubbleNFizz-main/public/image/products/${product.product_images}`)}
                                 height={500}
                                 width={500}
                             />

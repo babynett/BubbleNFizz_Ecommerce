@@ -80,7 +80,7 @@ const CartCard = ({
             <div className="col-span-2">
                 <div className="flex justify-center items-center h-full">
                     <img
-                        src={`https://bubblenfizz-store.com/images/static/image282.png`}
+                        src={decodeURI(`https://bubblenfizz-store.com/BubbleNFizz-main/public/image/products/${cart.product.product_images}`)}
                         height={300}
                         width={500}
                     />
