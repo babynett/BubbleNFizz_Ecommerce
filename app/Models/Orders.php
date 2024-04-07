@@ -17,6 +17,7 @@ class Orders extends Model
         'order_shipping',
         'order_status',
         'payment',
+        'payment_reference',
         'payment_image',
         'payment_status',
         'total_quantity',

@@ -192,6 +192,7 @@ const OrdersManagement = (props) => {
                 return (
                     <>
                         <Typography>{cellValue.row.payment_status}</Typography>
+                        <Typography>Ref No.:{cellValue.row.payment_reference}</Typography>
                     </>
                 );
             },
@@ -328,7 +329,7 @@ const OrdersManagement = (props) => {
                                             setReview(e.target.value)
                                         }
                                     /> */}
-                                    <img src="https://brgyugongpasigcity.com/image/news/newsimage.jpg" height={500} width={500} />
+                                    <img src={`https://bubblenfizz-store.com/BubbleNFizz-main/public/image/order/${cellValue.row.payment_image}`} height={500} width={500} />
                                 </div>
                                 <DialogContentText id="alert-dialog-description">
                                     {/* Let Google help apps determine location. This
@@ -372,7 +373,7 @@ const OrdersManagement = (props) => {
             <CustomTitle
                 text={
                     type == "Orders"
-                        ? "Pending Delivery/Shipping"
+                        ? "Manage Orders"
                         : "Canceled Orders"
                 }
             />

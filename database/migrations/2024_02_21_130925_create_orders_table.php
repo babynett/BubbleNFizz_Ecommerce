@@ -22,6 +22,7 @@ class CreateOrdersTable extends Migration
             $table->string('order_shipping');
             $table->string('order_status');
             $table->string('payment');
+            $table->string('payment_reference')->nullable();
             $table->string('payment_image')->nullable();
             $table->string('payment_status');
             $table->string('total_quantity');
