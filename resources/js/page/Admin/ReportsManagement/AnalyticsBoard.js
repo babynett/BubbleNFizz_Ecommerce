@@ -143,7 +143,7 @@ const AnalyticsBoard = () => {
                     let label = []
                     salesReports.monthly.map((item) => {
                         data.push(item.total_sales)
-                        label.push(item.month)
+                        label.push(`${item.month} ${item.year}`)
                     })
 
                     // setSalesData(monthly.)

@@ -11,7 +11,7 @@ class OrdersController extends Controller
 {
     public function getAllOrders()
     {
-        return Orders::with('ownedBy')->where('order_status', '!=', 'Cancelled')->get();
+        return Orders::with('ownedBy.profile')->where('order_status', '!=', 'Cancelled')->get();
     }
 
     public function confirmPayment(Request $request)

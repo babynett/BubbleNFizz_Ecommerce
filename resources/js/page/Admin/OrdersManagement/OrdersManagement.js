@@ -20,6 +20,7 @@ const OrdersManagement = (props) => {
         if (type == "Orders") {
             api.get("ordersmanagement/getallorders")
                 .then((response) => {
+                    console.log(response.data)
                     setData(response.data);
                 })
                 .catch((err) => {
@@ -151,6 +152,9 @@ const OrdersManagement = (props) => {
                         <Typography>
                             Email: {cellValue.row.owned_by.email}
                         </Typography>
+                        <Typography>
+                            Address: {cellValue.row.owned_by.profile.address}, {cellValue.row.owned_by.profile.city}
+                        </Typography>
                     </div>
                 );
             },
@@ -162,11 +166,14 @@ const OrdersManagement = (props) => {
             editable: true,
             renderCell: (cellValue) => {
                 return (
-                    <>
+                    <div className="flex flex-col space-y-3">
                         <Typography>
                             Order Quantity: {cellValue.row.total_quantity}
                         </Typography>
-                    </>
+                        <Button variant="contained" color="primary">
+                            View Order Items
+                        </Button>
+                    </div>
                 );
             },
         },
@@ -190,10 +197,11 @@ const OrdersManagement = (props) => {
             editable: true,
             renderCell: (cellValue) => {
                 return (
-                    <>
+                    <div className="flex flex-col">
                         <Typography>{cellValue.row.payment_status}</Typography>
+                        <Typography>Payment Method:{cellValue.row.payment}</Typography>
                         <Typography>Ref No.:{cellValue.row.payment_reference}</Typography>
-                    </>
+                    </div>
                 );
             },
         },
