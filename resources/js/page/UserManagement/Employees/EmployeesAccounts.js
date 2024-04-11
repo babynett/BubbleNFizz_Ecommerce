@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import CustomButton from "../../../components/CustomButton";
 import { Button } from "@mui/material";
 import { api } from "../../../config/api";
+import swal from 'sweetalert';
 import moment from "moment";
 
 
@@ -53,10 +54,19 @@ const EmployeesAccounts = () => {
             renderCell: (cellValue) => {
                 return (
                     <>
-                        <Button variant="contained" color="warning" sx={{ marginRight: 1 }}>
-                            Edit User
-                        </Button>
-                        <Button variant="contained" color="error">
+                        <Button variant="contained" color="error" onClick={() => {
+                            api.post('usermanagement/deleteemployee', {
+                                id: cellValue.row.id
+                            }).then((response) => {
+                                swal({
+                                    icon: "success",
+                                    title: "Employee Deleted!",
+                                    text: "Employee has been deleted!",
+                                }).then((response) => {
+                                    location.reload()
+                                })
+                            })
+                        }}>
                             Delete User
                         </Button>
                     </>

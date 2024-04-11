@@ -2,11 +2,24 @@ import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import CustomTitle from "../../../texts/CustomTitle";
 import swal from "sweetalert";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Menu, MenuItem, Typography } from "@mui/material";
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    IconButton,
+    Menu,
+    MenuItem,
+    Typography,
+} from "@mui/material";
 import { api } from "../../../config/api";
 import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
 import { MoreVert } from "@mui/icons-material";
+import CustomShoppingCard from "../../../components/shopping/CustomShoppingCard";
+import CheckoutCard from "../../../cards/CheckoutCard";
 
 const OrdersManagement = (props) => {
     const type = props.type;
@@ -14,13 +27,15 @@ const OrdersManagement = (props) => {
     const [refresher, setRefresher] = useState(0);
     // const [anchorEl, setAnchorEl] = React.useState(null);
     // const open = Boolean(anchorEl);
-    const [openDialog, setOpenDialog] = useState(false)
+    const [openDialog, setOpenDialog] = useState(false);
+    const [openDetails, setOpenDetails] = useState(false);
+    const [selectedItem, setSelectedItem] = useState([])
 
     useEffect(() => {
         if (type == "Orders") {
             api.get("ordersmanagement/getallorders")
                 .then((response) => {
-                    console.log(response.data)
+                    console.log(response.data);
                     setData(response.data);
                 })
                 .catch((err) => {
@@ -153,7 +168,8 @@ const OrdersManagement = (props) => {
                             Email: {cellValue.row.owned_by.email}
                         </Typography>
                         <Typography>
-                            Address: {cellValue.row.owned_by.profile.address}, {cellValue.row.owned_by.profile.city}
+                            Address: {cellValue.row.owned_by.profile.address},{" "}
+                            {cellValue.row.owned_by.profile.city}
                         </Typography>
                     </div>
                 );
@@ -165,14 +181,23 @@ const OrdersManagement = (props) => {
             width: 350,
             editable: true,
             renderCell: (cellValue) => {
+                const items = cellValue.row.order_items;
                 return (
                     <div className="flex flex-col space-y-3">
                         <Typography>
                             Order Quantity: {cellValue.row.total_quantity}
                         </Typography>
-                        <Button variant="contained" color="primary">
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                                setOpenDetails(true)
+                                setSelectedItem(cellValue.row.order_items)
+                            }}
+                        >
                             View Order Items
                         </Button>
+                        
                     </div>
                 );
             },
@@ -199,8 +224,12 @@ const OrdersManagement = (props) => {
                 return (
                     <div className="flex flex-col">
                         <Typography>{cellValue.row.payment_status}</Typography>
-                        <Typography>Payment Method:{cellValue.row.payment}</Typography>
-                        <Typography>Ref No.:{cellValue.row.payment_reference}</Typography>
+                        <Typography>
+                            Payment Method:{cellValue.row.payment}
+                        </Typography>
+                        <Typography>
+                            Ref No.:{cellValue.row.payment_reference}
+                        </Typography>
                     </div>
                 );
             },
@@ -297,10 +326,12 @@ const OrdersManagement = (props) => {
                                 </MenuItem>
                             )}
                             {cellValue.row.payment != "COD" && (
-                                <MenuItem onClick={() => {
-                                    setAnchorEl(null);
-                                    setOpenDialog(true)
-                                }}>
+                                <MenuItem
+                                    onClick={() => {
+                                        setAnchorEl(null);
+                                        setOpenDialog(true);
+                                    }}
+                                >
                                     Display Payment
                                 </MenuItem>
                             )}
@@ -337,7 +368,11 @@ const OrdersManagement = (props) => {
                                             setReview(e.target.value)
                                         }
                                     /> */}
-                                    <img src={`https://bubblenfizz-store.com/BubbleNFizz-main/public/image/order/${cellValue.row.payment_image}`} height={500} width={500} />
+                                    <img
+                                        src={`https://bubblenfizz-store.com/BubbleNFizz-main/public/image/order/${cellValue.row.payment_image}`}
+                                        height={500}
+                                        width={500}
+                                    />
                                 </div>
                                 <DialogContentText id="alert-dialog-description">
                                     {/* Let Google help apps determine location. This
@@ -379,12 +414,55 @@ const OrdersManagement = (props) => {
     return (
         <div className="w-full">
             <CustomTitle
-                text={
-                    type == "Orders"
-                        ? "Manage Orders"
-                        : "Canceled Orders"
-                }
+                text={type == "Orders" ? "Manage Orders" : "Canceled Orders"}
             />
+            <Dialog
+                            open={openDetails}
+                            onClose={() => {
+                                setOpenDetails(false);
+                                setSelectedItem([])
+                            }}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                        >
+                            <div className="w-full border-b-2 border-black">
+                                <DialogTitle id="alert-dialog-title">
+                                    Order Items
+                                </DialogTitle>
+                            </div>
+                            <DialogContent>
+                                <div className="flex justify-center items-center w-full flex-col">
+                                    {selectedItem.map((item, index) => {
+                                        return (
+                                            <CheckoutCard
+                                                key={index}
+                                                cart={item}
+                                                darkMode={false}
+                                                isCart={false}
+                                            />
+                                        );
+                                    })}
+                                </div>
+                                <DialogContentText id="alert-dialog-description">
+                                    {/* Let Google help apps determine location. This
+                                means sending anonymous location data to Google,
+                            even when no apps are running. */}
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button
+                                    onClick={() => {
+                                        setOpenDetails(false);
+                                        setSelectedItem([])
+                                    }}
+                                    autoFocus
+                                    variant="contained"
+                                    color="primary"
+                                >
+                                    Close
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
             <DataGrid
                 rows={data}
                 columns={columns}

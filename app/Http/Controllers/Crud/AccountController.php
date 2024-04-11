@@ -32,18 +32,22 @@ class AccountController extends Controller
 
     public function editContactNo(Request $request)
     {
-        return UserProfile::where('user_id', $request->user_id)->update([
+        UserProfile::where('user_id', $request->user_id)->update([
             'contact_no' => $request->contact_no 
         ]);
+        $user = User::where('id', $request->user_id)->with('profile')->first();
+        return response(['success' => true, 'user' => $user]);
     }
-
+    
     public function editAddress(Request $request)
     {
-        return UserProfile::where('user_id', $request->user_id)->update([
+        UserProfile::where('user_id', $request->user_id)->update([
             'address' => $request->address,
             'city' => $request->city,
             'postal_code' => $request->postal_code
         ]);
+        $user = User::where('id', $request->user_id)->with('profile')->first();
+        return response(['success' => true, 'user' => $user]);
     }
 
     public function changePassword(Request $request)

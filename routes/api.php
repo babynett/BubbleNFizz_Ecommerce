@@ -37,6 +37,7 @@ Route::prefix('usermanagement')->group(function () {
     Route::get("/getallcustomers", [UserManagementController::class, 'getAllCustomers']);
     Route::get("/getallemployees", [UserManagementController::class, 'getAllEmployees']);
     Route::post("/addemployee", [UserManagementController::class, 'addEmployee']);
+    Route::post("/deleteemployee", [UserManagementController::class, 'deleteEmployee']);
     Route::post("/addcustomer", [UserManagementController::class, 'addCustomer']);
     Route::post("/adduserpoll", [UserManagementController::class, 'addUserPoll']);
     Route::post("/adduserprofile", [UserManagementController::class, 'addUserProfile']);

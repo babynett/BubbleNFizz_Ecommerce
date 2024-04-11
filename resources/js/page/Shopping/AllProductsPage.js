@@ -44,21 +44,23 @@ const AllProductsPage = () => {
                     <div className="col-span-9">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                             {products.map((item, index) => {
-                                return (
-                                    <div className="col-span-1" key={index}>
-                                        <CustomShoppingCard
-                                            title={String(item.product_details.product_name).replace('Bubble N Fizz', '')}
-                                            price={item.product_details.product_price}
-                                            rating={item.product_details.product_rating}
-                                            scentName={item.product_details.product_scent_name}
-                                            onClick={() =>
-                                                (location.href = `/shopping/${item.product_details.id}`)
-                                            }
-                                            sales={item.product_sales}
-                                    image={item.product_details.product_images}
-                                        />
-                                    </div>
-                                );
+                                if (item.product_details !== null) {
+                                    return (
+                                        <div className="col-span-1" key={index}>
+                                            <CustomShoppingCard
+                                                title={String(item.product_details.product_name).replace('Bubble N Fizz', '')}
+                                                price={item.product_details.product_price}
+                                                rating={item.product_details.product_rating}
+                                                scentName={item.product_details.product_scent_name}
+                                                onClick={() =>
+                                                    (location.href = `/shopping/${item.product_details.id}`)
+                                                }
+                                                sales={item.product_sales}
+                                                image={item.product_details.product_images}
+                                            />
+                                        </div>
+                                    );
+                                }
                             })}
                         </div>
                     </div>

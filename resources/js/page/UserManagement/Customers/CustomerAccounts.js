@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import CustomTitle from "../../../texts/CustomTitle";
 import { DataGrid } from "@mui/x-data-grid";
 import { api } from "../../../config/api";
+import swal from 'sweetalert';
 import moment from "moment";
 
 const CustomerAccounts = () => {
@@ -52,9 +53,39 @@ const CustomerAccounts = () => {
             renderCell: (cellValue) => {
                 return (
                     <>
-                        <Button variant="contained" color="error">
+                    {cellValue.row.is_suspended ? (
+                        <Button variant="contained" color="success" onClick={() => {
+                            api.post('usermanagement/unsuspenduser', {
+                                id: cellValue.row.id
+                            }).then((response) => {
+                                swal({
+                                    icon:'success',
+                                    title: "User Unsuspended!",
+                                    text: "User has been unsuspended!"
+                                }).then((response) => {
+                                    location.reload()
+                                })
+                            })
+                        }}>
+                            Unsuspend User
+                        </Button>
+                    ) : (
+                        <Button variant="contained" color="error" onClick={() => {
+                            api.post('usermanagement/suspenduser', {
+                                id: cellValue.row.id
+                            }).then((response) => {
+                                swal({
+                                    icon:'success',
+                                    title: "User Suspended!",
+                                    text: "User has been suspended!"
+                                }).then((response) => {
+                                    location.reload()
+                                })
+                            })
+                        }}>
                             Suspend User
                         </Button>
+                    )}
                     </>
                 )
             },

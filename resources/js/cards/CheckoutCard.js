@@ -32,7 +32,7 @@ const CheckoutCard = ({ cart, darkMode = true, isCart = true, refundButton = fal
                 </div>
             </div>
             <div className="col-span-6 h-full flex flex-col justify-between">
-                <div className={`text-lg ${darkMode ? 'text-white' : 'text-black'}`}>{cart.product.product_name} ({cart.product.product_scent_name})</div>
+                <div className={`text-lg ${darkMode ? 'text-white' : 'text-black'}`}>{cart.product.product_name} {cart.product.product_scent_name} ({cart.order_quantity}x)</div>
             </div>
             <div className="col-span-3">
                 <div className="flex justify-center items-center flex-col h-full">

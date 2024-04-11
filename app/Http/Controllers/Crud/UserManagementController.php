@@ -131,4 +131,9 @@ class UserManagementController extends Controller
     {
         return UserPolls::where('user_id', $request->user_id)->first();
     }
+
+    public function deleteEmployee(Request $request)
+    {
+        return User::where('id', $request->id)->delete();
+    }
 }
