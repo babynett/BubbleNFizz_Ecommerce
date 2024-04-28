@@ -20,6 +20,7 @@ import moment from "moment";
 import { MoreVert } from "@mui/icons-material";
 import CustomShoppingCard from "../../../components/shopping/CustomShoppingCard";
 import CheckoutCard from "../../../cards/CheckoutCard";
+import CustomTextInput from "../../../components/CustomTextInput";
 
 const OrdersManagement = (props) => {
     const type = props.type;
@@ -29,7 +30,68 @@ const OrdersManagement = (props) => {
     // const open = Boolean(anchorEl);
     const [openDialog, setOpenDialog] = useState(false);
     const [openDetails, setOpenDetails] = useState(false);
-    const [selectedItem, setSelectedItem] = useState([])
+    const [openRefund, setOpenRefund] = useState(false);
+    // FOR DELIVERY
+    const [openDelivery, setOpenDelivery] = useState(false)
+    const [dialogId, setDialogId] = useState(0);
+    const [dialogTitle, setDialogTitle] = useState("");
+    const [dialogValue, setDialogValue] = useState("")
+
+    const [refundComment, setRefundComment] = useState("");
+    const [refundId, setRefundId] = useState(0);
+    const [refundImage, setRefundImage] = useState("");
+    const [selectedItem, setSelectedItem] = useState([]);
+
+    const addCourier = () => {
+        api.post('ordersmanagement/addcourier', {
+            id: dialogId,
+            delivery_courier: dialogValue
+        }).then((response) => {
+            swal({
+                icon: "success",
+                title: "Courier Added",
+                text: "Courier has been added!"
+            }).then(() => {
+                setRefresher(refresher + 1)
+            })
+        })
+        setOpenDelivery(false);
+        setDialogValue("")
+    }
+
+    const updateTracking = () => {
+        api.post('ordersmanagement/updatetracking', {
+            id: dialogId,
+            tracking_number: dialogValue
+        }).then((response) => {
+            swal({
+                icon: "success",
+                title: "Tracking Updated!",
+                text: "Tracking has been updated!"
+            }).then(() => {
+                setRefresher(refresher + 1)
+            })
+        })
+        setOpenDelivery(false);
+        setDialogValue("")
+    }
+
+    const updateLocation = () => {
+        api.post('ordersmanagement/updatelocation', {
+            id: dialogId,
+            delivery_location: dialogValue
+        }).then((response) => {
+            swal({
+                icon: "success",
+                title: "Location Updated!",
+                text: "Location has been updated!"
+            }).then(() => {
+                setRefresher(refresher + 1)
+            })
+        })
+        setOpenDelivery(false);
+        setDialogValue("")
+    }
 
     useEffect(() => {
         if (type == "Orders") {
@@ -43,6 +105,22 @@ const OrdersManagement = (props) => {
                 });
         } else if (type == "Cancelled") {
             api.get("ordersmanagement/getcancelledorders")
+                .then((response) => {
+                    setData(response.data);
+                })
+                .catch((err) => {
+                    console.log(err.response);
+                });
+        } else if (type == "Refund") {
+            api.get("ordersmanagement/getrefundorders")
+                .then((response) => {
+                    setData(response.data);
+                })
+                .catch((err) => {
+                    console.log(err.response);
+                });
+        } else if (type == "Delivery") {
+            api.get("ordersmanagement/getdeliveries")
                 .then((response) => {
                     setData(response.data);
                 })
@@ -178,7 +256,7 @@ const OrdersManagement = (props) => {
         {
             field: "order_details",
             headerName: "Order Details",
-            width: 350,
+            width: 300,
             editable: true,
             renderCell: (cellValue) => {
                 const items = cellValue.row.order_items;
@@ -191,18 +269,17 @@ const OrdersManagement = (props) => {
                             variant="contained"
                             color="primary"
                             onClick={() => {
-                                setOpenDetails(true)
-                                setSelectedItem(cellValue.row.order_items)
+                                setOpenDetails(true);
+                                setSelectedItem(cellValue.row.order_items);
                             }}
                         >
                             View Order Items
                         </Button>
-                        
                     </div>
                 );
             },
         },
-        {
+        type != "Delivery" ? {
             field: "total_amount",
             headerName: "Total Amount",
             width: 150,
@@ -214,40 +291,97 @@ const OrdersManagement = (props) => {
                     </>
                 );
             },
-        },
-        {
-            field: "payment_status",
-            headerName: "Payment Status",
-            width: 200,
+        } : {
+            field: "total_amount",
+            headerName: "Total Amount",
+            width: 300,
             editable: true,
             renderCell: (cellValue) => {
                 return (
-                    <div className="flex flex-col">
-                        <Typography>{cellValue.row.payment_status}</Typography>
-                        <Typography>
-                            Payment Method:{cellValue.row.payment}
-                        </Typography>
-                        <Typography>
-                            Ref No.:{cellValue.row.payment_reference}
-                        </Typography>
-                    </div>
+                    <>
+                        {cellValue.row.delivery.delivery_courier == null ? (
+                            <Button variant="contained" onClick={() => {
+                                setDialogTitle('Add Courier')
+                                setDialogId(cellValue.row.delivery.id)
+                                setOpenDelivery(true)
+                            }}>Add Courier</Button>
+                        ) : (
+                            <div className="flex-col">
+                                <Typography>Courier: {cellValue.row.delivery.delivery_courier}</Typography>
+                                <Typography>Tracking #: {cellValue.row.delivery.tracking_number != null ? cellValue.row.delivery.tracking_number : "N/A"}</Typography>
+                                <Typography>Location: {cellValue.row.delivery.delivery_location != null ? cellValue.row.delivery.delivery_location : "N/A"}</Typography>
+                            </div>
+                        )}
+                    </>
                 );
             },
         },
+        type != "Delivery"
+            ? {
+                  field: "payment_status",
+                  headerName: "Payment Status",
+                  width: 200,
+                  editable: true,
+                  renderCell: (cellValue) => {
+                      return (
+                          <div className="flex flex-col">
+                              <Typography>
+                                  {cellValue.row.payment_status}
+                              </Typography>
+                              <Typography>
+                                  Payment Method:{cellValue.row.payment}
+                              </Typography>
+                              <Typography>
+                                  Ref No.:{cellValue.row.payment_reference}
+                              </Typography>
+                          </div>
+                      );
+                  },
+              }
+            : {
+                  field: "delivery_status",
+                  headerName: "Delivery Status",
+                  width: 200,
+                  editable: true,
+                  renderCell: (cellValue) => {
+                      return (
+                          <div className="flex flex-col">
+                              <Typography>
+                                  {cellValue.row.delivery.delivery_status}
+                              </Typography>
+                          </div>
+                      );
+                  },
+              },
         {
-            field: "Delivery Status",
-            headerName: "Delivery Status",
+            field: "order_status",
+            headerName: "Order Status",
             width: 200,
             editable: true,
             renderCell: (cellValue) => {
                 return (
                     <>
-                        <Typography>{cellValue.row.order_status}</Typography>
+                        <Typography>{type == "Orders" && cellValue.row.order_status}</Typography>
                     </>
                 );
             },
         },
-        type == "Orders" && {
+        {
+            field: "refund_status",
+            headerName: "Refund Status",
+            width: 200,
+            editable: true,
+            renderCell: (cellValue) => {
+                return (
+                    <>
+                        <Typography>
+                            {type == "Refund" && cellValue.row.refunds.refund_status}
+                        </Typography>
+                    </>
+                );
+            },
+        },
+        (type == "Orders" || type == "Refund" || type == "Delivery") && {
             field: "action",
             headerName: "Action",
             width: 200,
@@ -287,62 +421,207 @@ const OrdersManagement = (props) => {
                             open={open}
                             onClose={() => setAnchorEl(null)}
                         >
-                            {/* PENDING */}
-                            {cellValue.row.order_status == "Pending" && (
-                                <MenuItem
-                                    onClick={() =>
-                                        confirmOrder(
-                                            cellValue.row.id,
-                                            cellValue.row.order_status
-                                        )
-                                    }
-                                >
-                                    Confirm Payment
-                                </MenuItem>
-                            )}
-                            {/* TO SHIP */}
-                            {cellValue.row.order_status == "To Ship" && (
-                                <MenuItem
-                                    onClick={() =>
-                                        confirmOrder(
-                                            cellValue.row.id,
-                                            cellValue.row.order_status
-                                        )
-                                    }
-                                >
-                                    To Receive
-                                </MenuItem>
-                            )}
-                            {cellValue.row.order_status == "To Receive" && (
-                                <MenuItem
-                                    onClick={() =>
-                                        confirmOrder(
-                                            cellValue.row.id,
-                                            cellValue.row.order_status
-                                        )
-                                    }
-                                >
-                                    Complete
-                                </MenuItem>
-                            )}
-                            {cellValue.row.payment != "COD" && (
-                                <MenuItem
-                                    onClick={() => {
-                                        setAnchorEl(null);
-                                        setOpenDialog(true);
-                                    }}
-                                >
-                                    Display Payment
-                                </MenuItem>
-                            )}
-                            {cellValue.row.order_status != "Complete" && (
-                                <MenuItem
-                                    onClick={() =>
-                                        cancelOrder(cellValue.row.id)
-                                    }
-                                >
-                                    Cancel Order
-                                </MenuItem>
+                            {type == "Orders" ? (
+                                <>
+                                    {/* PENDING */}
+                                    {cellValue.row.order_status ==
+                                        "Pending" && (
+                                        <MenuItem
+                                            onClick={() =>
+                                                confirmOrder(
+                                                    cellValue.row.id,
+                                                    cellValue.row.order_status
+                                                )
+                                            }
+                                        >
+                                            Confirm Payment
+                                        </MenuItem>
+                                    )}
+                                    {/* TO SHIP */}
+                                    {cellValue.row.order_status ==
+                                        "To Ship" && (
+                                        <MenuItem
+                                            onClick={() =>
+                                                confirmOrder(
+                                                    cellValue.row.id,
+                                                    cellValue.row.order_status
+                                                )
+                                            }
+                                        >
+                                            To Receive
+                                        </MenuItem>
+                                    )}
+                                    {cellValue.row.order_status ==
+                                        "To Receive" && (
+                                        <MenuItem
+                                            onClick={() =>
+                                                confirmOrder(
+                                                    cellValue.row.id,
+                                                    cellValue.row.order_status
+                                                )
+                                            }
+                                        >
+                                            Complete
+                                        </MenuItem>
+                                    )}
+                                    {cellValue.row.payment != "COD" && (
+                                        <MenuItem
+                                            onClick={() => {
+                                                setAnchorEl(null);
+                                                setOpenDialog(true);
+                                            }}
+                                        >
+                                            Display Payment
+                                        </MenuItem>
+                                    )}
+                                    {cellValue.row.order_status !=
+                                        "Complete" && (
+                                        <MenuItem
+                                            onClick={() =>
+                                                cancelOrder(cellValue.row.id)
+                                            }
+                                        >
+                                            Cancel Order
+                                        </MenuItem>
+                                    )}
+                                </>
+                            ) : type == "Refund" ? (
+                                <>
+                                    {cellValue.row.order_status == "Refund" && (
+                                        <MenuItem
+                                            onClick={() => {
+                                                setRefundComment(
+                                                    cellValue.row.refunds
+                                                        .refund_comment
+                                                );
+                                                setRefundImage(
+                                                    cellValue.row.refunds
+                                                        .refund_image
+                                                );
+                                                setRefundId(
+                                                    cellValue.row.refunds.id
+                                                );
+                                                setOpenRefund(true);
+                                            }}
+                                        >
+                                            Review Refund
+                                        </MenuItem>
+                                    )}
+                                    {cellValue.row.refunds.refund_status ==
+                                        "Pending" && (
+                                        <>
+                                            <MenuItem
+                                                onClick={() => {
+                                                    api.post(
+                                                        "ordersmanagement/confirmrefund",
+                                                        {
+                                                            id: cellValue.row
+                                                                .refunds.id,
+                                                        }
+                                                    ).then((response) => {
+                                                        swal({
+                                                            icon: "success",
+                                                            title: "Item Refunded!",
+                                                            text: "Item has been refunded!",
+                                                        }).then(() => {
+                                                            location.reload();
+                                                        });
+                                                    });
+                                                }}
+                                            >
+                                                Accept Refund
+                                            </MenuItem>
+                                            <MenuItem
+                                                onClick={() => {
+                                                    api.post(
+                                                        "ordersmanagement/rejectrefund",
+                                                        {
+                                                            id: cellValue.row
+                                                                .refunds.id,
+                                                        }
+                                                    ).then((response) => {
+                                                        swal({
+                                                            icon: "success",
+                                                            title: "Item Rejected!",
+                                                            text: "Item has been rejected for refund!",
+                                                        }).then(() => {
+                                                            location.reload();
+                                                        });
+                                                    });
+                                                }}
+                                            >
+                                                Reject Refund
+                                            </MenuItem>
+                                        </>
+                                    )}
+                                </>
+                            ) : (
+                                <>
+                                    {cellValue.row.delivery.delivery_status ==
+                                        "Preparing To Ship" && (
+                                        <MenuItem
+                                            onClick={() => {
+                                                api.post('ordersmanagement/pickedup', {
+                                                    id: cellValue.row.delivery.id
+                                                }).then(() => {
+                                                    swal({
+                                                        icon: "success",
+                                                        title: "Picked Up!",
+                                                        text: "Item has been picked up by courier!"
+                                                    }).then(() => {
+                                                        setRefresher(refresher + 1)
+                                                    })
+                                                })
+                                            }}
+                                        >
+                                            Picked Up
+                                        </MenuItem>
+                                    )}
+                                    {cellValue.row.delivery.delivery_status ==
+                                        "Picked Up by Courier" && (
+                                        <MenuItem
+                                            onClick={() => {
+                                                api.post('ordersmanagement/delivered', {
+                                                    id: cellValue.row.delivery.id
+                                                }).then(() => {
+                                                    swal({
+                                                        icon: "success",
+                                                        title: "Delivered!",
+                                                        text: "Item has been delivered by courier!"
+                                                    }).then(() => {
+                                                        setRefresher(refresher + 1)
+                                                    })
+                                                })
+                                            }}
+                                        >
+                                            Delivered
+                                        </MenuItem>
+                                    )}
+                                    {cellValue.row.delivery.delivery_courier !=
+                                        null && (
+                                        <MenuItem
+                                            onClick={() => {
+                                                setDialogTitle('Add/Update Tracking Number')
+                                                setDialogId(cellValue.row.delivery.id)
+                                                setOpenDelivery(true)
+                                            }}
+                                        >
+                                            Add/Update Tracking Number
+                                        </MenuItem>
+                                    )}
+                                    {cellValue.row.delivery.delivery_courier !=
+                                        null && (
+                                        <MenuItem
+                                            onClick={() => {
+                                                setDialogTitle('Add/Update Delivery Location')
+                                                setDialogId(cellValue.row.delivery.id)
+                                                setOpenDelivery(true)
+                                            }}
+                                        >
+                                            Add/Update Delivery Location
+                                        </MenuItem>
+                                    )}
+                                </>
                             )}
                         </Menu>
                         <Dialog
@@ -414,55 +693,195 @@ const OrdersManagement = (props) => {
     return (
         <div className="w-full">
             <CustomTitle
-                text={type == "Orders" ? "Manage Orders" : "Canceled Orders"}
+                text={
+                    type == "Orders"
+                        ? "Manage Orders"
+                        : type == "Refund"
+                        ? "Manage Refunds"
+                        : type == "Delivery"
+                        ? "Manage Delivery"
+                        : "Canceled Orders"
+                }
             />
             <Dialog
-                            open={openDetails}
-                            onClose={() => {
-                                setOpenDetails(false);
-                                setSelectedItem([])
-                            }}
-                            aria-labelledby="alert-dialog-title"
-                            aria-describedby="alert-dialog-description"
-                        >
-                            <div className="w-full border-b-2 border-black">
-                                <DialogTitle id="alert-dialog-title">
-                                    Order Items
-                                </DialogTitle>
-                            </div>
-                            <DialogContent>
-                                <div className="flex justify-center items-center w-full flex-col">
-                                    {selectedItem.map((item, index) => {
-                                        return (
-                                            <CheckoutCard
-                                                key={index}
-                                                cart={item}
-                                                darkMode={false}
-                                                isCart={false}
-                                            />
-                                        );
-                                    })}
-                                </div>
-                                <DialogContentText id="alert-dialog-description">
-                                    {/* Let Google help apps determine location. This
+                open={openDetails}
+                onClose={() => {
+                    setOpenDetails(false);
+                    setSelectedItem([]);
+                }}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <div className="w-full border-b-2 border-black">
+                    <DialogTitle id="alert-dialog-title">
+                        Order Items
+                    </DialogTitle>
+                </div>
+                <DialogContent>
+                    <div className="flex justify-center items-center w-full flex-col">
+                        {selectedItem.map((item, index) => {
+                            return (
+                                <CheckoutCard
+                                    key={index}
+                                    cart={item}
+                                    darkMode={false}
+                                    isCart={false}
+                                />
+                            );
+                        })}
+                    </div>
+                    <DialogContentText id="alert-dialog-description">
+                        {/* Let Google help apps determine location. This
                                 means sending anonymous location data to Google,
                             even when no apps are running. */}
-                                </DialogContentText>
-                            </DialogContent>
-                            <DialogActions>
-                                <Button
-                                    onClick={() => {
-                                        setOpenDetails(false);
-                                        setSelectedItem([])
-                                    }}
-                                    autoFocus
-                                    variant="contained"
-                                    color="primary"
-                                >
-                                    Close
-                                </Button>
-                            </DialogActions>
-                        </Dialog>
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button
+                        onClick={() => {
+                            setOpenDetails(false);
+                            setSelectedItem([]);
+                        }}
+                        autoFocus
+                        variant="contained"
+                        color="primary"
+                    >
+                        Close
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <Dialog
+                open={openRefund}
+                onClose={() => {
+                    setOpenRefund(false);
+                }}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <div className="w-full border-b-2 border-black">
+                    <DialogTitle id="alert-dialog-title">
+                        Refund Details
+                    </DialogTitle>
+                </div>
+                <DialogContent>
+                    <div className="flex justify-center items-center w-full flex-col">
+                        {/* <CustomTextInput
+                                        label={`Review Description`}
+                                        multiline
+                                        value={review}
+                                        onChangeValue={(e) =>
+                                            setReview(e.target.value)
+                                        }
+                                    /> */}
+                        {refundImage != "" && (
+                            <img
+                                src={`https://bubblenfizz-store.com/BubbleNFizz-main/public/image/refunds/${refundImage}`}
+                                height={500}
+                                width={500}
+                            />
+                        )}
+                        <Typography variant="h6">
+                            {refundComment != "" && refundComment}
+                        </Typography>
+                    </div>
+                    <DialogContentText id="alert-dialog-description">
+                        {/* Let Google help apps determine location. This
+                                means sending anonymous location data to Google,
+                            even when no apps are running. */}
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button
+                        onClick={() => {
+                            setOpenRefund(false);
+                        }}
+                        variant="contained"
+                        color="error"
+                    >
+                        Close
+                    </Button>
+                    {/* <Button
+                        onClick={() => {
+                            api.post("ordersmanagement/confirmrefund", {
+                                id: refundId,
+                            }).then((response) => {
+                                swal({
+                                    icon: "success",
+                                    title: "Item Refunded!",
+                                    text: "Item has been refunded!",
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            });
+                            handleSubmitReview();
+                            setOpen(false);
+                        }}
+                        autoFocus
+                        variant="contained"
+                        color="primary"
+                    >
+                        Agree
+                    </Button> */}
+                </DialogActions>
+            </Dialog>
+            <Dialog
+                open={openDelivery}
+                onClose={() => {
+                    setOpenDelivery(false);
+                }}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                fullWidth
+                maxWidth="sm"
+            >
+                <div className="w-full border-b-2 border-black">
+                    <DialogTitle id="alert-dialog-title">
+                        {dialogTitle}
+                    </DialogTitle>
+                </div>
+                <DialogContent>
+                    <div className="flex justify-center items-center w-full flex-col">
+                        <CustomTextInput
+                            label={dialogTitle}
+                            value={dialogValue}
+                            onChangeValue={(e) =>
+                                setDialogValue(e.target.value)
+                            }
+                        />
+                    </div>
+                    <DialogContentText id="alert-dialog-description">
+                        {/* Let Google help apps determine location. This
+                                means sending anonymous location data to Google,
+                            even when no apps are running. */}
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button
+                        onClick={() => {
+                            setOpenDelivery(false);
+                        }}
+                        variant="contained"
+                        color="error"
+                    >
+                        Close
+                    </Button>
+                    <Button
+                        onClick={() => {
+                            if (dialogTitle == "Add Courier") {
+                                addCourier()
+                            } else if (dialogTitle == "Add/Update Tracking Number") {
+                                updateTracking()
+                            } else if (dialogTitle == "Add/Update Delivery Location") {
+                                updateLocation()
+                            }
+                        }}
+                        variant="contained"
+                        color="primary"
+                    >
+                        Update
+                    </Button>
+                </DialogActions>
+            </Dialog>
             <DataGrid
                 rows={data}
                 columns={columns}
@@ -472,6 +891,16 @@ const OrdersManagement = (props) => {
                             pageSize: 10,
                         },
                     },
+                    columns: {
+                        columnVisibilityModel: type == "Orders" ? {
+                            refund_status: false
+                        } : type == "Refund" ? {
+                            order_status: false
+                        } : {
+                            refund_status: false,
+                            order_status: false
+                        }
+                    }
                 }}
                 pageSizeOptions={[10]}
                 disableRowSelectionOnClick

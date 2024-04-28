@@ -33,4 +33,14 @@ class Orders extends Model
     {
         return $this->hasMany(OrderItems::class, 'order_id', 'id');
     }
+
+    public function refunds()
+    {
+        return $this->hasOne(RefundImages::class, 'order_id', 'id');
+    }
+
+    public function delivery()
+    {
+        return $this->hasOne(DeliveryStatus::class, 'order_id', 'id');
+    }
 }

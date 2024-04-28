@@ -16,4 +16,14 @@ class OrdersController extends Controller
     {
         return view('features.OrdersManagement.CancelledOrders');
     }
+
+    public function refundManagement()
+    {
+        return view('features.OrdersManagement.RefundManagement');
+    }
+
+    public function deliveryManagement()
+    {
+        return view('features.OrdersManagement.DeliveryManagement');
+    }
 }

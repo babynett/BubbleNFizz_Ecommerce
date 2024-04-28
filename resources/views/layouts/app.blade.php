@@ -54,12 +54,17 @@
                                     <a href="#" class="text-xs no-underline hover:text-amber-500">> Refunds</a>
                                 </li> --}}
                                 <li class="my-2">
+                                    <a href="/orders" class="text-xs no-underline hover:text-amber-500">> Manage Orders</a>
+                                </li>
+                                <li class="my-2">
                                     <a href="/cancelledorders" class="text-xs no-underline hover:text-amber-500">> Canceled
                                         Orders</a>
                                 </li>
                                 <li class="my-2">
-                                    <a href="/orders" class="text-xs no-underline hover:text-amber-500">> Pending
-                                        Delivery/Shipping</a>
+                                    <a href="/refundmanagement" class="text-xs no-underline hover:text-amber-500">> Refund Management</a>
+                                </li>
+                                <li class="my-2">
+                                    <a href="/deliverymanagement" class="text-xs no-underline hover:text-amber-500">> Delivery Management</a>
                                 </li>
                             </ul>
                         </div>

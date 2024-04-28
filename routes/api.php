@@ -62,6 +62,8 @@ Route::prefix('products')->group(function () {
 
 Route::prefix('ordersmanagement')->group(function () {
     Route::get('/getallorders', [OrdersController::class, 'getAllOrders']);
+    Route::get('/getrefundorders', [OrdersController::class, 'getRefundOrders']);
+    Route::get('/getdeliveries', [OrdersController::class, 'getDeliveries']);
     Route::get('/getcancelledorders', [OrdersController::class, 'getCancelledOrders']);
     Route::get("/userorders", [OrdersController::class, 'userOrders']);
     Route::post('/confirmpayment', [OrdersController::class, 'confirmPayment']);
@@ -69,6 +71,13 @@ Route::prefix('ordersmanagement')->group(function () {
     Route::post('/complete', [OrdersController::class, 'complete']);
     Route::post('/cancelorder', [OrdersController::class, 'cancelOrder']);
     Route::post('/refunditem', [OrdersController::class, 'refundItem']);
+    Route::post('/confirmrefund', [OrdersController::class, 'confirmRefund']);
+    Route::post('/rejectrefund', [OrdersController::class, 'rejectRefund']);
+    Route::post('/addcourier', [OrdersController::class, 'addCourier']);
+    Route::post('/updatetracking', [OrdersController::class, 'updateTracking']);
+    Route::post('/updatelocation', [OrdersController::class, 'updateLocation']);
+    Route::post('/pickedup', [OrdersController::class, 'pickedUp']);
+    Route::post('/delivered', [OrdersController::class, 'delivered']);
 });
 
 Route::get('/dashboard', [DashboardController::class, 'dashboardData']);
