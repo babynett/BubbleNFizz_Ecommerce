@@ -26,6 +26,11 @@ class OrdersController extends Controller
         return Orders::with('ownedBy.profile')->with('orderItems.product')->with('delivery')->where('order_status', 'To Ship')->orWhere('order_status', 'To Receive')->get();
     }
 
+    public function getCancelledOrders()
+    {
+        return Orders::with('ownedBy.profile')->where('order_status', 'Cancelled')->get();
+    }
+
     public function confirmPayment(Request $request)
     {
         DeliveryStatus::create([
@@ -57,11 +62,6 @@ class OrdersController extends Controller
         return Orders::where('id', $request->id)->update([
             'order_status' => "Cancelled"
         ]);
-    }
-    
-    public function getCancelledOrders()
-    {
-        return Orders::with('ownedBy')->where('order_status', 'Cancelled')->get();
     }
 
     public function userOrders(Request $request)
