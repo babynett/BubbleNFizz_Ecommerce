@@ -66,6 +66,9 @@
                                 <li class="my-2">
                                     <a href="/deliverymanagement" class="text-xs no-underline hover:text-amber-500">> Delivery Management</a>
                                 </li>
+                                <li class="my-2">
+                                    <a href="/alltransactions" class="text-xs no-underline hover:text-amber-500">> All Transactions</a>
+                                </li>
                             </ul>
                         </div>
                         <div class="m-4 border-b-2">

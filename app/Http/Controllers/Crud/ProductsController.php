@@ -96,6 +96,14 @@ class ProductsController extends Controller
                 'product_scent_name' => $request->product_scent,
                 'product_stock' => $request->product_stock,
             ]);
+        } else {
+            return Products::where('id', $request->id)->update([
+                'product_name' => $request->product_name,
+                'product_price' => $request->product_price,
+                'product_description' => $request->product_description,
+                'product_scent_name' => $request->product_scent,
+                'product_stock' => $request->product_stock,
+            ]);
         }
     }
 

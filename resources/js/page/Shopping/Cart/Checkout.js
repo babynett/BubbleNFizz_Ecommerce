@@ -51,23 +51,25 @@ const Checkout = ({ user }) => {
     // PAYMENT
     const [mop, setMop] = useState("GCash");
     const [gcashFile, setGcashFile] = useState(null); // IF GCASH
-    const [filePrev, setFilePrev] = useState(null)
+    const [gcashReference, setGcashReference] = useState(""); // IF GCASH
+    const [filePrev, setFilePrev] = useState(null);
 
     const [addressError, setAddressError] = useState(false);
     const [apartmentError, setApartmentError] = useState(false);
     const [phoneNumberError, setPhoneNumberError] = useState(false);
+    const [gcashReferenceError, setGcashReferenceError] = useState(false);
 
     useEffect(() => {
         if (gcashFile == null) {
-            setFilePrev(null)
-            return
-        } 
+            setFilePrev(null);
+            return;
+        }
 
-        const objectUrl = URL.createObjectURL(gcashFile)
-        setFilePrev(objectUrl)
+        const objectUrl = URL.createObjectURL(gcashFile);
+        setFilePrev(objectUrl);
 
-        return () => URL.revokeObjectURL(objectUrl)
-    }, [gcashFile])
+        return () => URL.revokeObjectURL(objectUrl);
+    }, [gcashFile]);
 
     useEffect(() => {
         api.get(`shopping/getusercart?user_id=${userObject.id}`)
@@ -130,6 +132,7 @@ const Checkout = ({ user }) => {
             formdata.append("payment", mop);
             if (mop == "GCash") {
                 formdata.append("payment_image", gcashFile);
+                formdata.append("payment_reference", gcashReference);
             } else {
                 formdata.append("payment_image", "");
             }
@@ -265,7 +268,7 @@ const Checkout = ({ user }) => {
                                                         lng: "121.040970",
                                                     },
                                                     address:
-                                                    "B13 L39 Neptune St, North Olympus Subdivision, Kaligayahan, Novaliches, Quezon City, 1124",
+                                                        "B13 L39 Neptune St, North Olympus Subdivision, Kaligayahan, Novaliches, Quezon City, 1124",
                                                 },
                                                 {
                                                     coordinates: {
@@ -312,13 +315,19 @@ const Checkout = ({ user }) => {
                                             {
                                                 headers: {
                                                     Authorization: `hmac ${TOKEN}`,
-                                                    Market: "PH"
+                                                    Market: "PH",
                                                 },
                                             }
                                         )
                                         .then((response) => {
-                                            console.log(response.data.data.priceBreakdown.total);
-                                            setDeliveryPrice(response.data.data.priceBreakdown.total)
+                                            console.log(
+                                                response.data.data
+                                                    .priceBreakdown.total
+                                            );
+                                            setDeliveryPrice(
+                                                response.data.data
+                                                    .priceBreakdown.total
+                                            );
                                             setOpen(true);
                                         })
                                         .catch((err) => {
@@ -366,8 +375,15 @@ const Checkout = ({ user }) => {
                                     </div>
                                     <DialogContent>
                                         <div className="flex justify-center items-center w-full flex-col">
-                                            <img src="https://scontent.fmnl4-5.fna.fbcdn.net/v/t39.30808-6/355834914_564132642573056_8395635760706896362_n.png?_nc_cat=1&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeFTABb2V0ntlYZ60_YtNxn5XvopGX_lLLBe-ikZf-UssLCHfyF8pGXk22E2xKlRBKZ5DFS5Grt_PQ5fvoaegTEi&_nc_ohc=Kedsn8g3u58Ab7uWGmw&_nc_ht=scontent.fmnl4-5.fna&oh=00_AfAS_1bWAJw47WUsSjkxAU4q3NjYspwMukEU_zaGi1zbdA&oe=66185E99" width={250} height={250} />
-                                            <Typography variant="h6">Total Delivery Price: P{deliveryPrice}</Typography>
+                                            <img
+                                                src="https://scontent.fmnl4-5.fna.fbcdn.net/v/t39.30808-6/355834914_564132642573056_8395635760706896362_n.png?_nc_cat=1&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeFTABb2V0ntlYZ60_YtNxn5XvopGX_lLLBe-ikZf-UssLCHfyF8pGXk22E2xKlRBKZ5DFS5Grt_PQ5fvoaegTEi&_nc_ohc=Kedsn8g3u58Ab7uWGmw&_nc_ht=scontent.fmnl4-5.fna&oh=00_AfAS_1bWAJw47WUsSjkxAU4q3NjYspwMukEU_zaGi1zbdA&oe=66185E99"
+                                                width={250}
+                                                height={250}
+                                            />
+                                            <Typography variant="h6">
+                                                Total Delivery Price: P
+                                                {deliveryPrice}
+                                            </Typography>
                                         </div>
                                         <DialogContentText id="alert-dialog-description">
                                             {/* Let Google help apps determine location. This
@@ -457,7 +473,11 @@ const Checkout = ({ user }) => {
                                 <div className="col-span-1">
                                     <div className="flex justify-between items-center">
                                         <img
-                                            src={gcashFile == null ? `https://bubblenfizz-store.com/images/static/image282.png` : filePrev}
+                                            src={
+                                                gcashFile == null
+                                                    ? `https://bubblenfizz-store.com/images/static/image282.png`
+                                                    : filePrev
+                                            }
                                             height={500}
                                             width={500}
                                         />
@@ -466,6 +486,18 @@ const Checkout = ({ user }) => {
                                 <div className="col-span-1">
                                     <CustomFileUpload
                                         handleFile={setGcashFile}
+                                    />
+                                    <CustomTextInput
+                                        error={gcashReferenceError}
+                                        setError={setGcashReferenceError}
+                                        label={`Gcash Reference Number`}
+                                        value={gcashReference}
+                                        onChangeValue={(e) =>
+                                            setGcashReference(e.target.value)
+                                        }
+                                        my={10}
+                                        restrictions={`numeric`}
+                                        errorMessage={`GCash Reference Number should only be letters`}
                                     />
                                 </div>
                             </div>

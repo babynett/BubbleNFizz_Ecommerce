@@ -28,14 +28,16 @@ const OrdersManagement = (props) => {
     const [refresher, setRefresher] = useState(0);
     // const [anchorEl, setAnchorEl] = React.useState(null);
     // const open = Boolean(anchorEl);
+    const [openAmountPaid, setOpenAmountPaid] = useState(false);
+    const [amountPaid, setAmountPaid] = useState(0);
     const [openDialog, setOpenDialog] = useState(false);
     const [openDetails, setOpenDetails] = useState(false);
     const [openRefund, setOpenRefund] = useState(false);
     // FOR DELIVERY
-    const [openDelivery, setOpenDelivery] = useState(false)
+    const [openDelivery, setOpenDelivery] = useState(false);
     const [dialogId, setDialogId] = useState(0);
     const [dialogTitle, setDialogTitle] = useState("");
-    const [dialogValue, setDialogValue] = useState("")
+    const [dialogValue, setDialogValue] = useState("");
 
     const [refundComment, setRefundComment] = useState("");
     const [refundId, setRefundId] = useState(0);
@@ -43,55 +45,55 @@ const OrdersManagement = (props) => {
     const [selectedItem, setSelectedItem] = useState([]);
 
     const addCourier = () => {
-        api.post('ordersmanagement/addcourier', {
+        api.post("ordersmanagement/addcourier", {
             id: dialogId,
-            delivery_courier: dialogValue
+            delivery_courier: dialogValue,
         }).then((response) => {
             swal({
                 icon: "success",
                 title: "Courier Added",
-                text: "Courier has been added!"
+                text: "Courier has been added!",
             }).then(() => {
-                setRefresher(refresher + 1)
-            })
-        })
+                setRefresher(refresher + 1);
+            });
+        });
         setOpenDelivery(false);
-        setDialogValue("")
-    }
+        setDialogValue("");
+    };
 
     const updateTracking = () => {
-        api.post('ordersmanagement/updatetracking', {
+        api.post("ordersmanagement/updatetracking", {
             id: dialogId,
-            tracking_number: dialogValue
+            tracking_number: dialogValue,
         }).then((response) => {
             swal({
                 icon: "success",
                 title: "Tracking Updated!",
-                text: "Tracking has been updated!"
+                text: "Tracking has been updated!",
             }).then(() => {
-                setRefresher(refresher + 1)
-            })
-        })
+                setRefresher(refresher + 1);
+            });
+        });
         setOpenDelivery(false);
-        setDialogValue("")
-    }
+        setDialogValue("");
+    };
 
     const updateLocation = () => {
-        api.post('ordersmanagement/updatelocation', {
+        api.post("ordersmanagement/updatelocation", {
             id: dialogId,
-            delivery_location: dialogValue
+            delivery_location: dialogValue,
         }).then((response) => {
             swal({
                 icon: "success",
                 title: "Location Updated!",
-                text: "Location has been updated!"
+                text: "Location has been updated!",
             }).then(() => {
-                setRefresher(refresher + 1)
-            })
-        })
+                setRefresher(refresher + 1);
+            });
+        });
         setOpenDelivery(false);
-        setDialogValue("")
-    }
+        setDialogValue("");
+    };
 
     useEffect(() => {
         if (type == "Orders") {
@@ -121,6 +123,14 @@ const OrdersManagement = (props) => {
                 });
         } else if (type == "Delivery") {
             api.get("ordersmanagement/getdeliveries")
+                .then((response) => {
+                    setData(response.data);
+                })
+                .catch((err) => {
+                    console.log(err.response);
+                });
+        } else if (type == "AllTransactions") {
+            api.get("ordersmanagement/getalltransaction")
                 .then((response) => {
                     setData(response.data);
                 })
@@ -279,43 +289,75 @@ const OrdersManagement = (props) => {
                 );
             },
         },
-        type != "Delivery" ? {
-            field: "total_amount",
-            headerName: "Total Amount",
-            width: 150,
-            editable: true,
-            renderCell: (cellValue) => {
-                return (
-                    <>
-                        <Typography>P {cellValue.row.total_price}</Typography>
-                    </>
-                );
-            },
-        } : {
-            field: "total_amount",
-            headerName: "Total Amount",
-            width: 300,
-            editable: true,
-            renderCell: (cellValue) => {
-                return (
-                    <>
-                        {cellValue.row.delivery.delivery_courier == null ? (
-                            <Button variant="contained" onClick={() => {
-                                setDialogTitle('Add Courier')
-                                setDialogId(cellValue.row.delivery.id)
-                                setOpenDelivery(true)
-                            }}>Add Courier</Button>
-                        ) : (
-                            <div className="flex-col">
-                                <Typography>Courier: {cellValue.row.delivery.delivery_courier}</Typography>
-                                <Typography>Tracking #: {cellValue.row.delivery.tracking_number != null ? cellValue.row.delivery.tracking_number : "N/A"}</Typography>
-                                <Typography>Location: {cellValue.row.delivery.delivery_location != null ? cellValue.row.delivery.delivery_location : "N/A"}</Typography>
-                            </div>
-                        )}
-                    </>
-                );
-            },
-        },
+        type != "Delivery"
+            ? {
+                  field: "total_amount",
+                  headerName: "Total Amount",
+                  width: 150,
+                  editable: true,
+                  renderCell: (cellValue) => {
+                      return (
+                          <>
+                              <Typography>
+                                  P {cellValue.row.total_price}
+                              </Typography>
+                          </>
+                      );
+                  },
+              }
+            : {
+                  field: "total_amount",
+                  headerName: "Total Amount",
+                  width: 300,
+                  editable: true,
+                  renderCell: (cellValue) => {
+                      return (
+                          <>
+                              {cellValue.row.delivery.delivery_courier ==
+                              null ? (
+                                  <Button
+                                      variant="contained"
+                                      onClick={() => {
+                                          setDialogTitle("Add Courier");
+                                          setDialogId(
+                                              cellValue.row.delivery.id
+                                          );
+                                          setOpenDelivery(true);
+                                      }}
+                                  >
+                                      Add Courier
+                                  </Button>
+                              ) : (
+                                  <div className="flex-col">
+                                      <Typography>
+                                          Courier:{" "}
+                                          {
+                                              cellValue.row.delivery
+                                                  .delivery_courier
+                                          }
+                                      </Typography>
+                                      <Typography>
+                                          Tracking #:{" "}
+                                          {cellValue.row.delivery
+                                              .tracking_number != null
+                                              ? cellValue.row.delivery
+                                                    .tracking_number
+                                              : "N/A"}
+                                      </Typography>
+                                      <Typography>
+                                          Location:{" "}
+                                          {cellValue.row.delivery
+                                              .delivery_location != null
+                                              ? cellValue.row.delivery
+                                                    .delivery_location
+                                              : "N/A"}
+                                      </Typography>
+                                  </div>
+                              )}
+                          </>
+                      );
+                  },
+              },
         type != "Delivery"
             ? {
                   field: "payment_status",
@@ -332,7 +374,10 @@ const OrdersManagement = (props) => {
                                   Payment Method:{cellValue.row.payment}
                               </Typography>
                               <Typography>
-                                  Ref No.:{cellValue.row.payment_reference}
+                                  {cellValue.row.payment == "GCash"
+                                      ? "GCash Ref."
+                                      : "Ref No."}
+                                  :{cellValue.row.payment_reference}
                               </Typography>
                           </div>
                       );
@@ -353,6 +398,29 @@ const OrdersManagement = (props) => {
                       );
                   },
               },
+        type == "AllTransactions" && {
+            field: "amount_paid",
+            headerName: "Amount Paid",
+            width: 200,
+            editable: true,
+            renderCell: (cellValue) => {
+                return (
+                    <>
+                        {cellValue.row.payment == "GCash" ? (
+                            <Typography>
+                                P {cellValue.row.total_price}
+                            </Typography>
+                        ) : cellValue.row.amount_paid !== null ? (
+                            <Typography>
+                                P {cellValue.row.amount_paid.order_amount_paid}
+                            </Typography>
+                        ) : (
+                            <Typography>N/A</Typography>
+                        )}
+                    </>
+                );
+            },
+        },
         {
             field: "order_status",
             headerName: "Order Status",
@@ -361,7 +429,9 @@ const OrdersManagement = (props) => {
             renderCell: (cellValue) => {
                 return (
                     <>
-                        <Typography>{type == "Orders" && cellValue.row.order_status}</Typography>
+                        <Typography>
+                            {type == "Orders" && cellValue.row.order_status}
+                        </Typography>
                     </>
                 );
             },
@@ -375,13 +445,17 @@ const OrdersManagement = (props) => {
                 return (
                     <>
                         <Typography>
-                            {type == "Refund" && cellValue.row.refunds.refund_status}
+                            {type == "Refund" &&
+                                cellValue.row.refunds.refund_status}
                         </Typography>
                     </>
                 );
             },
         },
-        (type == "Orders" || type == "Refund" || type == "Delivery") && {
+        (type == "Orders" ||
+            type == "Refund" ||
+            type == "Delivery" ||
+            type == "AllTransactions") && {
             field: "action",
             headerName: "Action",
             width: 200,
@@ -555,23 +629,42 @@ const OrdersManagement = (props) => {
                                         </>
                                     )}
                                 </>
+                            ) : type == "AllTransactions" ? (
+                                <>
+                                    {cellValue.row.payment == "COD" && (
+                                        <MenuItem
+                                            onClick={() => {
+                                                setOpenAmountPaid(true);
+                                                setDialogId(cellValue.row.id);
+                                            }}
+                                        >
+                                            Add Amount Paid
+                                        </MenuItem>
+                                    )}
+                                </>
                             ) : (
                                 <>
                                     {cellValue.row.delivery.delivery_status ==
                                         "Preparing To Ship" && (
                                         <MenuItem
                                             onClick={() => {
-                                                api.post('ordersmanagement/pickedup', {
-                                                    id: cellValue.row.delivery.id
-                                                }).then(() => {
+                                                api.post(
+                                                    "ordersmanagement/pickedup",
+                                                    {
+                                                        id: cellValue.row
+                                                            .delivery.id,
+                                                    }
+                                                ).then(() => {
                                                     swal({
                                                         icon: "success",
                                                         title: "Picked Up!",
-                                                        text: "Item has been picked up by courier!"
+                                                        text: "Item has been picked up by courier!",
                                                     }).then(() => {
-                                                        setRefresher(refresher + 1)
-                                                    })
-                                                })
+                                                        setRefresher(
+                                                            refresher + 1
+                                                        );
+                                                    });
+                                                });
                                             }}
                                         >
                                             Picked Up
@@ -581,17 +674,23 @@ const OrdersManagement = (props) => {
                                         "Picked Up by Courier" && (
                                         <MenuItem
                                             onClick={() => {
-                                                api.post('ordersmanagement/delivered', {
-                                                    id: cellValue.row.delivery.id
-                                                }).then(() => {
+                                                api.post(
+                                                    "ordersmanagement/delivered",
+                                                    {
+                                                        id: cellValue.row
+                                                            .delivery.id,
+                                                    }
+                                                ).then(() => {
                                                     swal({
                                                         icon: "success",
                                                         title: "Delivered!",
-                                                        text: "Item has been delivered by courier!"
+                                                        text: "Item has been delivered by courier!",
                                                     }).then(() => {
-                                                        setRefresher(refresher + 1)
-                                                    })
-                                                })
+                                                        setRefresher(
+                                                            refresher + 1
+                                                        );
+                                                    });
+                                                });
                                             }}
                                         >
                                             Delivered
@@ -601,9 +700,13 @@ const OrdersManagement = (props) => {
                                         null && (
                                         <MenuItem
                                             onClick={() => {
-                                                setDialogTitle('Add/Update Tracking Number')
-                                                setDialogId(cellValue.row.delivery.id)
-                                                setOpenDelivery(true)
+                                                setDialogTitle(
+                                                    "Add/Update Tracking Number"
+                                                );
+                                                setDialogId(
+                                                    cellValue.row.delivery.id
+                                                );
+                                                setOpenDelivery(true);
                                             }}
                                         >
                                             Add/Update Tracking Number
@@ -613,9 +716,13 @@ const OrdersManagement = (props) => {
                                         null && (
                                         <MenuItem
                                             onClick={() => {
-                                                setDialogTitle('Add/Update Delivery Location')
-                                                setDialogId(cellValue.row.delivery.id)
-                                                setOpenDelivery(true)
+                                                setDialogTitle(
+                                                    "Add/Update Delivery Location"
+                                                );
+                                                setDialogId(
+                                                    cellValue.row.delivery.id
+                                                );
+                                                setOpenDelivery(true);
                                             }}
                                         >
                                             Add/Update Delivery Location
@@ -700,6 +807,8 @@ const OrdersManagement = (props) => {
                         ? "Manage Refunds"
                         : type == "Delivery"
                         ? "Manage Delivery"
+                        : type == "AllTransactions"
+                        ? "All Transactions"
                         : "Canceled Orders"
                 }
             />
@@ -868,17 +977,88 @@ const OrdersManagement = (props) => {
                     <Button
                         onClick={() => {
                             if (dialogTitle == "Add Courier") {
-                                addCourier()
-                            } else if (dialogTitle == "Add/Update Tracking Number") {
-                                updateTracking()
-                            } else if (dialogTitle == "Add/Update Delivery Location") {
-                                updateLocation()
+                                addCourier();
+                            } else if (
+                                dialogTitle == "Add/Update Tracking Number"
+                            ) {
+                                updateTracking();
+                            } else if (
+                                dialogTitle == "Add/Update Delivery Location"
+                            ) {
+                                updateLocation();
                             }
                         }}
                         variant="contained"
                         color="primary"
                     >
                         Update
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            {/* AMOUNT PAID */}
+
+            <Dialog
+                open={openAmountPaid}
+                onClose={() => {
+                    setOpenAmountPaid(false);
+                }}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <div className="w-full border-b-2 border-black">
+                    <DialogTitle id="alert-dialog-title">
+                        Amount Paid
+                    </DialogTitle>
+                </div>
+                <DialogContent>
+                    <div className="flex justify-center items-center w-full flex-col">
+                        <CustomTextInput
+                            label={`Amount Paid`}
+                            value={amountPaid}
+                            onChangeValue={(e) => setAmountPaid(e.target.value)}
+                        />
+                    </div>
+                    <DialogContentText id="alert-dialog-description">
+                        {/* Let Google help apps determine location. This
+                                means sending anonymous location data to Google,
+                            even when no apps are running. */}
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button
+                        onClick={() => {
+                            setOpenAmountPaid(false);
+                        }}
+                        variant="contained"
+                        color="error"
+                    >
+                        Close
+                    </Button>
+                    <Button
+                        onClick={() => {
+                            api.post("ordersmanagement/addamountpaid", {
+                                order_id: dialogId,
+                                order_amount_paid: amountPaid,
+                            })
+                                .then((response) => {
+                                    swal({
+                                        icon: "success",
+                                        title: "Added Amount Paid!",
+                                        text: "Amount paid has been added!",
+                                    }).then(() => {
+                                        setRefresher(refresher + 1);
+                                        setOpenAmountPaid(false);
+                                    });
+                                })
+                                .catch((err) => {
+                                    console.log(err.response);
+                                });
+                        }}
+                        variant="contained"
+                        color="primary"
+                    >
+                        Submit
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -892,15 +1072,20 @@ const OrdersManagement = (props) => {
                         },
                     },
                     columns: {
-                        columnVisibilityModel: type == "Orders" ? {
-                            refund_status: false
-                        } : type == "Refund" ? {
-                            order_status: false
-                        } : {
-                            refund_status: false,
-                            order_status: false
-                        }
-                    }
+                        columnVisibilityModel:
+                            type == "Orders"
+                                ? {
+                                      refund_status: false,
+                                  }
+                                : type == "Refund"
+                                ? {
+                                      order_status: false,
+                                  }
+                                : {
+                                      refund_status: false,
+                                      order_status: false,
+                                  },
+                    },
                 }}
                 pageSizeOptions={[10]}
                 disableRowSelectionOnClick

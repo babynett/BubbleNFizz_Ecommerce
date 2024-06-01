@@ -97,7 +97,7 @@ const ShoppingPage = (props) => {
                 </div>
             </div>
 
-            <div className="mx-10 my-12">
+            {/* <div className="mx-10 my-12">
                 <Typography variant="h4" fontWeight={700}>
                     RECOMMENDED
                 </Typography>
@@ -130,7 +130,7 @@ const ShoppingPage = (props) => {
                         }
                     })}
                 </div>
-            </div>
+            </div> */}
             {userObject !== null && (
                 <>
                     <div className="mx-10 my-12">
@@ -176,7 +176,7 @@ const ShoppingPage = (props) => {
             )}
             <div className="mx-10 my-12">
                 <Typography variant="h4" fontWeight={700}>
-                    SIMILAR PRODUCTS YOU LIKE
+                    SIMILAR PRODUCTS THAT WE RECOMMEND
                 </Typography>
                 <Typography variant="subtitle1" color={"GrayText"}>
                     Here are the products that other users are checking out!

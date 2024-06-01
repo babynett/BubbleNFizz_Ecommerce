@@ -65,6 +65,7 @@ Route::prefix('ordersmanagement')->group(function () {
     Route::get('/getrefundorders', [OrdersController::class, 'getRefundOrders']);
     Route::get('/getdeliveries', [OrdersController::class, 'getDeliveries']);
     Route::get('/getcancelledorders', [OrdersController::class, 'getCancelledOrders']);
+    Route::get('/getalltransaction', [OrdersController::class, 'getAllTransactions']);
     Route::get("/userorders", [OrdersController::class, 'userOrders']);
     Route::post('/confirmpayment', [OrdersController::class, 'confirmPayment']);
     Route::post('/toreceive', [OrdersController::class, 'toReceive']);
@@ -78,6 +79,7 @@ Route::prefix('ordersmanagement')->group(function () {
     Route::post('/updatelocation', [OrdersController::class, 'updateLocation']);
     Route::post('/pickedup', [OrdersController::class, 'pickedUp']);
     Route::post('/delivered', [OrdersController::class, 'delivered']);
+    Route::post('/addamountpaid', [OrdersController::class, 'addAmountPaid']);
 });
 
 Route::get('/dashboard', [DashboardController::class, 'dashboardData']);

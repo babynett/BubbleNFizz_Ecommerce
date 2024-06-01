@@ -104,13 +104,13 @@ const ProductsManagement = (props) => {
 
     const handleEditProduct = () => {
         const formdata = new FormData();
-        formdata.append('id', productId)
-        formdata.append('product_name', productName)
-        formdata.append('product_description', productDescription)
-        formdata.append('product_image', productImages)
-        formdata.append('product_price', productPrice)
-        formdata.append('product_scent', productScent)
-        formdata.append('product_stock', stock)
+        formdata.append("id", productId);
+        formdata.append("product_name", productName);
+        formdata.append("product_description", productDescription);
+        formdata.append("product_image", productImages);
+        formdata.append("product_price", productPrice);
+        formdata.append("product_scent", productScent);
+        formdata.append("product_stock", stock);
 
         api.post("products/editproduct", formdata)
             .then((response) => {
@@ -122,43 +122,46 @@ const ProductsManagement = (props) => {
     };
 
     const handleAddProduct = () => {
-        if (productName == '',
-            productDescription == '',
-            productCategory == '',
-            productImages == '',
-            productPrice == '',
-            productScent == '',
-            stock == '') {
-                swal({
-                    icon: "error",
-                    title: "Error!",
-                    text: "Please complete the form!"
-                })
-            } else {
-                const formdata = new FormData()
-                formdata.append('product_image', productImages)
-                formdata.append('product_name', productName)
-                formdata.append('product_description', productDescription)
-                formdata.append('product_price', productPrice)
-                formdata.append('product_stock', stock)
-                formdata.append('product_scent', productScent)
-                formdata.append('product_category', productCategory)
+        if (
+            (productName == "",
+            productDescription == "",
+            productCategory == "",
+            productImages == "",
+            productPrice == "",
+            productScent == "",
+            stock == "")
+        ) {
+            swal({
+                icon: "error",
+                title: "Error!",
+                text: "Please complete the form!",
+            });
+        } else {
+            const formdata = new FormData();
+            formdata.append("product_image", productImages);
+            formdata.append("product_name", productName);
+            formdata.append("product_description", productDescription);
+            formdata.append("product_price", productPrice);
+            formdata.append("product_stock", stock);
+            formdata.append("product_scent", productScent);
+            formdata.append("product_category", productCategory);
 
-                api.post('products/addproduct', formdata)
-                    .then((response) => {
-                        console.log(response.data)
-                        if (response.data) {
-                            swal({
-                                icon: "success",
-                                title: "Product Added!",
-                                text: "The product has been added!"
-                            }).then(() => setRefresher(refresher + 1))
-                        }
-                    }).catch(err => {
-                        console.log(err.response)
-                    })
-            }
-    }
+            api.post("products/addproduct", formdata)
+                .then((response) => {
+                    console.log(response.data);
+                    if (response.data) {
+                        swal({
+                            icon: "success",
+                            title: "Product Added!",
+                            text: "The product has been added!",
+                        }).then(() => setRefresher(refresher + 1));
+                    }
+                })
+                .catch((err) => {
+                    console.log(err.response);
+                });
+        }
+    };
 
     const columns = [
         { field: "id", headerName: "ID", width: 90 },
@@ -172,15 +175,18 @@ const ProductsManagement = (props) => {
                 return (
                     <div className="grid grid-cols-12 gap-4">
                         <div className="col-span-3">
-                            {cellValue.row.product_images == "" || cellValue.row.product_images == null ? (
+                            {cellValue.row.product_images == "" ||
+                            cellValue.row.product_images == null ? (
                                 <img
                                     src={`https://bubblenfizz-store.com/images/static/image282.png`}
                                     height={300}
                                     width={300}
                                 />
-                                ) : (
+                            ) : (
                                 <img
-                                    src={decodeURI(`https://bubblenfizz-store.com/BubbleNFizz-main/public/image/products/${cellValue.row.product_images}`)}
+                                    src={decodeURI(
+                                        `https://bubblenfizz-store.com/BubbleNFizz-main/public/image/products/${cellValue.row.product_images}`
+                                    )}
                                     height={300}
                                     width={300}
                                 />
@@ -307,8 +313,12 @@ const ProductsManagement = (props) => {
                 return (
                     <div className="flex justify-center items-start flex-col">
                         <Typography>
-                            Total Stock: {cellValue.row.product_stock}
+                            Total Stock: {cellValue.row.product_stock}{" "}
                         </Typography>
+                            <div className="text-red-600 font-bold">
+                                {Number(cellValue.row.product_stock) <= 10 &&
+                                    "(Low Stock)"}
+                            </div>
                         <Typography>
                             Sold: {cellValue.row.category.product_sales}
                         </Typography>
@@ -454,7 +464,7 @@ const ProductsManagement = (props) => {
                     </Button>
                     <Button
                         onClick={() => {
-                            handleAddProduct()
+                            handleAddProduct();
                             setOpenAdd(false);
                             setProductName("");
                             setProductDescription("");
@@ -539,7 +549,9 @@ const ProductsManagement = (props) => {
                                         setStock(e.target.value)
                                     }
                                 />
-                                <CustomFileUpload handleFile={setProductImages} />
+                                <CustomFileUpload
+                                    handleFile={setProductImages}
+                                />
                             </>
                         )}
                     </div>

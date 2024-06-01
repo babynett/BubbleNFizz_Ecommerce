@@ -70,7 +70,7 @@ class CartController extends Controller
                 'order_shipping' => ($request->order_shipping == "Walk In" ? "Completed" : "Pending"),
                 'order_status' => 'Pending',
                 'payment' => $request->payment,
-                'payment_reference' => rand(1000000,9999999),
+                'payment_reference' => $request->payment_reference,
                 'payment_image' => $filename,
                 'payment_status' => ($request->payment != "GCash" ? "Paid" : "Pending"),
                 'total_quantity' => $request->total_quantity,

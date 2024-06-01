@@ -26,4 +26,9 @@ class OrdersController extends Controller
     {
         return view('features.OrdersManagement.DeliveryManagement');
     }
+
+    public function allTransactions()
+    {
+        return view('features.OrdersManagement.AllTransactions');
+    }
 }

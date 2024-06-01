@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Crud;
 
 use App\Http\Controllers\Controller;
+use App\Models\AmountPaid;
 use App\Models\DeliveryStatus;
 use App\Models\OrderItems;
 use App\Models\Orders;
@@ -14,6 +15,11 @@ class OrdersController extends Controller
     public function getAllOrders()
     {
         return Orders::with('ownedBy.profile')->with('orderItems.product')->with('refunds')->where('order_status', '!=', 'Cancelled')->where('order_status', '!=', 'Refund')->get();
+    }
+
+    public function getAllTransactions()
+    {
+        return Orders::with('ownedBy.profile')->with('amountPaid')->with('orderItems.product')->where('order_status', '!=', 'Cancelled')->where('order_status', '!=', 'Refund')->where('order_status', '!=', 'Pending')->get();
     }
 
     public function getRefundOrders()
@@ -68,7 +74,7 @@ class OrdersController extends Controller
     {
         return Orders::with(['orderItems.product' => function ($query) { 
             $query->get();
-        }])->where('user_id', $request->user_id)->where('order_status', $request->page)->get();
+        }])->with('delivery')->where('user_id', $request->user_id)->where('order_status', $request->page)->get();
     }
 
     public function refundItem(Request $request)
@@ -137,6 +143,14 @@ class OrdersController extends Controller
     {
         DeliveryStatus::where('id', $request->id)->update([
             'delivery_location' => $request->delivery_location
+        ]);
+    }
+
+    public function addAmountPaid(Request $request)
+    {
+        AmountPaid::create([
+            'order_id' => $request->order_id,
+            'order_amount_paid' => $request->order_amount_paid
         ]);
     }
 }

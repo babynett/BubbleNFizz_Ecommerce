@@ -52,39 +52,19 @@ class ReportsManagement extends Controller
         return response(['salesCategory' => [$soapsSales, $shampooSales, $bombsSales, $bubbleSales]]);
     }
 
-    public function getSalesReports()
+    public function getSalesReports(Request $request)
     {
-        $dailySales = DB::select("
-    SELECT DATE(created_at) as date, SUM(total_price) as total_sales
-    FROM orders
-    WHERE DATE(created_at) = CURDATE()
-    GROUP BY DATE(created_at)
-");
+        if (isset($request->startDate)) {
+            $weeklySales = DB::select("
+            SELECT DATE_FORMAT(created_at, '%Y-%m-%d') as day_of_week,
+            SUM(total_price) as total_sales
+     FROM orders
+     WHERE created_at BETWEEN ? AND ?
+     GROUP BY DATE_FORMAT(created_at, '%Y-%m-%d')
+    ", [$request->startDate, $request->endDate]);
 
-        // Weekly sales report query
-//         $weeklySales = DB::select("
-//     SELECT YEARWEEK(created_at) as week, SUM(total_price) as total_sales
-//     FROM orders
-//     WHERE YEARWEEK(created_at) = YEARWEEK(CURDATE())
-//     GROUP BY YEARWEEK(created_at)
-// ");
-        $currentDate = now()->toDateString();
-        $startOfWeek = now()->startOfWeek()->toDateString();
-        $endOfWeek = now()->endOfWeek()->toDateString();
-
-        // $weeklySales = DB::select("
-        //     SELECT DAYNAME(created_at) as date, SUM(total_price) as total_price
-        //     FROM orders
-        //     WHERE created_at BETWEEN ? AND ?
-        // ", [$startOfWeek, $endOfWeek]);
-        
-        $weeklySales = DB::select("
-        SELECT DATE_FORMAT(created_at, '%Y-%m-%d') as day_of_week,
-        SUM(total_price) as total_sales
- FROM orders
- WHERE created_at BETWEEN ? AND ?
- GROUP BY DATE_FORMAT(created_at, '%Y-%m-%d')
-", [$startOfWeek, $endOfWeek]);
+    return response(['weekly' => $weeklySales]);
+        }
 
         // Monthly sales report query
         $monthlySales = DB::select("
@@ -94,6 +74,6 @@ class ReportsManagement extends Controller
     GROUP BY YEAR(created_at), MONTHNAME(created_at)
 ");
 
-        return response(['daily' => $dailySales, 'weekly' => $weeklySales, 'monthly' => $monthlySales]);
+        return response(['monthly' => $monthlySales]);
     }
 }

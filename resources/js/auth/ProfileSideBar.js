@@ -1,5 +1,6 @@
 import { Edit, Notifications, Person, ShoppingBag, Visibility } from "@mui/icons-material";
 import { Typography } from "@mui/material";
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import React from "react";
 
 const ProfileSideBar = ({ id, name, page, setPage }) => {
@@ -25,6 +26,10 @@ const ProfileSideBar = ({ id, name, page, setPage }) => {
                 <div onClick={() => setPage('Purchases')} className="flex space-x-3 w-2/3 hover:text-amber-500">
                     <ShoppingBag className="text-xl" />
                     <a href="#">My Purchase</a>
+                </div>
+                <div onClick={() => setPage('MyDelivery')} className="flex space-x-3 w-2/3 hover:text-amber-500">
+                    <LocalShippingIcon className="text-xl" />
+                    <a href="#">My Delivery</a>
                 </div>
                 <div onClick={() => setPage('Notification')} className="flex space-x-3 w-2/3 hover:text-amber-500">
                     <Notifications className="text-xl" />

@@ -44,6 +44,7 @@ Route::get('/addcustomer', [UserManagementController::class, 'addCustomer']);
 Route::get('/cancelledorders', [OrdersController::class, 'cancelledOrders']);
 Route::get('/refundmanagement', [OrdersController::class, 'refundManagement']);
 Route::get('/deliverymanagement', [OrdersController::class, 'deliveryManagement']);
+Route::get('/alltransactions', [OrdersController::class, 'allTransactions']);
 Route::get('/orders', [OrdersController::class, 'index']);
 Route::get('/productsmanagement', [ProductsController::class, 'index']);
 Route::get('/stockmanagement', [ProductsController::class, 'stockManagement']);

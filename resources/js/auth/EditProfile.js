@@ -6,6 +6,7 @@ import MyProfile from "./contents/MyProfile";
 import MyPurchases from "./contents/MyPurchases";
 import MyRecentProducts from "./contents/MyRecentProducts";
 import MyNotification from "./contents/MyNotification";
+import MyDelivery from "./contents/MyDelivery";
 
 const EditProfile = (props) => {
     const userObject = JSON.parse(props.user)
@@ -23,8 +24,10 @@ const EditProfile = (props) => {
                         <MyPurchases user={userObject} />
                     ) : page == 'Notification' ? (
                         <MyNotification user={userObject} />
-                    ) : (
+                    ) : page == "RecentProducts" ? (
                         <MyRecentProducts user={userObject} />
+                    ) : (
+                        <MyDelivery user={userObject} />
                     )}
                 </div>
             </div>

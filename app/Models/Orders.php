@@ -43,4 +43,9 @@ class Orders extends Model
     {
         return $this->hasOne(DeliveryStatus::class, 'order_id', 'id');
     }
+
+    public function amountPaid()
+    {
+        return $this->hasOne(AmountPaid::class, 'order_id', 'id');
+    }
 }
