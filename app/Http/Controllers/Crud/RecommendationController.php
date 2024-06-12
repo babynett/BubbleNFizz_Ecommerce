@@ -179,7 +179,28 @@ class RecommendationController extends Controller
                 }
             }
         } else {
-
+            // IF ALLERGIC SA STRONG FRAGRANCE
+            $typeArr = ($isAllergic == "Allergic" ? $allergicType : $nonAllergicType);
+            $availableScents = ['Activated Charcoal', 'Coal Black', 'Oatmeal', 'Aloe Berry', 'Surprise Toy for Boy', 'Cucumber', 'Sea Shine', 'Ocean Galaxy'];
+            $pollRes = Products::whereIn('product_scent_name', $availableScents)->with(['category' => function($query) use ($typeArr) {
+                $query->whereIn("product_category", $typeArr);
+            }]);
+            if ($pollRes->isNotEmpty()) {
+                // Select a random category from the retrieved products
+                $randomCategory = $pollRes->random()->category;
+    
+                // Retrieve products with the same random category
+                $randomCategoryProducts = Products::with('category')->whereHas('category', function ($query) use ($randomCategory) {
+                    $query->where('product_category', $randomCategory->product_category);
+                })->inRandomOrder()->limit(5)->get();
+    
+                // Merge the random category products with the initially retrieved products
+                $allProducts = $allProducts->merge($pollRes)->merge($randomCategoryProducts);
+    
+                // Remove duplicates
+                $allProducts = $allProducts->unique('id')->values();
+    
+            }
         }
         // Shuffle the collection
         $allProducts = $allProducts->shuffle();
