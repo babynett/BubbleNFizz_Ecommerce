@@ -95,6 +95,16 @@ class UserManagementController extends Controller
 
     public function addUserProfile(Request $request)
     {
+
+        // return $request;
+
+        UserPolls::create([
+            'user_id' => $request->user_id,
+            'fragrance' => $request->scent,
+            'texture' => $request->skin_type,
+            'ingredients' => $request->allergic
+        ]);
+
         $userProfile = UserProfile::create([
             'user_id' => $request->user_id,
             'birthday' => $request->birthday,

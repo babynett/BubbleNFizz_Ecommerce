@@ -96,61 +96,90 @@ class RecommendationController extends Controller
     public function pollResult(Request $request)
     {
         $scents = $request->product_scent;
+        // return $scents;
+        $isAllergic = $request->allergic;
+        $nonAllergicType = ['Bath Bomb', 'Shampoo Bars', 'Artisan Facial and Body Soaps', 'Bubble Bath'];
+        $allergicType = ['Bath Bomb', 'Bubble Bath'];
         $pollRes = [];
         $allProducts = collect();
-        foreach($scents as $key => $scent) {
-            if ($scent == "Floral") {
-                $florals = ['Rosewood', "Lavander", 'Rosemary Tea', 'Rose Valentine', "Sweet Berry"];
-                $pollRes[$key] = Products::whereIn('product_scent_name', $florals)
-                ->with('category')
-                ->get();
-            } else if ($scent == "Gourmand Sweet") {
-                $gourmand = ['Vanilla Latte', 'Toasted Marshmallow', 'Coco Gugo', 'Bubblegum'];
-                $pollRes[$key] = Products::whereIn('product_scent_name', $gourmand)
-                ->with('category')
-                ->get();
-            } else if ($scent == 'Earthy-Woody Vibes') {
-                $earthy = ['Activated Charcoal', 'Coal Black'];
-                $pollRes[$key] = Products::whereIn('product_scent_name', $earthy)
-                ->with('category')
-                ->get();
-            } else if ($scent == 'Tropically Fruity') {
-                $tropical = ['Papaya', 'Green Apple', 'Energize Lemon'];
-                $pollRes[$key] = Products::whereIn('product_scent_name', $tropical)
-                ->with('category')
-                ->get();
-            } else if ($scent == 'Fresh and Clean') {
-                $fresh = ['Oatmeal', 'Aloe Berry', 'Surprise Toy for Boy', 'Cucumber'];
-                $pollRes[$key] = Products::whereIn('product_scent_name', $fresh)
-                ->with('category')
-                ->get();
-            } else if ($scent == 'Aquatic or Oceanic') {
-                $oceanic = ['Sea Shine', 'Ocean Galaxy'];
-                $pollRes[$key] = Products::whereIn('product_scent_name', $oceanic)
-                ->with('category')
-                ->get();
-            } else if ($scent == "Oriental Spice") {
-                $oriental = ['Royal Goddess', 'Peppermint'];
-                $pollRes[$key] = Products::whereIn('product_scent_name', $oriental)
-                ->with('category')
-                ->get();
+        if (count($scents) > 0) {
+            foreach($scents as $key => $scent) {
+                if ($scent == "Floral") {
+                    $typeArr = ($isAllergic == "Allergic" ? $allergicType : $nonAllergicType);
+                    $florals = ['Rosewood', "Lavander", 'Rosemary Tea', 'Rose Valentine', "Sweet Berry"];
+                    $pollRes[$key] = Products::whereIn('product_scent_name', $florals)->with(['category' => function($query) use ($typeArr) {
+                        $query->whereIn("product_category", $typeArr);
+                    }])
+                    // ->with('category')
+                    ->get();
+                } else if ($scent == "Gourmand Sweet") {
+                    $typeArr = ($isAllergic == "Allergic" ? $allergicType : $nonAllergicType);
+                    $gourmand = ['Vanilla Latte', 'Toasted Marshmallow', 'Coco Gugo', 'Bubblegum'];
+                    $pollRes[$key] = Products::whereIn('product_scent_name', $gourmand)->with(['category' => function($query) use ($typeArr) {
+                        $query->whereIn("product_category", $typeArr);
+                    }])
+                    // ->with('category')
+                    ->get();
+                } else if ($scent == 'Earthy-Woody Vibes') {
+                    $typeArr = ($isAllergic == "Allergic" ? $allergicType : $nonAllergicType);
+                    $earthy = ['Activated Charcoal', 'Coal Black'];
+                    $pollRes[$key] = Products::whereIn('product_scent_name', $earthy)->with(['category' => function($query) use ($typeArr) {
+                        $query->whereIn("product_category", $typeArr);
+                    }])
+                    // ->with('category')
+                    ->get();
+                } else if ($scent == 'Tropically Fruity') {
+                    $typeArr = ($isAllergic == "Allergic" ? $allergicType : $nonAllergicType);
+                    $tropical = ['Papaya', 'Green Apple', 'Energize Lemon'];
+                    $pollRes[$key] = Products::whereIn('product_scent_name', $tropical)->with(['category' => function($query) use ($typeArr) {
+                        $query->whereIn("product_category", $typeArr);
+                    }])
+                    // ->with('category')
+                    ->get();
+                } else if ($scent == 'Fresh and Clean') {
+                    $typeArr = ($isAllergic == "Allergic" ? $allergicType : $nonAllergicType);
+                    $fresh = ['Oatmeal', 'Aloe Berry', 'Surprise Toy for Boy', 'Cucumber'];
+                    $pollRes[$key] = Products::whereIn('product_scent_name', $fresh)->with(['category' => function($query) use ($typeArr) {
+                        $query->whereIn("product_category", $typeArr);
+                    }])
+                    // ->with('category')
+                    ->get();
+                } else if ($scent == 'Aquatic or Oceanic') {
+                    $typeArr = ($isAllergic == "Allergic" ? $allergicType : $nonAllergicType);
+                    $oceanic = ['Sea Shine', 'Ocean Galaxy'];
+                    $pollRes[$key] = Products::whereIn('product_scent_name', $oceanic)->with(['category' => function($query) use ($typeArr) {
+                        $query->whereIn("product_category", $typeArr);
+                    }])
+                    // ->with('category')
+                    ->get();
+                } else if ($scent == "Oriental Spice") {
+                    $typeArr = ($isAllergic == "Allergic" ? $allergicType : $nonAllergicType);
+                    $oriental = ['Royal Goddess', 'Peppermint'];
+                    $pollRes[$key] = Products::whereIn('product_scent_name', $oriental)->with(['category' => function($query) use ($typeArr) {
+                        $query->whereIn("product_category", $typeArr);
+                    }])
+                    // ->with('category')
+                    ->get();
+                }
+                if ($pollRes[$key]->isNotEmpty()) {
+                    // Select a random category from the retrieved products
+                    $randomCategory = $pollRes[$key]->random()->category;
+        
+                    // Retrieve products with the same random category
+                    $randomCategoryProducts = Products::with('category')->whereHas('category', function ($query) use ($randomCategory) {
+                        $query->where('product_category', $randomCategory->product_category);
+                    })->inRandomOrder()->limit(5)->get();
+        
+                    // Merge the random category products with the initially retrieved products
+                    $allProducts = $allProducts->merge($pollRes[$key])->merge($randomCategoryProducts);
+        
+                    // Remove duplicates
+                    $allProducts = $allProducts->unique('id')->values();
+        
+                }
             }
-            if ($pollRes[$key]->isNotEmpty()) {
-                // Select a random category from the retrieved products
-                $randomCategory = $pollRes[$key]->random()->category;
-    
-                // Retrieve products with the same random category
-                $randomCategoryProducts = Products::with('category')->whereHas('category', function ($query) use ($randomCategory) {
-                    $query->where('product_category', $randomCategory->product_category);
-                })->inRandomOrder()->limit(5)->get();
-    
-                // Merge the random category products with the initially retrieved products
-                $allProducts = $allProducts->merge($pollRes[$key])->merge($randomCategoryProducts);
-    
-                // Remove duplicates
-                $allProducts = $allProducts->unique('id')->values();
-    
-            }
+        } else {
+
         }
         // Shuffle the collection
         $allProducts = $allProducts->shuffle();

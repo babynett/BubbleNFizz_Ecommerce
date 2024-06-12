@@ -42,8 +42,12 @@ const ShoppingPage = (props) => {
                 user_id: userObject.id,
             }).then((response) => {
                 const fragrance = response.data.fragrance;
+                const texture = response.data.texture;
+                const ingredients = response.data.ingredients;
                 api.post("customerpollresult", {
                     product_scent: JSON.parse(fragrance),
+                    skin_type: texture,
+                    allergic: ingredients
                 }).then((response) => {
                     setPollProducts(response.data);
                 });

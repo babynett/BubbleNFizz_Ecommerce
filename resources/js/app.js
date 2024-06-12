@@ -26,6 +26,7 @@ require("./page/UserManagement/Customers/AddCustomer");
 require('./page/Admin/CashDrawer/PaymentRegister')
 
 require("./page/Customer/CustomerPoll")
+require("./page/NewPoll/NewPoll")
 
 require('./page/Shopping/ShoppingPage')
 require('./page/Shopping/AllProductsPage')

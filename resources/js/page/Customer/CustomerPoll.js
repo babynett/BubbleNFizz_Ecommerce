@@ -939,11 +939,4 @@ const CustomerPoll = (props) => {
 
 export default CustomerPoll;
 
-if (document.getElementById("CustomerPoll")) {
-    const element = document.getElementById("CustomerPoll");
-    const props = Object.assign({}, element.dataset);
-    ReactDOM.render(
-        <CustomerPoll {...props} />,
-        document.getElementById("CustomerPoll")
-    );
-}
+
