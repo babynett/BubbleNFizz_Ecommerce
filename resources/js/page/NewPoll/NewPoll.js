@@ -17,16 +17,17 @@ const NewPoll = ({user}) => {
     const [active, setActive] = useState(0);
     const [fade, setFade] = useState(false);
     const [step, setStep] = useState(1);
-
+    
     // FOR PROFILE
     const [birthday, setBirthday] = useState(moment());
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
     const [postalCode, setPostalCode] = useState("");
     const [contactNo, setContactNo] = useState("");
-
+    
     // SCENT
     const [selectedScent, setSelectedScent] = useState([]);
+    const [skinType, setSkinType] = useState('')
 
     const questions = [
         {
@@ -314,13 +315,14 @@ const NewPoll = ({user}) => {
             skin_type: skinTypeArr[0],
             scent: JSON.stringify(selectedScent),
             allergic: skinTypeArr[1] != undefined && skinTypeArr[1] == 'Allergic' ? skinTypeArr[1] : null
-        })
+            })
             .then((response) => {
                 console.log(response.data);
-                setPage(page + 1);
+                setSkinType(skinTypeArr[0])
+                setStep(step + 1);
             })
             .catch((err) => {
-                console.err(err.response);
+                console.log(err.response);
             });
     }
 
@@ -657,7 +659,7 @@ const NewPoll = ({user}) => {
                         </div>
                         <Button fullWidth variant="contained" onClick={() => setStep(3)}>Next</Button>
                     </div>
-                ) : (
+                ) : step == 3 ? (
                     <div className="w-2/3">
                         <div className="text-center">
                             <Typography
@@ -700,6 +702,40 @@ const NewPoll = ({user}) => {
                         />
                         <Button fullWidth variant="contained" onClick={onSubmit}>SUBMIT</Button>
                     </div>
+                ) : (
+                    <div className="text-center h-screen w-2/3 lg:w-8/12 items-center justify-center flex">
+                    <div className="px-0 flex flex-col justify-around h-2/3">
+                        <Typography
+                            variant="h4"
+                            className={`transition-opacity duration-300 ${
+                                fade ? "opacity-0" : "opacity-100"
+                            }`}
+                        >
+                            Your poll answers reveal your skin type and according to the results you may have {skinType}! And with your favorite fragrances in mind, we’ll suggest body soaps that are perfect for your skin and smell amazing!
+                        </Typography>
+                        <div className="flex justify-center items-center space-x-8">
+                            <Button
+                                fontWeight={700}
+                                variant="contained"
+                                fullWidth
+                                onClick={() => location.href = "/shopping"}
+                                sx={{
+                                    color: "#fff",
+                                    borderColor: "#EDBF47",
+                                    backgroundColor: "#EDBF47",
+                                    height: 60,
+                                    "&:hover": {
+                                        color: "#fff",
+                                        backgroundColor: "#EDBF47",
+                                        borderColor: "#EDBF47",
+                                    },
+                                }}
+                            >
+                                SHOP NOW!
+                            </Button>
+                        </div>
+                    </div>
+                </div>
                 )}
             </div>
         </div>

@@ -150,7 +150,7 @@ const ShoppingPage = (props) => {
                     <div className="mx-10">
                         <div className="grid grid-cols-1 lg:grid-cols-6 gap-5">
                             {pollProducts.map((item, index) => {
-                                if (index < 6) {
+                                if (index < 6 && item.category != null) {
                                     return (
                                         <div className="col-span-1">
                                             <CustomShoppingCard
