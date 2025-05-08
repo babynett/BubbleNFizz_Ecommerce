@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>Bubble N Fizz</title>
 
     <!-- Fonts -->
     {{-- <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"> --}}
@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <style>
-        
+
         *{
             box-sizing: border-box;
         }
@@ -182,7 +182,18 @@
             transform: translateX(20%)
         }
     </style>
+    <style>
+        .invalid {
+    color: red;
+    list-style: none;
+    display:block;
+}
 
+.valid {
+    display:none;
+}
+
+    </style>
     <!-- Styles -->
     {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
 </head>
@@ -199,29 +210,31 @@
                     <a href="#" class="social"></a>
                 </div>
                 <p>Use your email for registration</p>
-                <input type="text" name="fname" placeholder="First Name">
+                <input type="text" name="fname" placeholder="First Name" required>
                 @error('fname')
                     <h1 style="font-size: 10px; color: rgb(239 68 68);">{{ $message }}</h1>
                 @enderror
-                <input type="text" name="lname" placeholder="Last Name">
+                <input type="text" name="lname" placeholder="Last Name" required>
                 @error('lname')
                     <h1 style="font-size: 10px; color: rgb(239 68 68);">{{ $message }}</h1>
                 @enderror
-                <input type="text" name="uname" placeholder="Username">
-                <input type="email" name="email" placeholder="Email" autocomplete="off">
+                <input type="text" name="uname" placeholder="Username" required>
+                <input type="email" name="email" placeholder="Email" autocomplete="off" required>
                 @error('email')
                     <h1 style="font-size: 10px; color: rgb(239 68 68);">{{ $message }}</h1>
                 @enderror
-                <input type="password" name="password" placeholder="Password">
-                @error('password')
-                    <h1 style="font-size: 10px; color: rgb(239 68 68);">{{ $message }}</h1>
-                @enderror
-                <input type="password" name="password_confirmation" placeholder="Confirm Password">
-                @error('password_confirmation')
-                    <h1 style="font-size: 10px; color: rgb(239 68 68);">{{ $message }}</h1>
-                @enderror
+                <input type="password" name="password" id="password" placeholder="Password" oninput="validatePassword()" required>
+                <ul id="passwordConditions" style="font-size: 10px; color: rgb(239 68 68);  display:none;">
+                    <li id="length" class="invalid">At least 8 characters</li>
+                    <li id="uppercase" class="invalid">At least 1 uppercase letter</li>
+                    <li id="lowercase" class="invalid">At least 1 lowercase letter</li>
+                    <li id="number" class="invalid">At least 1 number</li>
+                    <li id="symbol" class="invalid">At least 1 symbol</li>
+                </ul>
+                <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirm Password" oninput="validateConfirmation()" required>
+                <p id="matchStatus" class="invalid" style="font-size: 10px; color: rgb(239 68 68); display:none;">Passwords must match</p>
                 <a href="#">Forgot your password?</a>
-                <button type="submit">Sign Up</button>
+                <button type="submit" id="submitBtn" disabled>Sign Up</button>
             </form>
         </div>
         <div class="sign-in">
@@ -268,7 +281,7 @@
         const signInButton = document.getElementById('signIn')
         const main = document.getElementById('main')
         const loginPassword = document.getElementById('loginPassword')
-        
+
 
         signUpButton.addEventListener('click', () => {
             main.classList.add("right-panel-active")
@@ -277,6 +290,78 @@
             main.classList.remove('right-panel-active')
         })
     </script>
+
+<script>
+    function validatePassword() {
+        document.getElementById("passwordConditions").style.display = "block";
+        const password = document.getElementById("password").value;
+        const length = password.length >= 8;
+        const uppercase = /[A-Z]/.test(password);
+        const lowercase = /[a-z]/.test(password);
+        const number = /[0-9]/.test(password);
+        const symbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+        // Update condition display
+        updateCondition("length", length);
+        updateCondition("uppercase", uppercase);
+        updateCondition("lowercase", lowercase);
+        updateCondition("number", number);
+        updateCondition("symbol", symbol);
+
+        validateConfirmation();
+        toggleSubmitButton();
+    }
+
+    function validateConfirmation() {
+        const password = document.getElementById("password").value;
+        const confirmation = document.getElementById("password_confirmation").value;
+
+        const matchStatus = document.getElementById("matchStatus");
+        if (password === confirmation && password !== "") {
+            matchStatus.classList.remove("invalid");
+            matchStatus.classList.add("valid");
+            matchStatus.textContent = "Passwords match";
+        } else {
+            matchStatus.classList.remove("valid");
+            matchStatus.classList.add("invalid");
+            matchStatus.textContent = "Passwords must match";
+        }
+        toggleSubmitButton();
+    }
+
+    function updateCondition(conditionId, isValid) {
+        const conditionElement = document.getElementById(conditionId);
+        if (isValid) {
+            conditionElement.classList.remove("invalid");
+            conditionElement.classList.add("valid");
+        } else {
+            conditionElement.classList.remove("valid");
+            conditionElement.classList.add("invalid");
+        }
+    }
+
+    function toggleSubmitButton() {
+        const allValid = document.querySelectorAll("#passwordConditions .invalid").length === 0;
+        const matchValid = document.getElementById("matchStatus").classList.contains("valid");
+        const submitButton = document.getElementById("submitBtn");
+        submitButton.disabled = !(allValid && matchValid);
+
+        // Hide password conditions and match status if all conditions are met
+        if (allValid && matchValid) {
+            document.getElementById("passwordConditions").style.display = "none";
+            document.getElementById("matchStatus").style.display = "none";
+        } else {
+            document.getElementById("passwordConditions").style.display = "block";
+            document.getElementById("matchStatus").style.display = "block";
+        }
+    }
+
+    // Initial setup
+    document.getElementById("submitBtn").disabled = true;
+    document.getElementById("passwordConditions").style.display = "none";
+    document.getElementById("matchStatus").style.display = "none";
+</script>
+
 </body>
 
 </html>

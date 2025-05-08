@@ -5,7 +5,7 @@ const RecentProductCard = ({
     product_name,
     product_scent,
     product_price,
-    product_image,
+    product_images,
     darkMode = true,
 }) => {
     return (
@@ -13,7 +13,7 @@ const RecentProductCard = ({
             <div className="col-span-3">
                 <div className="flex justify-center items-center h-full">
                     <img
-                        src={decodeURI(`https://bubblenfizz-store.com/BubbleNFizz-main/public/image/products/${order.product_image}`)}
+                        src={decodeURI(`https://bubblenfizz-store.com/BubbleNFizz-main/public/image/products/${product_images}`)}
                         height={300}
                         width={500}
                     />

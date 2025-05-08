@@ -33,6 +33,7 @@ const BubbleBathPage = () => {
                                     onClick={() =>
                                         (location.href = `/shopping/${item.id}`)
                                     }
+                                    image={item.product_details.product_images}
                                 />
                             </div>
                         );

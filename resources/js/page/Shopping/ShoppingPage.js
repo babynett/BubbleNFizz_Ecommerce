@@ -73,33 +73,6 @@ const ShoppingPage = (props) => {
     }, []);
     return (
         <div className="w-full">
-            <div
-                className="w-full h-[85vh] bg-no-repeat bg-cover bg-center bg-fixed"
-                style={{
-                    backgroundImage: `url(${JSON.parse(props.image)[0]})`,
-                }}
-            >
-                <div className="flex justify-center items-center flex-col h-full">
-                    <div className="text-9xl font-bold">RICH</div>
-                    <div className="text-9xl font-bold">PEOPLE</div>
-                    <div className="text-9xl font-bold">SOAP</div>
-                    <div className="my-10">
-                        <Button
-                            variant="contained"
-                            sx={{
-                                backgroundColor: "#000",
-                                color: "#fff",
-                                fontWeight: 700,
-                                fontSize: 20,
-                                paddingLeft: 3,
-                                paddingRight: 3,
-                            }}
-                        >
-                            BATH NOW
-                        </Button>
-                    </div>
-                </div>
-            </div>
 
             {/* <div className="mx-10 my-12">
                 <Typography variant="h4" fontWeight={700}>
@@ -135,49 +108,6 @@ const ShoppingPage = (props) => {
                     })}
                 </div>
             </div> */}
-            {userObject !== null && (
-                <>
-                    <div className="mx-10 my-12">
-                        <Typography variant="h4" fontWeight={700}>
-                            POLL RESULTS
-                        </Typography>
-                        <Typography variant="subtitle1" color={"GrayText"}>
-                            Here are the products that your poll result have
-                            generated!
-                        </Typography>
-                    </div>
-
-                    <div className="mx-10">
-                        <div className="grid grid-cols-1 lg:grid-cols-6 gap-5">
-                            {pollProducts.map((item, index) => {
-                                if (index < 6 && item.category != null) {
-                                    return (
-                                        <div className="col-span-1">
-                                            <CustomShoppingCard
-                                                title={String(
-                                                    item.product_name
-                                                ).replace("Bubble N Fizz", "")}
-                                                price={item.product_price}
-                                                rating={item.product_rating}
-                                                scentName={
-                                                    item.product_scent_name
-                                                }
-                                                onClick={() =>
-                                                    (window.location.href = `/shopping/${item.id}`)
-                                                }
-                                                sales={
-                                                    item.category.product_sales
-                                                }
-                                                image={item.product_images}
-                                            />
-                                        </div>
-                                    );
-                                }
-                            })}
-                        </div>
-                    </div>
-                </>
-            )}
             <div className="mx-10 my-12">
                 <Typography variant="h4" fontWeight={700}>
                     SIMILAR PRODUCTS THAT WE RECOMMEND
@@ -203,7 +133,6 @@ const ShoppingPage = (props) => {
                                     onClick={() =>
                                         (window.location.href = `/shopping/${item.id}`)
                                     }
-                                    sales={item.category.product_sales}
                                     image={item.product_images}
                                 />
                             </div>
@@ -294,7 +223,6 @@ const ShoppingPage = (props) => {
                                     onClick={() =>
                                         (window.location.href = `/shopping/${item.id}`)
                                     }
-                                    sales={item.product_sales}
                                     image={item.product_details.product_images}
                                 />
                             </div>
@@ -363,14 +291,24 @@ const ShoppingPage = (props) => {
                             </Typography>
                         </div>
                     </div>
+                    <div className="col-span-1"></div>
+                    <div className="col-span-1">
+                <Typography textAlign={"center"} fontWeight={700} variant="h4">
+                    Don't take our word for it? See what others are saying
+                </Typography></div>
+                <div className="col-span-1"></div>
                 </div>
             </div>
 
             <div className="mx-10 my-12">
-                <Typography textAlign={"center"} fontWeight={700} variant="h4">
-                    Don't take our word for it? See what others are saying
+                <Typography variant="h4" fontWeight={700}>
+                    OUR PRODUCTS ARE FEATURED IN
+                </Typography>
+                <Typography variant="subtitle1" color={"GrayText"}>
+                Bubble N Fizz soaps and other products are renowned for their exceptional quality, which has earned us features and collaborations with well-known brands
                 </Typography>
             </div>
+
         </div>
     );
 };

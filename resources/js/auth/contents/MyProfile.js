@@ -224,8 +224,10 @@ const MyProfile = ({ user }) => {
                                 />
                             </div>
                             <div className="col-span-1">
+                            <label
+                                className="label-styleget MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root" data-shrink="false" for="mui-3" id="mui-2-label">Postal Code</label>
                                 <CustomTextInput
-                                    label={`Postal Code`}
+                                    label={``}
                                     value={postalCode}
                                     onChangeValue={(e) =>
                                         setPostalCode(e.target.value)

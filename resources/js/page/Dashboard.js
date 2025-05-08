@@ -223,10 +223,7 @@ const Dashboard = (props) => {
                     <div className="col-span-1 h-72 border flex justify-center items-center">
                         <Line options={options} data={data} />
                     </div>
-                    <div className="col-span-1">
-                        <Bar options={salesOptions} data={salesDatas} />
-                    </div>
-                    <div className="col-span-1">
+                    <div className="col-span-2">
                         <Typography variant="h5" fontWeight={700}>
                             Top Products
                         </Typography>
@@ -256,7 +253,7 @@ const Dashboard = (props) => {
                                                     <div className="grid grid-cols-12 gap-4">
                                                         <div className="col-span-3">
                                                     <img
-                                                        src={decodeURI(`https://bubblenfizz-store.com/BubbleNFizz-main/public/image/products/${item.product_details.product_image}`)}
+                                                        src={decodeURI(`https://bubblenfizz-store.com/BubbleNFizz-main/public/image/products/${item.product_details.product_images}`)}
                                                         height={100}
                                                         width={100}
                                                         />

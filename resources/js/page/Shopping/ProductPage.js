@@ -98,6 +98,16 @@ const ProductPage = ({ id, user, guest }) => {
 
     const addToCart = () => {
         if (userObject) {
+            // Check if the user is exceeding the available stock
+            if (quantity > product.product_stock) {
+                swal({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "You cannot add more than the available stock to the cart!",
+                });
+                return;
+            }
+
             api.post("shopping/addtocart", {
                 product_id: product.id,
                 user_id: userObject.id,
@@ -117,7 +127,7 @@ const ProductPage = ({ id, user, guest }) => {
                     console.log(err.response);
                 });
         } else {
-            location.href = `/auth`
+            location.href = `/auth`;
         }
     };
 
@@ -174,20 +184,23 @@ const ProductPage = ({ id, user, guest }) => {
                             Total Price: ₱{totalPrice}
                         </div>
                         <Button
+                            id="addToCartButton"
                             sx={{
-                                backgroundColor: "#EDBF47",
+                                backgroundColor: quantity > product.product_stock ? "#ccc" : "#EDBF47",
                                 color: "#fff",
                                 paddingLeft: 4,
                                 paddingRight: 4,
                                 "&:hover": {
-                                    backgroundColor: "#EDBF47",
+                                    backgroundColor: quantity > product.product_stock ? "#ccc" : "#EDBF47",
                                     color: "#fff",
                                 },
                             }}
                             onClick={addToCart}
+                            disabled={quantity > product.product_stock} // Disable the button
                         >
                             Add To Cart
                         </Button>
+
                     </div>
                 </div>
             </div>

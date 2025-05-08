@@ -16,7 +16,6 @@ const CustomShoppingCard = ({ title, scentName, rating, price, onClick, sales, i
             </div>
             <Typography>{scentName}</Typography>
             <Rating name="read-only" value={Number(rating)} precision={0.1} readOnly />
-            <Typography variant="caption">Sold: {sales}</Typography>
             <div className="my-8 w-1/2 text-center underline">₱{price}</div>
         </div>
     );

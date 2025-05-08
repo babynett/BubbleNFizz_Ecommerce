@@ -39,8 +39,13 @@ const Checkout = ({ user }) => {
     const [totalPrice, setTotalPrice] = useState(0);
 
     // ADDRESS
-    const [address, setAddress] = useState("");
-    const [apartment, setApartment] = useState("");
+    const [address, setAddress] = useState(
+        userObject.profile.address
+    );
+    const [apartment, setApartment] = useState(
+        `${userObject.profile.city}, ${userObject.profile.postal_code}`
+    );
+
     const [phoneNumber, setPhoneNumber] = useState(
         userObject.profile.contact_no
     );

@@ -1,5 +1,31 @@
 @extends('layouts.app')
 
+<?php
+    // Fetch database connection values from .env file
+    $servername = env('DB_HOST', '127.0.0.1');    // Default: 127.0.0.1
+    $username = env('DB_USERNAME', 'root');        // Default: root
+    $password = env('DB_PASSWORD', '');            // Default: empty string
+    $dbname = env('DB_DATABASE', 'bubble_n_fizz'); // Default: bubble_n_fizz
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    // Fetch product stock from the database
+        $total_stock_get = 0;
+    if(isset(Auth::user()->id)){
+        $user_id_get = Auth::user()->id;
+        $productStockQuery = "SELECT * FROM carts WHERE user_id = '$user_id_get'";
+        $result = $conn->query($productStockQuery);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $total_stock_get++;
+            }
+        }
+    }
+?>
 @section('content')
     <!-- component -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
@@ -10,7 +36,7 @@
                 {{-- <a href="#" class="text-lg font-semibold tracking-widest text-gray-900 uppercase rounded-lg dark-mode:text-white focus:outline-none focus:shadow-outline"></a> --}}
                 @auth
                     @if (Auth::user()->user_role != 3)
-                        
+
                     <button class="md:hidden rounded-lg focus:outline-none focus:shadow-outline">
                         <svg fill="currentColor" viewBox="0 0 20 20" class="w-6 h-6">
                             <path fill-rule="evenodd" class="" id="arrowRight"
@@ -125,8 +151,8 @@ py-6 @endguest">
                     @if (Auth::user()->user_role == 3)
                         <div class="relative">
                             <div class="absolute bg-amber-500 rounded-full top-3 right-1 w-4 flex justify-center items-center"
-                                style="font-size: 11px" id="cartItems">
-                                0
+                                style="font-size: 16px; font-weight:bold;padding-left:1.5vh; padding-right:1.5vh;margin-top:-1vh; margin-right:-1vh;" id="cartItems">
+                                <?php echo $total_stock_get; ?>
                             </div>
                             <a href="/cart"
                                 class="flex flex-row items-center w-full px-4 py-5 mt-2 text-sm font-semibold text-left bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:focus:text-white dark-mode:focus:bg-gray-600  md:w-auto md:inline md:mt-0 md:ml-4  focus:text-gray-900  focus:bg-gray-200 focus:outline-none focus:shadow-outline">

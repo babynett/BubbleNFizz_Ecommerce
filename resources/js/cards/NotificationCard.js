@@ -22,7 +22,7 @@ const NotificationCard = ({ order, setRefresher, user, refresher, image }) => {
         api.post('shopping/addreview', {
             user_id: user.id,
             product_id: order.id,
-            product_rating: rating, 
+            product_rating: rating,
             product_description: review,
         }).then(response => {
             setRefresher(refresher + 1)
@@ -40,7 +40,7 @@ const NotificationCard = ({ order, setRefresher, user, refresher, image }) => {
         <>
             <div className="col-span-3 bg-blue-500">
                 <img
-                    src={decodeURI(`https://bubblenfizz-store.com/BubbleNFizz-main/public/image/products/${order.product_image}`)}
+                    src={decodeURI(`https://bubblenfizz-store.com/BubbleNFizz-main/public/image/products/${order.product_images}`)}
                     height={300}
                     width={500}
                 />
