@@ -1,8 +1,21 @@
-# 🛍️ Bubble N Fizz - Ecommerce website with Recommender System
+![image](https://github.com/user-attachments/assets/c9b81d6b-e6d1-485a-8a58-dad485c83986)# 🛍️ Bubble N Fizz - Ecommerce website with Recommender System
 
 Bubble N Fizz is a Laravel and Tailwind CSS-based e-commerce platform designed to personalize the shopping experience for users based on their unique skin type. The site offers a complete online shopping experience—from personalized product recommendations to a fully functional admin dashboard.
 
----
+Overview of the project:
+
+[USER]
+![image](https://github.com/user-attachments/assets/5b0efc74-12fd-4f89-b2e4-aea99754b5bd)
+![image](https://github.com/user-attachments/assets/538a2ac4-b82c-41a8-938f-6ced2bf484a7)
+![image](https://github.com/user-attachments/assets/6042ab60-36de-47cf-943d-c9d3e536dec8)
+
+
+[ADMIN]
+![image](https://github.com/user-attachments/assets/d6e7ec62-78be-4445-9dab-80467ac86e04)
+![image](https://github.com/user-attachments/assets/2a32913e-78ae-4205-9772-3cc4e47c2cb9)
+![image](https://github.com/user-attachments/assets/e9d3a681-1250-4e89-9049-9b999017a8f4)
+
+
 
 ## 🚀 Features
 
