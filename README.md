@@ -1,64 +1,122 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# 🛍️ Bubble N Fizz - Ecommerce website with Recommender System
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Bubble N Fizz is a Laravel and Tailwind CSS-based e-commerce platform designed to personalize the shopping experience for users based on their unique skin type. The site offers a complete online shopping experience—from personalized product recommendations to a fully functional admin dashboard.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 👤 User Experience
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+* **Account Registration & Skin Survey**: Upon registration, users take a quick skin type survey. The system displays percentage results for each skin type (e.g., Dry: 13%, Oily: 10%).
+* **Personalized Recommendations**: After the survey, users are directed to the homepage where they see product recommendations tailored to their skin type.
+* **Shopping & Orders**: Users can browse, add to cart, and purchase products. The profile page displays current and past order statuses.
 
-## Learning Laravel
+### 🛠️ Admin Dashboard
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+A dedicated admin panel provides complete control over the platform with the following features:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+* **Product Management**: Add, edit, or remove products.
+* **Sales Management**: View and analyze sales trends and history.
+* **Virtual POS**: Integrated virtual point-of-sale for real-time transactions.
+* **Delivery Management**: Manage shipping and order deliveries.
+* **Account Management**: Manage user accounts and admin roles.
+* **Analytics Dashboard**: View summaries of total sales, customer views, and product performance charts.
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## 🧰 Tech Stack
 
-### Premium Partners
+* **Backend**: Laravel
+* **Frontend**: Tailwind CSS
+* **Database**: MySQL (or any Laravel-compatible DB)
+* **Development Tools**: Laravel Mix, NPM, Composer
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
+---
 
-## Contributing
+## ⚙️ Installation & Setup
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Prerequisites
 
-## Code of Conduct
+* PHP ≥ 8.1
+* Composer
+* Node.js and NPM
+* MySQL or compatible database
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Steps
 
-## Security Vulnerabilities
+1. **Clone the Repository**
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+   ```bash
+   git clone https://github.com/your-username/bubblenfizz.git
+   cd bubblenfizz
+   ```
 
-## License
+2. **Install PHP Dependencies**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+   ```bash
+   composer install
+   ```
+
+3. **Install JavaScript Dependencies**
+
+   ```bash
+   npm install
+   ```
+
+4. **Environment Setup**
+
+   * Copy `.env.example` to `.env`
+   * Configure your database and mail settings in `.env`
+
+5. **Generate Key & Migrate**
+
+   ```bash
+   php artisan key:generate
+   php artisan migrate --seed
+   ```
+
+6. **Run Development Servers**
+
+   ```bash
+   npm run dev
+   php artisan serve
+   ```
+
+---
+
+## 🧪 Survey Flow Example
+
+1. Register or log in
+2. Fill out the skin type survey
+3. See results like:
+
+   * Dry: 13%
+   * Oily: 10%
+   * Combination: 77%
+4. Get personalized product recommendations on the homepage
+
+---
+
+## 📊 Admin Dashboard Preview
+
+Admins can access dashboards with:
+
+* Summary cards (Total Sales, Views, Orders)
+* Charts of top products
+* Quick access to manage products, users, and deliveries
+
+---
+
+## 📦 Future Improvements
+
+* AI-driven product recommendation tuning
+* Customer reviews & ratings
+* Loyalty points and coupons
+
+---
+
+## 🧑‍💻 Developer
+
+Created by **Faye**
+This was a capstone project in college. I was the project manager/team lead and was also part of designing the UI as well as coding the design of the website.
